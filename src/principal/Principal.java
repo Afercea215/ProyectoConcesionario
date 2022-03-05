@@ -20,8 +20,8 @@ public class Principal {
 	a.leeDatosEmpresa();
 	System.out.println(a.getAlquileres().size());	
 	
+	metodosEspecificos.InterfazUsuario.menuPrincipal();
 	
-		
 	}
 
 }
