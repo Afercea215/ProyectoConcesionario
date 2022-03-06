@@ -267,13 +267,7 @@ public class InterfazUsuario {
 	
 	}
 
-	public static Categoria menuSeleccionaCategoria(Empresa a) {
-		String opcion="";
-		Categoria categoria = null;
-		
-		//creo el scanner para pedir los datos.
-		Scanner in = new Scanner(System.in);
-		
+	public static void menuEligeCategoria(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
 		//convierto el TreeMap en arraylist para el menu.
@@ -289,24 +283,10 @@ public class InterfazUsuario {
 		}
 				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecciona la categoria", opc_posibles, ".");
-		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
 		
-		//extraigo la clave de la opcion elegida para buscarlo en el Treemap
-		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(10, 14);
-		
-		categoria=a.getCategorias().get(key);
-		
-		return categoria;
-				
 	}
-
-	public static Oficina menuSeleccionaOficina(Empresa a) {
-		String opcion="";
-		Oficina oficina= null;
-		
-		//creo el scanner para pedir los datos.
-		Scanner in = new Scanner(System.in);
-		
+	
+	public static void menuEligeOficina(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
 		//convierto el TreeMap en arraylist para el menu.
@@ -322,25 +302,10 @@ public class InterfazUsuario {
 		}
 				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecciona la Oficina", opc_posibles, ".");
-		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
 		
-		//extraigo la clave de la opcion elegida para buscarlo en el Treemap
-		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(0, 4);
-		
-		oficina=a.getOficinas().get(key);
-		
-		return oficina;
-				
 	}
 
-	public static TipoCarnet menuSeleccionaTipoCarnet(Empresa a) {
-		String opcion="";
-		TipoCarnet tipoCarnet= null;
-		int posi;
-		
-		//creo el scanner para pedir los datos.
-		Scanner in = new Scanner(System.in);
-		
+	public static void menuEligeTipoCarnet(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
 		//convierto el TreeMap en arraylist para el menu.
@@ -355,34 +320,17 @@ public class InterfazUsuario {
 			opc_posibles.add((i+1)+"");
 		}
 				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Carnet necesario", opc_posibles, ".");
-		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Tipo de Carnet", opc_posibles, ".");
 		
-		//extraigo la clave de la opcion elegida para buscarlo en el Treemap
-		posi = list_opc.get(Integer.parseInt(opcion)-1).indexOf(",");
-		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(0, posi);
-		
-		tipoCarnet=a.getTipoCarnet().get(key);
-		
-		return tipoCarnet;
-				
 	}
-
-	public static String menuSeleccionaNivelEmision() {
-		String opcion="";
-		int posi;
-		
-		//creo el scanner para pedir los datos.
-		Scanner in = new Scanner(System.in);
-		
+	
+	public static void menuEligeNivelEmision(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
-		list_opc.add("Nivel emisión : A");
-		list_opc.add("Nivel emisión : B");
-		list_opc.add("Nivel emisión : C");
-		list_opc.add("Nivel emisión : D");
-		list_opc.add("Nivel emisión : E");
-
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Categoria> b : a.getCategorias().entrySet()) {
+			list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
@@ -391,27 +339,17 @@ public class InterfazUsuario {
 			opc_posibles.add((i+1)+"");
 		}
 				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Nivel Emision", opc_posibles, ".");
-		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecciona la categoria", opc_posibles, ".");
 		
-		return opcion;
-				
 	}
 	
-	public static String menuSeleccionaTipo() {
-		String opcion="";
-		int posi;
-		
-		//creo el scanner para pedir los datos.
-		Scanner in = new Scanner(System.in);
-		
+	public static void menuEligeTipo(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
 		list_opc.add("4x4");
 		list_opc.add("Deportivo");
 		list_opc.add("Familiar");
 		list_opc.add("Mini");
-
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
@@ -421,9 +359,6 @@ public class InterfazUsuario {
 		}
 				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Tipo de Coche", opc_posibles, ".");
-		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
-		
-		return opcion;
-				
 	}
+	
 }
