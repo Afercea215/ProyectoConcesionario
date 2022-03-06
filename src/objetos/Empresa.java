@@ -21,6 +21,16 @@ public class Empresa implements Serializable{
 	private TreeMap<String,Devolucion> devoluciones;
 	private TreeMap<String,TipoCarnet> tipoCarnet;
 	
+	private ArrayList<String> atributosMoto;
+	private ArrayList<String> atributosFurgoneta;
+	private ArrayList<String> atributosCocheElectrico;
+	private ArrayList<String> atributosCocheCombustion;
+	
+	private ArrayList<String> tipo;
+	private ArrayList<String> nivelEmision;
+		
+	
+	
 	/**
 	 * Constructor completo de empresa
 	 * @param nombre String con el nombre de la empresa.
@@ -116,7 +126,100 @@ public class Empresa implements Serializable{
 	//GETTERS Y SETTERS
 	////////////////////
 	
+	public ArrayList<String> getNivelEmision() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Nivel emisión : A");
+		aux.add("Nivel emisión : B");
+		aux.add("Nivel emisión : C");
+		aux.add("Nivel emisión : D");
+		aux.add("Nivel emisión : E");
+		this.nivelEmision=aux;
+		return aux;
+	}
 	
+	public ArrayList<String> getTipo() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("4x4");
+		aux.add("Deportivo");
+		aux.add("Familiar");
+		aux.add("Mini");
+		this.tipo=aux;
+		return aux;
+	}
+	
+	public ArrayList<String> getAtributosMoto() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Matricula");
+		aux.add("Marca");
+		aux.add("Modelo");
+		aux.add("Color");
+		aux.add("Fecha alta");
+		aux.add("Kilometros");
+		aux.add("Categoria");
+		aux.add("Oficina");
+		aux.add("Autonomia");
+		aux.add("Tiempo de Recarga");
+		aux.add("Cilindrada");
+		aux.add("Carnet Requerido");
+		this.atributosMoto=aux;
+		return aux;
+	}
+
+	public ArrayList<String> getAtributosCocheCombustion() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Matricula");
+		aux.add("Marca");
+		aux.add("Modelo");
+		aux.add("Color");
+		aux.add("Fecha alta");
+		aux.add("Kilometros");
+		aux.add("Categoria");
+		aux.add("Oficina");
+		aux.add("Cosumo");
+		aux.add("Potencia");
+		aux.add("Nivel Emision");
+		aux.add("Numero de plazas");
+		aux.add("Tipo");
+		this.atributosCocheCombustion=aux;
+		return aux;
+	}
+	
+	public ArrayList<String> getAtributosCocheElectrico() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Matricula");
+		aux.add("Marca");
+		aux.add("Modelo");
+		aux.add("Color");
+		aux.add("Fecha alta");
+		aux.add("Kilometros");
+		aux.add("Categoria");
+		aux.add("Oficina");
+		aux.add("Autonomia");
+		aux.add("Tiempo de recarga");
+		aux.add("Numero de plazas");
+		aux.add("Tipo");
+		this.atributosCocheElectrico=aux;
+		return aux;
+	}
+	
+	public ArrayList<String> getAtributosFurgoneta() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Matricula");
+		aux.add("Marca");
+		aux.add("Modelo");
+		aux.add("Color");
+		aux.add("Fecha alta");
+		aux.add("Kilometros");
+		aux.add("Categoria");
+		aux.add("Oficina");
+		aux.add("Cosumo");
+		aux.add("Potencia");
+		aux.add("Nivel Emision");
+		aux.add("Capacidad Carga");
+		aux.add("Carnet Requerido");
+		this.atributosFurgoneta=aux;
+		return aux;
+	}
 	
 	public String getNombre() {
 		String aux=this.nombre;

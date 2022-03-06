@@ -1,4 +1,4 @@
-package metodosEspecificos;
+package metodos;
 
 import objetos.*;
 import java.util.*;

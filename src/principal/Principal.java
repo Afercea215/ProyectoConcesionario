@@ -1,8 +1,9 @@
 package principal;
 
+import java.util.Scanner;
 import java.util.TreeMap;
 
-import metodosEspecificos.DatosPrograma;
+import metodos.DatosPrograma;
 import objetos.*;
 
 public class Principal {
@@ -11,16 +12,18 @@ public class Principal {
 		// TODO Auto-generated method stub
 
 
-	Empresa a = metodosEspecificos.DatosPrograma.creaEmpresaDefault();
+	Empresa a = metodos.DatosPrograma.creaEmpresaDefault();
 	
-	metodosEspecificos.DatosPrograma.importarDatos(a);
+	metodos.DatosPrograma.importarDatos(a);
 	
 	a.grabaDatosEmpresa();
 	
 	//a.leeDatosEmpresa();
 	//System.out.println(a.getAlquileres().size());	
 	
-	metodosEspecificos.InterfazUsuario.menuPrincipal(a);
+	Scanner in = new Scanner(System.in);
+	
+	metodos.Especificos.menuPrincipal(a, in);
 	
 	}
 

@@ -31,7 +31,7 @@ public class Empleado extends miLibreria.objetos.Persona implements Serializable
 		this.oficina = oficina;
 		this.fechaAlta = fechaAlta;	
 	}
-
+	
 	public GregorianCalendar getFechaAlta() {
 		GregorianCalendar aux=this.fechaAlta;
 		return aux;

@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public abstract class Electrico extends Vehiculo{
-	private int autonimia;
+	private int autonomia;
 	private int tiempoRecarga;
 
 	private int porcentajeSubida = 15;
@@ -32,14 +32,14 @@ public abstract class Electrico extends Vehiculo{
 	 * @param tiempoRecarga Double con el tiempo de recarga del Vehiculo en horas (Ej : 1.5 horas)
 	 */
 	public Electrico(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
-			Categoria categoria, Oficina oficina, boolean alquilado, int autonimia, int tiempoRecarga) {
+			Categoria categoria, Oficina oficina, boolean alquilado, int autonomia, int tiempoRecarga) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado);
-		this.autonimia = autonimia;
+		this.autonomia = autonomia;
 		this.tiempoRecarga = tiempoRecarga;
 	}
 
 	public int getAutonimia() {
-		int aux=this.autonimia;
+		int aux=this.autonomia;
 		return aux;
 	}
 
@@ -47,9 +47,9 @@ public abstract class Electrico extends Vehiculo{
 		int aux=this.tiempoRecarga;
 		return aux;
 	}
-	public void setAutonimia(int autonimia) {
-		int aux = autonimia;
-		this.autonimia = aux;	
+	public void setAutonomia(int autonomia) {
+		int aux = autonomia;
+		this.autonomia = aux;	
 	}
 	public void setTiempoRecarga(int tiempoRecarga) {
 		int aux = tiempoRecarga;
@@ -63,7 +63,7 @@ public abstract class Electrico extends Vehiculo{
 
 	@Override
 	public String toString() {
-		return super.toString()+"Autonomía : " + autonimia +", Tiempo de recarga : " + tiempoRecarga+", ";
+		return super.toString()+"Autonomía : " + autonomia +", Tiempo de recarga : " + tiempoRecarga+", ";
 	}
 
 	public abstract Double calculaAlquilerPrevisto(Alquiler a);
