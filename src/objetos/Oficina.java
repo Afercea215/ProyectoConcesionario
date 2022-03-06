@@ -111,7 +111,7 @@ public class Oficina implements Comparable<Oficina>, Serializable{
 
 	@Override
 	public String toString() {
-		return cod + ", "+ descripcion + ", " + localidad + ", "+ provincia + ".";
+		return "Oficina : "+cod + ", "+ descripcion + ", " + localidad + ", "+ provincia + ".";
 	}
 
 	

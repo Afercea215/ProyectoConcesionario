@@ -52,6 +52,11 @@ public class Categoria implements Serializable{
 		int aux = porcentajeRecargo;
 		this.porcentajeRecargo = aux;
 	}
+
+	@Override
+	public String toString() {
+		return "Categoria "+ codigo + ", " + desc ;
+	}
 	
 	
 	

@@ -104,4 +104,11 @@ public class TipoCarnet implements Serializable{
 		}
 	}
 
+	@Override
+	public String toString() {
+		return nombre + ", " + desc;
+	}
+	
+	
+
 }
