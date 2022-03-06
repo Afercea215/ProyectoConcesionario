@@ -75,9 +75,7 @@ public class CocheCombustion extends Combustion{
 
 	@Override
 	public String toString() {
-		return super.toString()+"\n"+
-				"	-Número de plazas : " + n_plazas +"\n"+
-				"	-Tipo : " + tipo;
+		return super.toString()+", Número de plazas : " + n_plazas +", Tipo : " + tipo;
 	}
 
 

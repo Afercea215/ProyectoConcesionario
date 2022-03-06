@@ -79,15 +79,7 @@ public abstract class Vehiculo implements Comparable<Vehiculo>, Serializable {
 
 	@Override
 	public String toString() {
-		String alquilado = "";
-		
-		if (this.isAlquilado()) alquilado = "no disponible para su alquiler.";
-		else alquilado = "disponible para su alquiler.";
-		
-		return "	-"+this.getMarca()+", "+this.getModelo()+"\n"
-			  +"	-Matricula : "+this.getMatricula()
-			  +"	-Situado en la oficina : "+this.getOficina()+"\n"
-			  +"	-Actualmente se encuentra "+alquilado+"\n";
+		return this.getMatricula()+", "+this.getMarca()+", "+this.getModelo();
 	}
 
 	

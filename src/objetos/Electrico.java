@@ -63,9 +63,7 @@ public abstract class Electrico extends Vehiculo{
 
 	@Override
 	public String toString() {
-		return super.toString()+"\n"+
-				"	-Autonomía : " + autonimia +"\n"+
-				"	-Tiempo de recarga : " + tiempoRecarga;
+		return super.toString()+"Autonomía : " + autonimia +", Tiempo de recarga : " + tiempoRecarga+", ";
 	}
 
 	public abstract Double calculaAlquilerPrevisto(Alquiler a);

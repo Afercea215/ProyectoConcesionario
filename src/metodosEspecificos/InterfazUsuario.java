@@ -142,7 +142,7 @@ public class InterfazUsuario {
 				menuAñadirVehiculo(a);
 				break;
 			case "2":
-				System.out.println();
+				menuEliminarVehiculo(a);
 				break;
 			case "3":
 				System.out.println();
@@ -202,6 +202,60 @@ public class InterfazUsuario {
 			case "4":
 				GestionEmpresa.pideyCreaCocheElectrico(a, in);
 				System.out.println("¡Vehiculo Creado!");
+				break;
+			case "5":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			break;
+			
+		}while (opcion.indexOf("5")==-1);
+	
+	}
+	
+	public static void menuEliminarVehiculo(Empresa a) {
+		String opcion="";
+		
+		//creo el scanner para pedir los datos.
+		Scanner in = new Scanner(System.in);
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Moto.");
+		list_opc.add("Furgoneta.");
+		list_opc.add("Coche de combustión.");
+		list_opc.add("Coche de electrico.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+		opc_posibles.add("1");
+		opc_posibles.add("2");
+		opc_posibles.add("3");
+		opc_posibles.add("4");
+		opc_posibles.add("5");
+				
+		do {
+			miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Tipo", opc_posibles, ".");
+			opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+			
+			switch (opcion)
+			{
+			case "1":
+				GestionEmpresa.pideyEliminaMoto(a, in);
+				System.out.println("¡Vehiculo Eliminado!");
+				break;
+			case "2":
+				GestionEmpresa.pideyEliminaFurgoneta(a, in);
+				System.out.println("¡Vehiculo Eliminado!");
+				break;
+			case "3":
+				GestionEmpresa.pideyEliminaCocheCombustion(a, in);
+				System.out.println("¡Vehiculo Eliminado!");
+				break;
+			case "4":
+				GestionEmpresa.pideyEliminaCocheElectrico(a, in);
+				System.out.println("¡Vehiculo Eliminado!");
 				break;
 			case "5":
 				System.out.println("¡Adiós!");

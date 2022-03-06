@@ -93,8 +93,6 @@ public abstract class Combustion extends Vehiculo {
 	
 	@Override
 	public String toString() {
-		return super.toString()+"\n"+
-				"	-Consumo : " + consumo +"\n"+
-				"	-Potencia : " + potencia;
+		return super.toString()+"Consumo : " + consumo +", Potencia : " + potencia+", ";
 	}
 }

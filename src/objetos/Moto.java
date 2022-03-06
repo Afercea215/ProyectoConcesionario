@@ -68,8 +68,7 @@ public class Moto extends Electrico{
 	
 	@Override
 	public String toString() {
-		return super.toString()+"\n"+
-				"	-Cilindrada : " + cilindrada;
+		return super.toString()+", Cilindrada : " + cilindrada;
 	}
 
 	/**

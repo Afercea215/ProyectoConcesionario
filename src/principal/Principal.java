@@ -10,14 +10,15 @@ public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+
 	Empresa a = metodosEspecificos.DatosPrograma.creaEmpresaDefault();
 	
 	metodosEspecificos.DatosPrograma.importarDatos(a);
 	
 	a.grabaDatosEmpresa();
 	
-	a.leeDatosEmpresa();
-	System.out.println(a.getAlquileres().size());	
+	//a.leeDatosEmpresa();
+	//System.out.println(a.getAlquileres().size());	
 	
 	metodosEspecificos.InterfazUsuario.menuPrincipal(a);
 	

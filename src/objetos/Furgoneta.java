@@ -69,8 +69,7 @@ public class Furgoneta extends Combustion{
 
 	@Override
 	public String toString() {
-		return super.toString()+"\n"+
-				"	-Capacidad de cargar : " + capacidadCarga;
+		return super.toString()+", Capacidad de cargar : " + capacidadCarga+"kg";
 	}
 	
 	/**
