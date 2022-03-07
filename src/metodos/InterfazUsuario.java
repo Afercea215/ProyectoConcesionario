@@ -74,6 +74,74 @@ public class InterfazUsuario {
 	
 	}
 	
+	public static void imprimeMenuGestionOficinas(Empresa a) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Oficina.");
+		list_opc.add("Eliminar Oficina.");
+		list_opc.add("Modificar Oficina.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");
+			
+	
+	}
+	
+	public static void imprimeMenuGestionEmpleados(Empresa a) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Empleado.");
+		list_opc.add("Eliminar Empleado.");
+		list_opc.add("Modificar Empleado.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");
+			
+	
+	}
+	
+	public static void imprimeMenuGestionClientes(Empresa a) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Oficina.");
+		list_opc.add("Eliminar Oficina.");
+		list_opc.add("Modificar Oficina.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");
+			
+	
+	}
+	
+	
+	
 	public static void imprimeMenuGestionVehiculos(Empresa a) {
 		String opcion="";
 
@@ -312,6 +380,61 @@ public class InterfazUsuario {
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la categoria", opc_posibles, ".");
 	}
 	
+	public static void impimeMenuOficina(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Oficina> b : a.getOficinas().entrySet()) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la oficina", opc_posibles, ".");
+	}
+	
+	public static void impimeMenuCliente(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Cliente> b : a.getClientes().entrySet()) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige el cliente", opc_posibles, ".");
+	}
+	
+	public static void impimeMenuEmpleado(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Empleado> b : a.getEmpleados().entrySet()) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige el empleado", opc_posibles, ".");
+	}
+
+	
 	
 	public static void impimeAtributosMotos(Empresa a) {
 		//opciones para el menu
@@ -377,5 +500,45 @@ public class InterfazUsuario {
 		}				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la propiedad", opc_posibles, ".");
 	}
+	
+	public static void impimeAtributosOficina(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosOficina();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la propiedad", opc_posibles, ".");
+	}
+	
+	public static void impimeAtributosCliente(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosCliente();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la propiedad", opc_posibles, ".");
+	}
+	
+	public static void impimeAtributosEmpleado(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosEmpleado();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la propiedad", opc_posibles, ".");
+	}
+	
 	
 }

@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public class Moto extends Electrico{
+	private static final long serialVersionUID = 12342223125456267L;
 	private int cilindrada;
 	private TipoCarnet carnetRequerido;
 	

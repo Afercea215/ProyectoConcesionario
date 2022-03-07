@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public class CocheCombustion extends Combustion{
-
+	private static final long serialVersionUID = 123456567452747L;
 	private int n_plazas;
 	private String tipo;
 	

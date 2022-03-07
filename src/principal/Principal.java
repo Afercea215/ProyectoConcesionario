@@ -13,13 +13,12 @@ public class Principal {
 
 
 	Empresa a = metodos.DatosPrograma.creaEmpresaDefault();
-	
 	metodos.DatosPrograma.importarDatos(a);
 	
-	a.grabaDatosEmpresa();
+    //a.grabaDatosEmpresa();
 	
-	//a.leeDatosEmpresa();
-	//System.out.println(a.getAlquileres().size());	
+	//Empresa.leeDatosFichero(a);
+	System.out.println(a.getAlquileres().size());	
 	
 	Scanner in = new Scanner(System.in);
 	

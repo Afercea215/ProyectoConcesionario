@@ -11,6 +11,7 @@ import java.io.Serializable;
  * 
  */
 public class Oficina implements Comparable<Oficina>, Serializable{
+	private static final long serialVersionUID = 123456754611133233L;
 	private String cod;
 	private String descripcion;
 	private String localidad;
@@ -111,7 +112,7 @@ public class Oficina implements Comparable<Oficina>, Serializable{
 
 	@Override
 	public String toString() {
-		return "Oficina : "+cod + ", "+ descripcion + ", " + localidad + ", "+ provincia + ".";
+		return cod + ", "+ descripcion + ", " + localidad + ", "+ provincia + ".";
 	}
 
 	

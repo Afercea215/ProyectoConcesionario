@@ -27,11 +27,11 @@ public class GestionEmpresa {
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
-		marca = in.nextLine();
+		marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Introduce el modelo del Vehículo.");
-		modelo = in.nextLine();
+		modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Fecha de alta :");
@@ -68,6 +68,142 @@ public class GestionEmpresa {
 		a.getVehiculos().put(matricula, new Moto(matricula, marca, modelo, color, fecha_alta, kms, categoria, oficina, false, autonomia, tiempoRecarga, cilindrada, tipoCarnet));
 	}
 	
+	public static void creaOficina(Empresa a, Scanner in){
+		String cod;
+		String descripcion;
+		String localidad;
+		String provincia;
+		boolean ofiAeropuerto;
+
+		//pido todos los datos
+		System.out.println("Introduce el codigo de la Oficina.");
+		cod = in.nextLine().toUpperCase();
+		System.out.println();
+
+		System.out.println("Introduce la descripcion de la oficina.");
+		descripcion = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		System.out.println("Introduce la localidad de la oficina.");
+		localidad = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		System.out.println("Introduce la provincia de la oficina.");
+		provincia = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		miLibreria.interfazDeUsuario.MenuBoolean.imprimir();
+		ofiAeropuerto=miLibreria.interfazDeUsuario.MenuBoolean.pedirOpc();
+		
+		a.getOficinas().put(cod, new Oficina(cod, descripcion, localidad, provincia, ofiAeropuerto));
+	}
+	
+	public static void creaEmpleado(Empresa a, Scanner in){
+		String dni;
+		String nombre;
+		String ap1;
+		String ap2;
+		GregorianCalendar fechaNac;
+		int dia;
+		int mes;
+		int año;
+		GregorianCalendar fechaAlta;
+		Oficina oficina;
+
+		//pido todos los datos
+		System.out.println("Introduce el DNI del Empleado.");
+		dni = in.nextLine().toUpperCase();
+		System.out.println();
+
+		System.out.println("Introduce nombre del empleado.");
+		nombre= miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		System.out.println("Introduce el 1º apellido del empleado.");
+		ap1 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		System.out.println("Introduce el 2º apellido del empleado.");
+		ap2 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+
+		System.out.println("Fecha de nacimiento :");
+		System.out.println("Introduce el dia nacimineto del Empleado.");
+		dia = miLibreria.metodos.PedirDatos.pideEntero(in);
+		System.out.println("Introduce el mes de nacimiento del Empleado.");
+		mes = miLibreria.metodos.PedirDatos.pideEntero(in);
+		System.out.println("Introduce el año de nacimiento del Empleado.");
+		año = miLibreria.metodos.PedirDatos.pideEntero(in);
+		fechaNac = new GregorianCalendar(dia, mes, año);
+		System.out.println();
+		
+		System.out.println("Fecha de alta :");
+		System.out.println("Introduce el dia de alta del Empleado.");
+		dia = miLibreria.metodos.PedirDatos.pideEntero(in);
+		System.out.println("Introduce el mes de alta del Empleado.");
+		mes = miLibreria.metodos.PedirDatos.pideEntero(in);
+		System.out.println("Introduce el año de alta del Empleado.");
+		año = miLibreria.metodos.PedirDatos.pideEntero(in);
+		fechaAlta = new GregorianCalendar(dia, mes, año);
+		System.out.println();
+	
+		InterfazUsuario.imprimeMenuOficina(a);
+		oficina = elegirOficina(a, in);
+		
+		a.getEmpleados().put(dni, new Empleado(ap1, ap2, nombre, fechaNac, dni, oficina, fechaAlta));
+	}
+	
+	public static void creaCliente(Empresa a, Scanner in){
+		String dni;
+		String nombre;
+		String ap1;
+		String ap2;
+		GregorianCalendar fechaNac;
+		int dia;
+		int mes;
+		int año;
+		TipoCarnet tipoCarnet;
+		Oficina oficina;
+		String nTarjeta;
+
+		//pido todos los datos
+		System.out.println("Introduce el DNI del Cliente.");
+		dni = in.nextLine().toUpperCase();
+		System.out.println();
+
+		System.out.println("Introduce nombre del Cliente.");
+		nombre= miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		System.out.println("Introduce el 1º apellido del Cliente.");
+		ap1 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		System.out.println("Introduce el 2º apellido del Cliente.");
+		ap2 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+
+		System.out.println("Fecha de nacimiento :");
+		System.out.println("Introduce el dia nacimineto del Cliente.");
+		dia = miLibreria.metodos.PedirDatos.pideEntero(in);
+		System.out.println("Introduce el mes de nacimiento del Cliente.");
+		mes = miLibreria.metodos.PedirDatos.pideEntero(in);
+		System.out.println("Introduce el año de nacimiento del Cliente.");
+		año = miLibreria.metodos.PedirDatos.pideEntero(in);
+		fechaNac = new GregorianCalendar(dia, mes, año);
+		System.out.println();
+		
+		InterfazUsuario.imprimeMenuTipoCarnet(a);
+		tipoCarnet = elegirTipoCarnet(a, in);
+	
+		System.out.println("Introduce el Nº de tarjeta del Cliente.");
+		nTarjeta = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+		System.out.println();
+		
+		a.getClientes().put(dni, new Cliente(ap1, ap2, nombre, fechaNac, dni, tipoCarnet, nTarjeta));
+	}
+	
+	
 	public static void creaCategoria(Empresa a, Scanner in){
 		String codigo;
 		String desc;
@@ -79,7 +215,7 @@ public class GestionEmpresa {
 		System.out.println();
 
 		System.out.println("Introduce la descripción de la categoria");
-		desc = in.nextLine();
+		desc = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Introduce el Porcentaje de recargo para la categoria.");
@@ -112,11 +248,11 @@ public class GestionEmpresa {
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
-		marca = in.nextLine();
+		marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Introduce el modelo del Vehículo.");
-		modelo = in.nextLine();
+		modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Fecha de alta :");
@@ -180,11 +316,11 @@ public class GestionEmpresa {
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
-		marca = in.nextLine();
+		marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Introduce el modelo del Vehículo.");
-		modelo = in.nextLine();
+		modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Fecha de alta :");
@@ -247,11 +383,11 @@ public class GestionEmpresa {
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
-		marca = in.nextLine();
+		marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Introduce el modelo del Vehículo.");
-		modelo = in.nextLine();
+		modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 		System.out.println();
 		
 		System.out.println("Fecha de alta :");
@@ -302,32 +438,32 @@ public class GestionEmpresa {
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
-			String Marca = in.nextLine();
+			String Marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			moto.setMarca(Marca);
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
-			String modelo = in.nextLine();
+			String modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			moto.setModelo(modelo);
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
-			String color = in.nextLine();
+			String color = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			moto.setColor(color);
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
-			int dia = in.nextInt();
+			int dia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el mes de alta :");
-			int mes = in.nextInt();
+			int mes = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el año de alta :");
-			int año = in.nextInt();
+			int año = miLibreria.metodos.PedirDatos.pideEntero(in);
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			moto.setFechaAlta(fecha);
 			break;
 		case "6":
 			System.out.println("Introduzca los nuevos Kilometros :");
-			int kms = in.nextInt();
+			int kms = miLibreria.metodos.PedirDatos.pideEntero(in);
 			moto.setKms(kms);
 			break;
 		case "7":
@@ -340,17 +476,17 @@ public class GestionEmpresa {
 			break;
 		case "9":
 			System.out.println("Introduzca la nueva autonomia :");
-			int autonomia = in.nextInt();
+			int autonomia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			moto.setAutonomia(autonomia);
 			break;
 		case "10":
 			System.out.println("Introduzca el nuevo tiempo de recarga :");
-			int tiempoRecarga = in.nextInt();
+			int tiempoRecarga = miLibreria.metodos.PedirDatos.pideEntero(in);
 			moto.setTiempoRecarga(tiempoRecarga);
 			break;
 		case "11":
 			System.out.println("Introduzca la nueva cilindrada :");
-			int cilindrada = in.nextInt();
+			int cilindrada = miLibreria.metodos.PedirDatos.pideEntero(in);
 			moto.setCilindrada(cilindrada);
 			break;
 		case "12":
@@ -374,36 +510,36 @@ public class GestionEmpresa {
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
-			String Marca = in.nextLine();
+			String Marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			furgoneta.setMarca(Marca);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
-			String modelo = in.nextLine();
+			String modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			furgoneta.setModelo(modelo);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
-			String color = in.nextLine();
+			String color = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			furgoneta.setColor(color);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
-			int dia = in.nextInt();
+			int dia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el mes de alta :");
-			int mes = in.nextInt();
+			int mes = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el año de alta :");
-			int año = in.nextInt();
+			int año = miLibreria.metodos.PedirDatos.pideEntero(in);
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			furgoneta.setFechaAlta(fecha);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "6":
 			System.out.println("Introduzca los nuevos Kilometros :");
-			int kms = in.nextInt();
+			int kms = miLibreria.metodos.PedirDatos.pideEntero(in);
 			furgoneta.setKms(kms);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -419,13 +555,13 @@ public class GestionEmpresa {
 			break;
 		case "9":
 			System.out.println("Introduzca el nuevo consumo :");
-			int consumo = in.nextInt();
+			int consumo = miLibreria.metodos.PedirDatos.pideEntero(in);
 			furgoneta.setConsumo(consumo);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "10":
 			System.out.println("Introduzca la nueva potencia :");
-			int potencia = in.nextInt();
+			int potencia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			furgoneta.setPotencia(potencia);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -436,7 +572,7 @@ public class GestionEmpresa {
 			break;
 		case "12":
 			System.out.println("Introduzca la nueva capacida de carga :");
-			int capacidadCarga = in.nextInt();
+			int capacidadCarga = miLibreria.metodos.PedirDatos.pideEntero(in);
 			furgoneta.setCapacidadCarga(capacidadCarga);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -463,36 +599,36 @@ public class GestionEmpresa {
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
-			String Marca = in.nextLine();
+			String Marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			coche.setMarca(Marca);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
-			String modelo = in.nextLine();
+			String modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			coche.setModelo(modelo);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
-			String color = in.nextLine();
+			String color = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			coche.setColor(color);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
-			int dia = in.nextInt();
+			int dia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el mes de alta :");
-			int mes = in.nextInt();
+			int mes = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el año de alta :");
-			int año = in.nextInt();
+			int año = miLibreria.metodos.PedirDatos.pideEntero(in);
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			coche.setFechaAlta(fecha);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "6":
 			System.out.println("Introduzca los nuevos Kilometros :");
-			int kms = in.nextInt();
+			int kms = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setKms(kms);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -508,13 +644,13 @@ public class GestionEmpresa {
 			break;
 		case "9":
 			System.out.println("Introduzca el nuevo consunmo :");
-			int consumo = in.nextInt();
+			int consumo = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setConsumo(consumo);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "10":
 			System.out.println("Introduzca la nueva potencia :");
-			int potencia = in.nextInt();
+			int potencia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setPotencia(potencia);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -525,7 +661,7 @@ public class GestionEmpresa {
 			break;
 		case "12":
 			System.out.println("Introduzca el numero de plazas :");
-			int nPlazas = in.nextInt();
+			int nPlazas = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setN_plazas(nPlazas);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -551,36 +687,36 @@ public class GestionEmpresa {
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
-			String Marca = in.nextLine();
+			String Marca = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			coche.setMarca(Marca);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
-			String modelo = in.nextLine();
+			String modelo = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			coche.setModelo(modelo);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
-			String color = in.nextLine();
+			String color = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			coche.setColor(color);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
-			int dia = in.nextInt();
+			int dia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el mes de alta :");
-			int mes = in.nextInt();
+			int mes = miLibreria.metodos.PedirDatos.pideEntero(in);
 			System.out.println("Introduzca el años de alta :");
-			int año = in.nextInt();
+			int año = miLibreria.metodos.PedirDatos.pideEntero(in);
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			coche.setFechaAlta(fecha);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "6":
 			System.out.println("Introduzca los Kilometros :");
-			int kms = in.nextInt();
+			int kms = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setKms(kms);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -596,19 +732,19 @@ public class GestionEmpresa {
 			break;
 		case "9":
 			System.out.println("Introduzca la autonomia :");
-			int autonomia = in.nextInt();
+			int autonomia = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setAutonomia(autonomia);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "10":
 			System.out.println("Introduzca el tiepo de recarga :");
-			int tiempoRecarga = in.nextInt();
+			int tiempoRecarga = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setTiempoRecarga(tiempoRecarga);
 			System.out.println("Vehiculo modificado.");
 			break;
 		case "11":
 			System.out.println("Introduzca el numero de plazas :");
-			int nPlazas = in.nextInt();
+			int nPlazas = miLibreria.metodos.PedirDatos.pideEntero(in);
 			coche.setN_plazas(nPlazas);
 			System.out.println("Vehiculo modificado.");
 			break;
@@ -634,7 +770,7 @@ public class GestionEmpresa {
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva descripcion :");
-			String desc = in.nextLine();
+			String desc = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
 			categoria.setDesc(desc);
 			break;
 		case "3":
@@ -648,6 +784,153 @@ public class GestionEmpresa {
 		}
 	}
 	
+	public static void modificaOficina(Empresa a, Scanner in, Oficina oficina){
+		
+		String opcion="";
+				
+		InterfazUsuario.impimeAtributosOficina(a);
+		opcion = seleccionaPropiedadOficina(a, in);
+		
+		switch (opcion)
+		{
+		case "1":
+			System.out.println("El codigo no se puede modificar, si es erronea deberá borrar la Moto y volver a crearla.");
+			break;
+		case "2":
+			System.out.println("Introduzca la nueva descripcion :");
+			String desc = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			oficina.setDescripcion(opcion);
+			break;
+		case "3":
+			System.out.println("Introduzca la nueva localidad :");
+			String loc = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			oficina.setLocalidad(loc);
+			break;
+		case "4":
+			System.out.println("Introduzca la nueva provincia :");
+			String prov = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			oficina.setProvincia(prov);
+			break;
+		case "5":
+			miLibreria.interfazDeUsuario.MenuBoolean.imprimir();
+			boolean ofiAeropuerto= miLibreria.interfazDeUsuario.MenuBoolean.pedirOpc();
+			oficina.setOfiAeropuerto(ofiAeropuerto);
+			break;
+		case "6":
+			System.out.println("¡Adios!");
+			break;
+		}
+	}
+	
+	public static void modificaCliente(Empresa a, Scanner in, Cliente cliente){
+		
+		String opcion="";
+				
+		InterfazUsuario.impimeAtributosCliente(a);
+		opcion = seleccionaPropiedadCliente(a, in);
+		
+		switch (opcion)
+		{
+		case "1":
+			System.out.println("El DNI no se puede modificar, si es erroneo deberá borrar el cliente y volver a crearla.");
+			break;
+		case "2":
+			System.out.println("Introduzca el nuevo nombre :");
+			String nombre = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			cliente.setNombre(nombre);
+			break;
+		case "3":
+			System.out.println("Introduzca el nuevo apellido :");
+			String ap1 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			cliente.setAp1(ap1);
+			break;
+		case "4":
+			System.out.println("Introduzca el nuevo apellido :");
+			String ap2 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			cliente.setAp2(ap2);
+			break;
+		case "5":
+			System.out.println("Introduzca el dia de alta :");
+			int dia = miLibreria.metodos.PedirDatos.pideEntero(in);
+			System.out.println("Introduzca el mes de alta :");
+			int mes = miLibreria.metodos.PedirDatos.pideEntero(in);
+			System.out.println("Introduzca el año de alta :");
+			int año = miLibreria.metodos.PedirDatos.pideEntero(in);
+			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
+			cliente.setFechaNac(fecha);
+			break;
+		case "6":
+			InterfazUsuario.imprimeMenuTipoCarnet(a);
+			cliente.setCarnetConducir(elegirTipoCarnet(a, in));
+			break;
+		case "7":
+			System.out.println("Introduzca el nuevo numero de tarjeta :");
+			String nTarjeta = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			cliente.setnTarjetaCliente(nTarjeta);
+			break;
+		case "8":
+			System.out.println("¡Adios!");
+			break;
+		}
+	}
+	
+	public static void modificaEmpleado(Empresa a, Scanner in, Empleado empleado){
+		
+		String opcion="";
+				
+		InterfazUsuario.impimeAtributosEmpleado(a);
+		opcion = seleccionaPropiedadEmpleado(a, in);
+		
+		switch (opcion)
+		{
+		case "1":
+			System.out.println("El DNI no se puede modificar, si es erroneo deberá borrar el cliente y volver a crearla.");
+			break;
+		case "2":
+			System.out.println("Introduzca el nuevo nombre :");
+			String nombre = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			empleado.setNombre(nombre);
+			break;
+		case "3":
+			System.out.println("Introduzca el nuevo apellido :");
+			String ap1 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			empleado.setAp1(ap1);
+			break;
+		case "4":
+			System.out.println("Introduzca el nuevo apellido :");
+			String ap2 = miLibreria.metodos.PedirDatos.pideStringNoVacia(in);
+			empleado.setAp2(ap2);
+			break;
+		case "5":
+			System.out.println("Introduzca el dia de alta :");
+			int dia = miLibreria.metodos.PedirDatos.pideEntero(in);
+			System.out.println("Introduzca el mes de alta :");
+			int mes = miLibreria.metodos.PedirDatos.pideEntero(in);
+			System.out.println("Introduzca el año de alta :");
+			int año = miLibreria.metodos.PedirDatos.pideEntero(in);
+			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
+			empleado.setFechaNac(fecha);
+			break;
+		case "6":
+			System.out.println("Introduzca el dia de alta :");
+			int dia2 = miLibreria.metodos.PedirDatos.pideEntero(in);
+			System.out.println("Introduzca el mes de alta :");
+			int mes2 = miLibreria.metodos.PedirDatos.pideEntero(in);
+			System.out.println("Introduzca el año de alta :");
+			int año2 = miLibreria.metodos.PedirDatos.pideEntero(in);
+			GregorianCalendar fechaAlta = new GregorianCalendar(año2, mes2, dia2);
+			empleado.setFechaAlta(fechaAlta);
+			break;
+		case "7":
+			InterfazUsuario.imprimeMenuOficina(a);
+			empleado.setOficina(elegirOficina(a, in));
+			break;
+		case "8":
+			System.out.println("¡Adios!");
+			break;
+		}
+	}
+	
 	public static void eliminaVehiculo(Empresa a, String key){		
 		a.getVehiculos().remove(key);
 	}
@@ -656,19 +939,18 @@ public class GestionEmpresa {
 		a.getCategorias().remove(key);
 	}
 	
-	public static void eliminaClientes(Empresa a, String key){		
+	public static void eliminaCliente(Empresa a, String key){		
 		a.getClientes().remove(key);
 	}
 	
-	public static void eliminaOficinas(Empresa a, String key){		
+	public static void eliminaOficina(Empresa a, String key){		
 		a.getOficinas().remove(key);
 	}
 	
-	public static void eliminaEmpleados(Empresa a, String key){		
+	public static void eliminaEmpleado(Empresa a, String key){		
 		a.getEmpleados().remove(key);
 	}
 	
-
 	public static Categoria elegirCategoria(Empresa a, Scanner in) {
 		String opcion="";
 		Categoria categoria = null;
@@ -727,6 +1009,65 @@ public class GestionEmpresa {
 				
 	}
 
+	public static Cliente elegirCliente(Empresa a, Scanner in) {
+		String opcion="";
+		Cliente cliente= null;
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Cliente> b : a.getClientes().entrySet()) {
+			list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+	
+		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		
+		//extraigo la clave de la opcion elegida para buscarlo en el Treemap
+		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(0, 9);
+		
+		cliente=a.getClientes().get(key);
+		
+		return cliente;
+				
+	}
+
+	public static Empleado elegirEmpleado(Empresa a, Scanner in) {
+		String opcion="";
+		Empleado empleado= null;
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Empleado> b : a.getEmpleados().entrySet()) {
+			list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+	
+		opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		
+		//extraigo la clave de la opcion elegida para buscarlo en el Treemap
+		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(0, 9);
+		
+		empleado=a.getEmpleados().get(key);
+		
+		return empleado;
+				
+	}
+
+	
 	public static TipoCarnet elegirTipoCarnet(Empresa a, Scanner in) {
 		String opcion="";
 		TipoCarnet tipoCarnet= null;
@@ -964,4 +1305,49 @@ public class GestionEmpresa {
 		String opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
 		return opcion;
 	}
+
+	public static String seleccionaPropiedadOficina (Empresa a, Scanner in) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosOficina();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}		
+		String opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion;
+	}
+
+	public static String seleccionaPropiedadCliente (Empresa a, Scanner in) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosCliente();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}		
+		String opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion;
+	}
+	
+	public static String seleccionaPropiedadEmpleado (Empresa a, Scanner in) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosEmpleado();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}		
+		String opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion;
+	}
+
+
 }
+	

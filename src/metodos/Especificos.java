@@ -51,13 +51,13 @@ public class Especificos {
 				menuGestionCategorias(a, in);
 				break;
 			case "3":
-				System.out.println();
+				menuGestionOficinas(a, in);
 				break;
 			case "4":
-				
+				menuGestionClientes(a, in);
 				break;
 			case "5":
-				System.out.println();
+				menuGestionEmpleados(a,in);
 				break;
 			case "6":
 				System.out.println("¡Adiós!");
@@ -66,6 +66,66 @@ public class Especificos {
 			
 		}while (opcion.indexOf("6")==-1);
 
+	}
+	
+	public static void menuGestionEmpleados(Empresa a, Scanner in) {
+		
+		String opcion ="";
+		
+		do {
+			InterfazUsuario.imprimeMenuGestionEmpleados(a);
+			opcion=eligeMenuGestionEmpleados(a, in);
+			
+			switch (opcion)
+			{
+			case "1":
+				GestionEmpresa.creaEmpleado(a, in);
+				System.out.println("Empleado creado.");
+				break;
+			case "2":
+				Empleado empleado = pideEmpleado(a, in);
+				GestionEmpresa.eliminaEmpleado(a, empleado.getDni());
+				break;
+			case "3":
+				Empleado empleado2 = pideEmpleado(a, in);
+				GestionEmpresa.modificaEmpleado(a, in, empleado2);
+				break;
+			case "4":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			
+		}while (opcion.indexOf("4")==-1);
+	}
+	
+	public static void menuGestionClientes(Empresa a, Scanner in) {
+		
+		String opcion ="";
+		
+		do {
+			InterfazUsuario.imprimeMenuGestionClientes(a);
+			opcion=eligeMenuGestionCliente(a, in);
+			
+			switch (opcion)
+			{
+			case "1":
+				GestionEmpresa.creaCliente(a, in);
+				System.out.println("Cliente creado.");
+				break;
+			case "2":
+				Cliente cliente = pideCliente(a, in);
+				GestionEmpresa.eliminaCliente(a, cliente.getDni());
+				break;
+			case "3":
+				Cliente cliente2 = pideCliente(a, in);
+				GestionEmpresa.modificaCliente(a, in, cliente2);
+				break;
+			case "4":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			
+		}while (opcion.indexOf("4")==-1);
 	}
 	
 	public static void menuGestionCategorias(Empresa a, Scanner in) {
@@ -98,7 +158,36 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
-	
+	public static void menuGestionOficinas(Empresa a, Scanner in) {
+		
+		String opcion ="";
+		
+		do {
+			InterfazUsuario.imprimeMenuGestionOficinas(a);
+			opcion=eligeMenuGestionOficinas(a, in);
+			
+			switch (opcion)
+			{
+			case "1":
+				GestionEmpresa.creaOficina(a, in);
+				System.out.println("Oficina creada.");
+				break;
+			case "2":
+				Oficina oficina = pideOficina(a, in);
+				GestionEmpresa.eliminaOficina(a, oficina.getCod());
+				break;
+			case "3":
+				Oficina oficina2 = pideOficina(a, in);
+				GestionEmpresa.modificaOficina(a, in, oficina2);
+				break;
+			case "4":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			
+		}while (opcion.indexOf("4")==-1);
+	}
+
 	
 	public static void menuGestionVehiculos(Empresa a, Scanner in) {
 		
@@ -278,9 +367,9 @@ public class Especificos {
 
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
-		list_opc.add("Añadir Vehiculo.");
-		list_opc.add("Eliminar Vehiculo.");
-		list_opc.add("Modificar Vehiculo.");
+		list_opc.add("Añadir Categoria.");
+		list_opc.add("Eliminar Categoria.");
+		list_opc.add("Modificar Categoria.");
 		list_opc.add("Salir.");
 		
 		//opciones para el indicador del menu
@@ -291,6 +380,65 @@ public class Especificos {
 		}
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
 	}
+	
+	public static String eligeMenuGestionOficinas (Empresa a, Scanner in) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Oficina.");
+		list_opc.add("Eliminar Oficina.");
+		list_opc.add("Modificar Oficina.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+	}
+	
+	public static String eligeMenuGestionEmpleados (Empresa a, Scanner in) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Empleado.");
+		list_opc.add("Eliminar Empleado.");
+		list_opc.add("Modificar Empleado.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+	}
+	
+	public static String eligeMenuGestionCliente(Empresa a, Scanner in) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Cliente.");
+		list_opc.add("Eliminar Cliente.");
+		list_opc.add("Modificar Cliente.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+	}
+	
+	
 	
 	public static String eligeMenuGestionEmpresa (Empresa a, Scanner in) {
 		String opcion="";
@@ -362,6 +510,24 @@ public class Especificos {
 		InterfazUsuario.impimeMenuCategorias(a);
 		Categoria categoria = GestionEmpresa.elegirCategoria(a, in);	
 		return categoria;
+	}
+
+	public static Oficina pideOficina(Empresa a, Scanner in){		
+		InterfazUsuario.impimeMenuOficina(a);
+		Oficina oficina= GestionEmpresa.elegirOficina(a, in);	
+		return oficina;
+	}
+	
+	public static Cliente pideCliente(Empresa a, Scanner in){		
+		InterfazUsuario.impimeMenuCliente(a);
+		Cliente cliente= GestionEmpresa.elegirCliente(a, in);	
+		return cliente;
+	}
+	
+	public static Empleado pideEmpleado(Empresa a, Scanner in){		
+		InterfazUsuario.impimeMenuEmpleado(a);
+		Empleado empleado= GestionEmpresa.elegirEmpleado(a, in);	
+		return empleado;
 	}
 
 }

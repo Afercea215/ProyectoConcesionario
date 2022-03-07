@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Empresa implements Serializable{
+	
+	private static final long serialVersionUID = 34263471567L;
+	
 	private String nombre;
 	private String desc;
 	private TreeMap<String, Vehiculo> vehiculos;
@@ -26,6 +29,9 @@ public class Empresa implements Serializable{
 	private ArrayList<String> atributosCocheElectrico;
 	private ArrayList<String> atributosCocheCombustion;
 	private ArrayList<String> atributosCategoria;
+	private ArrayList<String> atributosOficina;
+	private ArrayList<String> atributosCliente;
+	private ArrayList<String> atributosEmpleado;
 	
 	private ArrayList<String> tipo;
 	private ArrayList<String> nivelEmision;
@@ -94,7 +100,7 @@ public class Empresa implements Serializable{
 	/**
 	 * Lee datos de la empresa del archivo datosEmpresa.ser
 	 */
-	public void leeDatosEmpresa() {
+	public static Empresa leeDatosFichero(Empresa empresa) {
 		FileInputStream f = null;
 		ObjectInputStream o = null;
 		
@@ -112,7 +118,7 @@ public class Empresa implements Serializable{
 		}
 		try {
 			try {
-				o.readObject();
+				empresa = (Empresa) o.readObject();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -120,12 +126,40 @@ public class Empresa implements Serializable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	}
+		}	
+		return empresa;
+	}
 
 	
 	///////////////////////////////////
 	//GETTERS Y SETTERS
 	////////////////////
+	
+	public ArrayList<String> getAtributosCliente() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("DNI.");
+		aux.add("Nombre.");
+		aux.add("Apellido 1.");
+		aux.add("Apellido 2.");
+		aux.add("Fecha de nacimiento.");
+		aux.add("Tipo de Carnet de conducir.");
+		aux.add("Numero Tarjeta cliente.");
+		this.atributosCliente=aux;
+		return aux;
+	}
+	
+	public ArrayList<String> getAtributosEmpleado() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("DNI.");
+		aux.add("Nombre.");
+		aux.add("Apellido 1.");
+		aux.add("Apellido 2.");
+		aux.add("Fecha de nacimiento.");
+		aux.add("Fecha de alta.");
+		aux.add("Oficina.");
+		this.atributosEmpleado=aux;
+		return aux;
+	}
 	
 	public ArrayList<String> getNivelEmision() {
 		ArrayList<String> aux=new ArrayList<String>();
@@ -154,6 +188,17 @@ public class Empresa implements Serializable{
 		aux.add("Descripción.");
 		aux.add("Porcentaje de Recargo.");
 		this.atributosCategoria=aux;
+		return aux;
+	}
+	
+	public ArrayList<String> getAtributosOficina() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Codigo.");
+		aux.add("Descripción.");
+		aux.add("Localidad.");
+		aux.add("Provincia.");
+		aux.add("¿Es oficina de aeropuerto?.");
+		this.atributosOficina=aux;
 		return aux;
 	}
 	

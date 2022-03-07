@@ -12,6 +12,7 @@ import java.util.Date;
  * 
  */
 public class Categoria implements Serializable{
+	private static final long serialVersionUID = 123452342234167L;
 	private String codigo;
 	private String desc;
 	private int porcentajeRecargo;

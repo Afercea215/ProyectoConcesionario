@@ -12,7 +12,7 @@ import java.util.*;
  * 
  */
 public class Cliente extends miLibreria.objetos.Persona implements Serializable{
-	
+	private static final long serialVersionUID = 12344722544367L;
 	private TipoCarnet carnetConducir;
 	private String nTarjetaCliente;
 
@@ -55,9 +55,7 @@ public class Cliente extends miLibreria.objetos.Persona implements Serializable{
 
 	@Override
 	public String toString() {
-		return super.toString()+"\n"
-				+"	-Carnet : " + carnetConducir + "\n"
-				+"	-Número cliente : " + nTarjetaCliente;
+		return super.toString()+"Carnet : " + carnetConducir + ", Ncliente cliente : " + nTarjetaCliente;
 	}
 	
 	

@@ -12,7 +12,7 @@ import miLibreria.objetos.Persona;
 /************************************************************/
 
 public abstract class Vehiculo implements Comparable<Vehiculo>, Serializable {
-	
+	private static final long serialVersionUID = 12345633327234647L;
 	private String matricula;
 	private String marca;
 	private String modelo;

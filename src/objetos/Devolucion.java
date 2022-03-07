@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 public class Devolucion implements Comparable<Devolucion>, Serializable{
+	private static final long serialVersionUID = 12345613234617L;
 	private String id;
 	private Oficina oficina;
 	private Alquiler alquiler;

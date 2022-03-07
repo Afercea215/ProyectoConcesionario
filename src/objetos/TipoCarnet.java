@@ -17,6 +17,7 @@ import java.io.Serializable;
  * 
  */
 public class TipoCarnet implements Serializable{
+	private static final long serialVersionUID = 123472142134L;
 	private String nombre;
 	private String desc;
 

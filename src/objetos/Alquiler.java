@@ -12,6 +12,7 @@ import miLibreria.objetos.Persona;
  * 
  */
 public class Alquiler implements Comparable<Alquiler>, Serializable{
+	private static final long serialVersionUID = 123456234324167L;
 	private String id;
 	private Vehiculo vehiculo;
 	private Empleado empleado;

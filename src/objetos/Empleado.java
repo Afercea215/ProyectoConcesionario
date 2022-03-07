@@ -12,7 +12,7 @@ import java.util.*;
  */
 //
 public class Empleado extends miLibreria.objetos.Persona implements Serializable{
-
+	private static final long serialVersionUID = 12343254565367L;
 	private GregorianCalendar fechaAlta;
 	private Oficina oficina;
 	
@@ -54,8 +54,7 @@ public class Empleado extends miLibreria.objetos.Persona implements Serializable
 
 	@Override
 	public String toString() {
-		return super.toString()+"\n"
-				+"	-Oficina : " + oficina;
+		return super.toString()+", Oficina : " + oficina;
 	}
 	
 }

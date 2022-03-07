@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public abstract class Electrico extends Vehiculo{
+	private static final long serialVersionUID = 111234521367L;
 	private int autonomia;
 	private int tiempoRecarga;
 

@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public abstract class Combustion extends Vehiculo {
-	
+	private static final long serialVersionUID = 1234233464567L;
 	private int consumo;
 	private int potencia;
 	private String nivel_emison;

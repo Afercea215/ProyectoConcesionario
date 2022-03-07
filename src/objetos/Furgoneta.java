@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public class Furgoneta extends Combustion{
+	private static final long serialVersionUID = 123123464567L;
 	private int capacidadCarga;
 	private TipoCarnet carnetRequerido;
 	

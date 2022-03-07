@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  * 
  */
 public class CocheElectrico extends Electrico {
-
+	private static final long serialVersionUID = 12345435667567L;
 	private int n_plazas;
 	private String tipo;
 	
