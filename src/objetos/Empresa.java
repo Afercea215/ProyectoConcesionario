@@ -25,6 +25,7 @@ public class Empresa implements Serializable{
 	private ArrayList<String> atributosFurgoneta;
 	private ArrayList<String> atributosCocheElectrico;
 	private ArrayList<String> atributosCocheCombustion;
+	private ArrayList<String> atributosCategoria;
 	
 	private ArrayList<String> tipo;
 	private ArrayList<String> nivelEmision;
@@ -144,6 +145,15 @@ public class Empresa implements Serializable{
 		aux.add("Familiar");
 		aux.add("Mini");
 		this.tipo=aux;
+		return aux;
+	}
+	
+	public ArrayList<String> getAtributosCategoria() {
+		ArrayList<String> aux=new ArrayList<String>();
+		aux.add("Codigo.");
+		aux.add("Descripción.");
+		aux.add("Porcentaje de Recargo.");
+		this.atributosCategoria=aux;
 		return aux;
 	}
 	

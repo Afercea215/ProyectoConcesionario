@@ -68,6 +68,26 @@ public class GestionEmpresa {
 		a.getVehiculos().put(matricula, new Moto(matricula, marca, modelo, color, fecha_alta, kms, categoria, oficina, false, autonomia, tiempoRecarga, cilindrada, tipoCarnet));
 	}
 	
+	public static void creaCategoria(Empresa a, Scanner in){
+		String codigo;
+		String desc;
+		int porcentajeRecargo;
+
+		//pido todos los datos
+		System.out.println("Introduzca el codigo");
+		codigo = in.nextLine().toUpperCase();
+		System.out.println();
+
+		System.out.println("Introduce la descripción de la categoria");
+		desc = in.nextLine();
+		System.out.println();
+		
+		System.out.println("Introduce el Porcentaje de recargo para la categoria.");
+		porcentajeRecargo = miLibreria.metodos.PedirDatos.pideEntero(in);
+		
+		a.getCategorias().put(codigo, new Categoria(codigo, desc, porcentajeRecargo));
+	}
+	
 	public static void creaFurgoneta(Empresa a, Scanner in){
 		String matricula ="";
 		String marca ="";
@@ -278,9 +298,7 @@ public class GestionEmpresa {
 		switch (opcion)
 		{
 		case "1":
-			System.out.println("Introduzca la nueva matricula :");
-			String matricula = in.nextLine();
-			moto.setMatricula(matricula);
+			System.out.println("La matricula no se puede modificar, si es erronea deberá borrar la Moto y volver a crearla.");
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
@@ -352,24 +370,25 @@ public class GestionEmpresa {
 		switch (opcion)
 		{
 		case "1":
-			System.out.println("Introduzca la nueva matricula :");
-			String matricula = in.nextLine();
-			furgoneta.setMatricula(matricula);
+			System.out.println("La matricula no se puede modificar, si es erronea deberá borrar la Moto y volver a crearla.");
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
 			String Marca = in.nextLine();
 			furgoneta.setMarca(Marca);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
 			String modelo = in.nextLine();
 			furgoneta.setModelo(modelo);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
 			String color = in.nextLine();
 			furgoneta.setColor(color);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
@@ -380,42 +399,51 @@ public class GestionEmpresa {
 			int año = in.nextInt();
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			furgoneta.setFechaAlta(fecha);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "6":
 			System.out.println("Introduzca los nuevos Kilometros :");
 			int kms = in.nextInt();
 			furgoneta.setKms(kms);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "7":
 			InterfazUsuario.imprimeMenuCategoria(a);
 			furgoneta.setCategoria(elegirCategoria(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "8":
 			InterfazUsuario.imprimeMenuOficina(a);
 			furgoneta.setOficina(elegirOficina(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "9":
 			System.out.println("Introduzca el nuevo consumo :");
 			int consumo = in.nextInt();
 			furgoneta.setConsumo(consumo);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "10":
 			System.out.println("Introduzca la nueva potencia :");
 			int potencia = in.nextInt();
 			furgoneta.setPotencia(potencia);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "11":
 			InterfazUsuario.imprimeMenuNivelEmision(a);
 			furgoneta.setNivel_emison(elegirNivelEmision(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "12":
 			System.out.println("Introduzca la nueva capacida de carga :");
 			int capacidadCarga = in.nextInt();
 			furgoneta.setCapacidadCarga(capacidadCarga);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "13":
 			InterfazUsuario.imprimeMenuTipoCarnet(a);
 			furgoneta.setCarnetRequerido(elegirTipoCarnet(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		}
 	}
@@ -430,24 +458,26 @@ public class GestionEmpresa {
 		switch (opcion)
 		{
 		case "1":
-			System.out.println("Introduzca la nueva matricula :");
-			String matricula = in.nextLine();
-			coche.setMatricula(matricula);
+			System.out.println("La matricula no se puede modificar, si es erronea deberá borrar la Moto y volver a crearla.");
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
 			String Marca = in.nextLine();
 			coche.setMarca(Marca);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
 			String modelo = in.nextLine();
 			coche.setModelo(modelo);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
 			String color = in.nextLine();
 			coche.setColor(color);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
@@ -458,42 +488,51 @@ public class GestionEmpresa {
 			int año = in.nextInt();
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			coche.setFechaAlta(fecha);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "6":
 			System.out.println("Introduzca los nuevos Kilometros :");
 			int kms = in.nextInt();
 			coche.setKms(kms);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "7":
 			InterfazUsuario.imprimeMenuCategoria(a);
 			coche.setCategoria(elegirCategoria(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "8":
 			InterfazUsuario.imprimeMenuOficina(a);
 			coche.setOficina(elegirOficina(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "9":
 			System.out.println("Introduzca el nuevo consunmo :");
 			int consumo = in.nextInt();
 			coche.setConsumo(consumo);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "10":
 			System.out.println("Introduzca la nueva potencia :");
 			int potencia = in.nextInt();
 			coche.setPotencia(potencia);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "11":
 			InterfazUsuario.imprimeMenuNivelEmision(a);
 			coche.setNivel_emison(elegirNivelEmision(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "12":
 			System.out.println("Introduzca el numero de plazas :");
 			int nPlazas = in.nextInt();
 			coche.setN_plazas(nPlazas);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "13":
 			InterfazUsuario.imprimeMenuTipo(a);
 			coche.setTipo(elegirTipo(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		}
 	}
@@ -508,24 +547,25 @@ public class GestionEmpresa {
 		switch (opcion)
 		{
 		case "1":
-			System.out.println("Introduzca la nueva matricula :");
-			String matricula = in.nextLine();
-			coche.setMatricula(matricula);
+			System.out.println("La matricula no se puede modificar, si es erronea deberá borrar la Moto y volver a crearla.");
 			break;
 		case "2":
 			System.out.println("Introduzca la nueva marca :");
 			String Marca = in.nextLine();
 			coche.setMarca(Marca);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "3":
 			System.out.println("Introduzca el nuevo modelo :");
 			String modelo = in.nextLine();
 			coche.setModelo(modelo);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "4":
 			System.out.println("Introduzca el nuevo color :");
 			String color = in.nextLine();
 			coche.setColor(color);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "5":
 			System.out.println("Introduzca el dia de alta :");
@@ -536,38 +576,74 @@ public class GestionEmpresa {
 			int año = in.nextInt();
 			GregorianCalendar fecha = new GregorianCalendar(año, mes, dia);
 			coche.setFechaAlta(fecha);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "6":
 			System.out.println("Introduzca los Kilometros :");
 			int kms = in.nextInt();
 			coche.setKms(kms);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "7":
 			InterfazUsuario.imprimeMenuCategoria(a);
 			coche.setCategoria(elegirCategoria(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "8":
 			InterfazUsuario.imprimeMenuOficina(a);
 			coche.setOficina(elegirOficina(a, in));
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "9":
 			System.out.println("Introduzca la autonomia :");
 			int autonomia = in.nextInt();
 			coche.setAutonomia(autonomia);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "10":
 			System.out.println("Introduzca el tiepo de recarga :");
 			int tiempoRecarga = in.nextInt();
 			coche.setTiempoRecarga(tiempoRecarga);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "11":
 			System.out.println("Introduzca el numero de plazas :");
 			int nPlazas = in.nextInt();
 			coche.setN_plazas(nPlazas);
+			System.out.println("Vehiculo modificado.");
 			break;
 		case "12":
 			InterfazUsuario.imprimeMenuTipo(a);
 			coche.setTipo(elegirTipo(a, in));
+			System.out.println("Vehiculo modificado.");
+			break;
+		}
+	}
+	
+	public static void modificaCategoria(Empresa a, Scanner in, Categoria categoria){
+		
+		String opcion="";
+				
+		InterfazUsuario.impimeAtributosCategoria(a);
+		opcion = seleccionaPropiedadMoto(a, in);
+		
+		switch (opcion)
+		{
+		case "1":
+			System.out.println("El codigo no se puede modificar, si es erronea deberá borrar la Moto y volver a crearla.");
+			break;
+		case "2":
+			System.out.println("Introduzca la nueva descripcion :");
+			String desc = in.nextLine();
+			categoria.setDesc(desc);
+			break;
+		case "3":
+			System.out.println("Introduzca el nuevo Porcentaje de Recargo :");
+			int porcentajeRecargo = miLibreria.metodos.PedirDatos.pideEntero(in);
+			categoria.setPorcentajeRecargo(porcentajeRecargo);
+			break;
+		case "4":
+			System.out.println("¡Adios!");
 			break;
 		}
 	}
@@ -575,7 +651,23 @@ public class GestionEmpresa {
 	public static void eliminaVehiculo(Empresa a, String key){		
 		a.getVehiculos().remove(key);
 	}
-
+	
+	public static void eliminaCategoria(Empresa a, String key){		
+		a.getCategorias().remove(key);
+	}
+	
+	public static void eliminaClientes(Empresa a, String key){		
+		a.getClientes().remove(key);
+	}
+	
+	public static void eliminaOficinas(Empresa a, String key){		
+		a.getOficinas().remove(key);
+	}
+	
+	public static void eliminaEmpleados(Empresa a, String key){		
+		a.getEmpleados().remove(key);
+	}
+	
 
 	public static Categoria elegirCategoria(Empresa a, Scanner in) {
 		String opcion="";

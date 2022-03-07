@@ -48,7 +48,7 @@ public class Especificos {
 				menuGestionVehiculos(a, in);
 				break;
 			case "2":
-				System.out.println();
+				menuGestionCategorias(a, in);
 				break;
 			case "3":
 				System.out.println();
@@ -67,6 +67,38 @@ public class Especificos {
 		}while (opcion.indexOf("6")==-1);
 
 	}
+	
+	public static void menuGestionCategorias(Empresa a, Scanner in) {
+		
+		String opcion ="";
+		
+		do {
+			InterfazUsuario.imprimeMenuGestionCategorias(a);
+			opcion=eligeMenuGestionCategorias(a, in);
+			
+			switch (opcion)
+			{
+			case "1":
+				GestionEmpresa.creaCategoria(a, in);
+				System.out.println("Vehiculo creado.");
+				break;
+			case "2":
+				Categoria categoria = pideCategoria(a, in);
+				GestionEmpresa.eliminaCategoria(a, categoria.getCodigo());
+				break;
+			case "3":
+				Categoria categoria2 = pideCategoria(a, in);
+				GestionEmpresa.modificaCategoria(a, in, categoria2);
+				break;
+			case "4":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			
+		}while (opcion.indexOf("4")==-1);
+	}
+	
+	
 	
 	public static void menuGestionVehiculos(Empresa a, Scanner in) {
 		
@@ -179,22 +211,18 @@ public class Especificos {
 			case "1":
 				Moto moto = pideMoto(a, in);
 				GestionEmpresa.modificaMoto(a, in, moto);
-				System.out.println("¡Vehiculo Modificado!");
 				break;
 			case "2":
 				Furgoneta furgoneta= pideFurgoneta(a, in);
 				GestionEmpresa.modificaFurgoneta(a, in, furgoneta);
-				System.out.println("¡Vehiculo Modificado!");
 				break;
 			case "3":
 				CocheCombustion cocheCombustion = pideCocheCombustion(a, in);
 				GestionEmpresa.modificaCocheCombustion(a, in, cocheCombustion);
-				System.out.println("¡Vehiculo Modificado!");
 				break;
 			case "4":
 				CocheElectrico cocheElectrico = pideCocheElectrico(a, in);
 				GestionEmpresa.modificaCocheElectrico(a, in, cocheElectrico);
-				System.out.println("¡Vehiculo Modificado!");
 				break;
 			case "5":
 				System.out.println("¡Adiós!");
@@ -204,7 +232,7 @@ public class Especificos {
 			
 		}while (opcion.indexOf("5")==-1);
 	}
-	
+
 	public static String eligeMenuPrincipal (Empresa a, Scanner in) {
 
 		String opcion="";
@@ -227,6 +255,25 @@ public class Especificos {
 	}
 	
 	public static String eligeMenuGestionVehiculo (Empresa a, Scanner in) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Vehiculo.");
+		list_opc.add("Eliminar Vehiculo.");
+		list_opc.add("Modificar Vehiculo.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+	}
+	
+	public static String eligeMenuGestionCategorias (Empresa a, Scanner in) {
 		String opcion="";
 
 		//opciones para el menu
@@ -289,33 +336,32 @@ public class Especificos {
 	}
 
 	public static Moto pideMoto(Empresa a, Scanner in){		
-		String opcion="";
-		
 		InterfazUsuario.impimeMenuMotos(a);
 		Moto moto =	GestionEmpresa.seleccionaMotoMenu(a, in);	
 		return moto;
 	}
 
 	public static Furgoneta pideFurgoneta(Empresa a, Scanner in){		
-		String opcion="";
-		
 		InterfazUsuario.impimeMenuFurgoneta(a);
 		Furgoneta furgoneta=GestionEmpresa.seleccionaFurgonetaMenu(a, in);
 		return furgoneta;
 	}
 	
 	public static CocheCombustion pideCocheCombustion(Empresa a, Scanner in){		
-		String opcion="";
-		
 		InterfazUsuario.impimeMenuCocheCombustión(a);
 		CocheCombustion coche =	GestionEmpresa.seleccionaCocheCombustionMenu(a, in);	
 		return coche;
 	}
 	
 	public static CocheElectrico pideCocheElectrico(Empresa a, Scanner in){		
-		String opcion="";
-		
 		InterfazUsuario.impimeMenuCocheCombustión(a);
 		CocheElectrico coche =	GestionEmpresa.seleccionaCocheElectricoMenu(a, in);	
 		return coche;	}
+
+	public static Categoria pideCategoria(Empresa a, Scanner in){		
+		InterfazUsuario.impimeMenuCategorias(a);
+		Categoria categoria = GestionEmpresa.elegirCategoria(a, in);	
+		return categoria;
+	}
+
 }

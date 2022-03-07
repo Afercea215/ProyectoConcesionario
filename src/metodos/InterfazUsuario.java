@@ -52,6 +52,28 @@ public class InterfazUsuario {
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");
 	}
 	
+	public static void imprimeMenuGestionCategorias(Empresa a) {
+		String opcion="";
+
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Añadir Categoria.");
+		list_opc.add("Eliminar Categoria.");
+		list_opc.add("Modificar Categoria.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");
+			
+	
+	}
+	
 	public static void imprimeMenuGestionVehiculos(Empresa a) {
 		String opcion="";
 
@@ -94,7 +116,7 @@ public class InterfazUsuario {
 				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Tipo", opc_posibles, ".");
 	}
-	
+		
 	public static void imprimeMenuCategoria(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
@@ -269,6 +291,28 @@ public class InterfazUsuario {
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige el vehiculo", opc_posibles, ".");
 	}
 	
+	public static void impimeMenuCategorias(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Categoria> b : a.getCategorias().entrySet()) {
+			//si es una moto se guarda en el arraylist
+			if (b.getValue() instanceof Categoria) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+			}
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la categoria", opc_posibles, ".");
+	}
+	
+	
 	public static void impimeAtributosMotos(Empresa a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = a.getAtributosMoto();
@@ -320,4 +364,18 @@ public class InterfazUsuario {
 		}				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la propiedad", opc_posibles, ".");
 	}
+
+	public static void impimeAtributosCategoria(Empresa a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = a.getAtributosCategoria();
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige la propiedad", opc_posibles, ".");
+	}
+	
 }
