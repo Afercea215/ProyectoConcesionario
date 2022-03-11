@@ -88,7 +88,7 @@ public class CocheCombustion extends Combustion{
 	public Double calculaAlquilerPrevisto(Alquiler a) {
 		
 		//consigo la diferencia de dias de la fecha de inicia y la de fin prevista
-		int difDias = miLibreria.metodos.Fechas.difDiasEntreFechas(a.getFechaIniAlquiler(), a.getFechaIniAlquiler());
+		int difDias = miLibreria.metodos.Fechas.difDiasEntreFechas(a.getFechaIniAlquiler(), a.getFechaFinPrevista());
 		
 		//calculo el precio total
 		Double total = (difDias*precioDiario)+((difDias*precioDiario)*(super.getPorcentajeSubida()/100));

@@ -56,7 +56,7 @@ public class DatosPrograma {
 		a.añadeOficina(new Oficina("4302", "Cositos", "Cadiz", "Cádiz", false));
 		a.añadeOficina(new Oficina("6054", "Doritos", "Almen", "Almeria", false));
 		a.añadeOficina(new Oficina("5424", "Nombre serio1", "Pescao", "Huelva", false));
-		a.añadeOficina(new Oficina("6573", "ChingosVehiculos", "Chingos", "Granada", false));
+		a.añadeOficina(new Oficina("6572", "ChingosVehiculos", "Chingos", "Granada", false));
 		
 	}
 	
@@ -68,7 +68,7 @@ public class DatosPrograma {
 		a.añadeEmpleado(new Empleado("Ceacero", "Ceacero", "Roberto", new GregorianCalendar(2007, 10,01), "87654321J", a.getOficinas().get("6054"), new GregorianCalendar(2022, 01,20)));
 		a.añadeEmpleado(new Empleado("Ramirez", "Suarez", "Antonio", new GregorianCalendar(1995, 11,11), "12341234J", a.getOficinas().get("1002"), new GregorianCalendar(2020, 06,11)));
 		a.añadeEmpleado(new Empleado("Sanchez", "Ceacero", "Maria", new GregorianCalendar(1990, 12,16), "54682357C", a.getOficinas().get("1212"), new GregorianCalendar(2018, 06,02)));
-		a.añadeEmpleado(new Empleado("Sanchez", "Suarez", "Sara", new GregorianCalendar(2000, 8,02), "92846250P", a.getOficinas().get("6573"), new GregorianCalendar(2015, 02,01)));
+		a.añadeEmpleado(new Empleado("Sanchez", "Suarez", "Sara", new GregorianCalendar(2000, 8,02), "92846250P", a.getOficinas().get("6572"), new GregorianCalendar(2015, 02,01)));
 	}
 	
 	public static TreeMap<String, String> generarTipoCarnet () {

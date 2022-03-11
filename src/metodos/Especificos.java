@@ -1,31 +1,34 @@
 package metodos;
 
 import objetos.*;
+import principal.Principal;
+
 import java.util.*;
 
 public class Especificos {
 
-	public static void menuPrincipal (Empresa a, Scanner in) {
+	public static void menuPrincipal () {
 		
 		String opcion ="";
 	
 		do {
-			InterfazUsuario.imprimeMenuPrincipal(a);
-			opcion=eligeMenuPrincipal(a, in);
+			InterfazUsuario.imprimeMenuPrincipal();
+			opcion=eligeMenuPrincipal();
 
 			switch (opcion)
 			{
 			case "1":
-				menuGestionEmpresa(a, in);
+				menuGestionEmpresa();
 				break;
 			case "2":
-				System.out.println();
+				GestionEmpresa.creaAlquiler();
 				break;
 			case "3":
-				System.out.println();
+				GestionEmpresa.creaDevolucion();
 				break;
 			case "4":
 				System.out.println("¡Adiós!");
+				Principal.empresa.grabaDatosEmpresa();
 				break;
 			}
 			
@@ -35,29 +38,29 @@ public class Especificos {
 
 	}
 	
-	public static void menuGestionEmpresa(Empresa a, Scanner in) {
+	public static void menuGestionEmpresa() {
 
 		String opcion ="";
 		
 		do {
-			InterfazUsuario.imprimeMenuGestionEmpresa(a);
-			opcion=eligeMenuGestionEmpresa(a, in);
+			InterfazUsuario.imprimeMenuGestionEmpresa();
+			opcion=eligeMenuGestionEmpresa();
 			switch (opcion)
 			{
 			case "1":
-				menuGestionVehiculos(a, in);
+				menuGestionVehiculos();
 				break;
 			case "2":
-				menuGestionCategorias(a, in);
+				menuGestionCategorias();
 				break;
 			case "3":
-				menuGestionOficinas(a, in);
+				menuGestionOficinas();
 				break;
 			case "4":
-				menuGestionClientes(a, in);
+				menuGestionClientes();
 				break;
 			case "5":
-				menuGestionEmpleados(a,in);
+				menuGestionEmpleados();
 				break;
 			case "6":
 				System.out.println("¡Adiós!");
@@ -68,27 +71,27 @@ public class Especificos {
 
 	}
 	
-	public static void menuGestionEmpleados(Empresa a, Scanner in) {
+	public static void menuGestionEmpleados() {
 		
 		String opcion ="";
 		
 		do {
-			InterfazUsuario.imprimeMenuGestionEmpleados(a);
-			opcion=eligeMenuGestionEmpleados(a, in);
+			InterfazUsuario.imprimeMenuGestionEmpleados();
+			opcion=eligeMenuGestionEmpleados();
 			
 			switch (opcion)
 			{
 			case "1":
-				GestionEmpresa.creaEmpleado(a, in);
+				GestionEmpresa.creaEmpleado();
 				System.out.println("Empleado creado.");
 				break;
 			case "2":
-				Empleado empleado = pideEmpleado(a, in);
-				GestionEmpresa.eliminaEmpleado(a, empleado.getDni());
+				Empleado empleado = pideEmpleado();
+				GestionEmpresa.eliminaEmpleado(empleado.getDni());
 				break;
 			case "3":
-				Empleado empleado2 = pideEmpleado(a, in);
-				GestionEmpresa.modificaEmpleado(a, in, empleado2);
+				Empleado empleado2 = pideEmpleado();
+				GestionEmpresa.modificaEmpleado(empleado2);
 				break;
 			case "4":
 				System.out.println("¡Adiós!");
@@ -98,27 +101,27 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
-	public static void menuGestionClientes(Empresa a, Scanner in) {
+	public static void menuGestionClientes() {
 		
 		String opcion ="";
 		
 		do {
-			InterfazUsuario.imprimeMenuGestionClientes(a);
-			opcion=eligeMenuGestionCliente(a, in);
+			InterfazUsuario.imprimeMenuGestionClientes();
+			opcion=eligeMenuGestionCliente();
 			
 			switch (opcion)
 			{
 			case "1":
-				GestionEmpresa.creaCliente(a, in);
+				GestionEmpresa.creaCliente();
 				System.out.println("Cliente creado.");
 				break;
 			case "2":
-				Cliente cliente = pideCliente(a, in);
-				GestionEmpresa.eliminaCliente(a, cliente.getDni());
+				Cliente cliente = pideCliente();
+				GestionEmpresa.eliminaCliente(cliente.getDni());
 				break;
 			case "3":
-				Cliente cliente2 = pideCliente(a, in);
-				GestionEmpresa.modificaCliente(a, in, cliente2);
+				Cliente cliente2 = pideCliente();
+				GestionEmpresa.modificaCliente(cliente2);
 				break;
 			case "4":
 				System.out.println("¡Adiós!");
@@ -127,28 +130,28 @@ public class Especificos {
 			
 		}while (opcion.indexOf("4")==-1);
 	}
-	
-	public static void menuGestionCategorias(Empresa a, Scanner in) {
+ 	
+	public static void menuGestionCategorias() {
 		
 		String opcion ="";
 		
 		do {
-			InterfazUsuario.imprimeMenuGestionCategorias(a);
-			opcion=eligeMenuGestionCategorias(a, in);
+			InterfazUsuario.imprimeMenuGestionCategorias();
+			opcion=eligeMenuGestionCategorias();
 			
 			switch (opcion)
 			{
 			case "1":
-				GestionEmpresa.creaCategoria(a, in);
+				GestionEmpresa.creaCategoria();
 				System.out.println("Vehiculo creado.");
 				break;
 			case "2":
-				Categoria categoria = pideCategoria(a, in);
-				GestionEmpresa.eliminaCategoria(a, categoria.getCodigo());
+				Categoria categoria = pideCategoria();
+				GestionEmpresa.eliminaCategoria(categoria.getCodigo());
 				break;
 			case "3":
-				Categoria categoria2 = pideCategoria(a, in);
-				GestionEmpresa.modificaCategoria(a, in, categoria2);
+				Categoria categoria2 = pideCategoria();
+				GestionEmpresa.modificaCategoria(categoria2);
 				break;
 			case "4":
 				System.out.println("¡Adiós!");
@@ -158,27 +161,27 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
-	public static void menuGestionOficinas(Empresa a, Scanner in) {
+	public static void menuGestionOficinas() {
 		
 		String opcion ="";
 		
 		do {
-			InterfazUsuario.imprimeMenuGestionOficinas(a);
-			opcion=eligeMenuGestionOficinas(a, in);
+			InterfazUsuario.imprimeMenuGestionOficinas();
+			opcion=eligeMenuGestionOficinas();
 			
 			switch (opcion)
 			{
 			case "1":
-				GestionEmpresa.creaOficina(a, in);
+				GestionEmpresa.creaOficina();
 				System.out.println("Oficina creada.");
 				break;
 			case "2":
-				Oficina oficina = pideOficina(a, in);
-				GestionEmpresa.eliminaOficina(a, oficina.getCod());
+				Oficina oficina = pideOficina();
+				GestionEmpresa.eliminaOficina(oficina.getCod());
 				break;
 			case "3":
-				Oficina oficina2 = pideOficina(a, in);
-				GestionEmpresa.modificaOficina(a, in, oficina2);
+				Oficina oficina2 = pideOficina();
+				GestionEmpresa.modificaOficina(oficina2);
 				break;
 			case "4":
 				System.out.println("¡Adiós!");
@@ -189,24 +192,24 @@ public class Especificos {
 	}
 
 	
-	public static void menuGestionVehiculos(Empresa a, Scanner in) {
+	public static void menuGestionVehiculos() {
 		
 		String opcion ="";
 		
 		do {
-			InterfazUsuario.imprimeMenuGestionVehiculos(a);
-			opcion=eligeMenuGestionVehiculo(a, in);
+			InterfazUsuario.imprimeMenuGestionVehiculos();
+			opcion=eligeMenuGestionVehiculo();
 			
 			switch (opcion)
 			{
 			case "1":
-				menuAñadirVehiculo(a, in);
+				menuAñadirVehiculo();
 				break;
 			case "2":
-				menuEliminarVehiculo(a,in);
+				menuEliminarVehiculo();
 				break;
 			case "3":
-				menuModificarVehiculo(a,in);
+				menuModificarVehiculo();
 				break;
 			case "4":
 				System.out.println("¡Adiós!");
@@ -216,29 +219,30 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
-	public static void menuAñadirVehiculo(Empresa a, Scanner in) {
+	
+	public static void menuAñadirVehiculo() {
 		String opcion="";
 		
 		do {
-			InterfazUsuario.imprimeMenuVehiculo(a);
-			opcion=eligeMenuVehiculo(a, in);
+			InterfazUsuario.imprimeMenuVehiculo();
+			opcion=eligeMenuVehiculo();
 			
 			switch (opcion)
 			{
 			case "1":
-				GestionEmpresa.creaMoto(a, in);
+				GestionEmpresa.creaMoto();
 				System.out.println("¡Vehiculo Creado!");
 				break;
 			case "2":
-				GestionEmpresa.creaFurgoneta(a, in);
+				GestionEmpresa.creaFurgoneta();
 				System.out.println("¡Vehiculo Creado!");
 				break;
 			case "3":
-				GestionEmpresa.creaCocheCombustion(a, in);
+				GestionEmpresa.creaCocheCombustion();
 				System.out.println("¡Vehiculo Creado!");
 				break;
 			case "4":
-				GestionEmpresa.creaCocheElectrico(a, in);
+				GestionEmpresa.creaCocheElectrico();
 				System.out.println("¡Vehiculo Creado!");
 				break;
 			case "5":
@@ -250,33 +254,33 @@ public class Especificos {
 		}while (opcion.indexOf("5")==-1);
 	}
 	
-	public static void menuEliminarVehiculo(Empresa a, Scanner in) {
+	public static void menuEliminarVehiculo() {
 		String opcion="";
 		
 		do {
-			InterfazUsuario.imprimeMenuVehiculo(a);
-			opcion=eligeMenuVehiculo(a, in);
+			InterfazUsuario.imprimeMenuVehiculo();
+			opcion=eligeMenuVehiculo();
 			
 			switch (opcion)
 			{
 			case "1":
-				Moto moto = pideMoto(a, in);
-				GestionEmpresa.eliminaVehiculo(a, moto.getMatricula());
+				Moto moto = pideMoto();
+				GestionEmpresa.eliminaVehiculo(moto.getMatricula());
 				System.out.println("¡Vehiculo Eliminado!");
 				break;
 			case "2":
-				Furgoneta furgoneta = pideFurgoneta(a, in);
-				GestionEmpresa.eliminaVehiculo(a, furgoneta.getMatricula());
+				Furgoneta furgoneta = pideFurgoneta();
+				GestionEmpresa.eliminaVehiculo(furgoneta.getMatricula());
 				System.out.println("¡Vehiculo Eliminado!");
 				break;
 			case "3":
-				CocheCombustion cocheCombustion = pideCocheCombustion(a, in);
-				GestionEmpresa.eliminaVehiculo(a, cocheCombustion.getMatricula());
+				CocheCombustion cocheCombustion = pideCocheCombustion();
+				GestionEmpresa.eliminaVehiculo(cocheCombustion.getMatricula());
 				System.out.println("¡Vehiculo Eliminado!");
 				break;
 			case "4":
-				CocheElectrico cocheElectrico = pideCocheElectrico(a, in);
-				GestionEmpresa.eliminaVehiculo(a, cocheElectrico.getMatricula());
+				CocheElectrico cocheElectrico = pideCocheElectrico();
+				GestionEmpresa.eliminaVehiculo(cocheElectrico.getMatricula());
 				System.out.println("¡Vehiculo Eliminado!");
 				break;
 			case "5":
@@ -288,30 +292,30 @@ public class Especificos {
 		}while (opcion.indexOf("5")==-1);
 	}
 	
-	public static void menuModificarVehiculo(Empresa a, Scanner in) {
+	public static void menuModificarVehiculo() {
 		String opcion="";
 		
 		do {
-			InterfazUsuario.imprimeMenuVehiculo(a);
-			opcion=eligeMenuVehiculo(a, in);
+			InterfazUsuario.imprimeMenuVehiculo();
+			opcion=eligeMenuVehiculo();
 			
 			switch (opcion)
 			{
 			case "1":
-				Moto moto = pideMoto(a, in);
-				GestionEmpresa.modificaMoto(a, in, moto);
+				Moto moto = pideMoto();
+				GestionEmpresa.modificaMoto( moto);
 				break;
 			case "2":
-				Furgoneta furgoneta= pideFurgoneta(a, in);
-				GestionEmpresa.modificaFurgoneta(a, in, furgoneta);
+				Furgoneta furgoneta= pideFurgoneta();
+				GestionEmpresa.modificaFurgoneta( furgoneta);
 				break;
 			case "3":
-				CocheCombustion cocheCombustion = pideCocheCombustion(a, in);
-				GestionEmpresa.modificaCocheCombustion(a, in, cocheCombustion);
+				CocheCombustion cocheCombustion = pideCocheCombustion();
+				GestionEmpresa.modificaCocheCombustion( cocheCombustion);
 				break;
 			case "4":
-				CocheElectrico cocheElectrico = pideCocheElectrico(a, in);
-				GestionEmpresa.modificaCocheElectrico(a, in, cocheElectrico);
+				CocheElectrico cocheElectrico = pideCocheElectrico();
+				GestionEmpresa.modificaCocheElectrico( cocheElectrico);
 				break;
 			case "5":
 				System.out.println("¡Adiós!");
@@ -322,7 +326,7 @@ public class Especificos {
 		}while (opcion.indexOf("5")==-1);
 	}
 
-	public static String eligeMenuPrincipal (Empresa a, Scanner in) {
+	public static String eligeMenuPrincipal () {
 
 		String opcion="";
 		
@@ -340,10 +344,10 @@ public class Especificos {
 			opc_posibles.add((i+1)+"");
 		}
 		
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
-	public static String eligeMenuGestionVehiculo (Empresa a, Scanner in) {
+	public static String eligeMenuGestionVehiculo () {
 		String opcion="";
 
 		//opciones para el menu
@@ -359,10 +363,10 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
-	public static String eligeMenuGestionCategorias (Empresa a, Scanner in) {
+	public static String eligeMenuGestionCategorias () {
 		String opcion="";
 
 		//opciones para el menu
@@ -378,10 +382,10 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
-	public static String eligeMenuGestionOficinas (Empresa a, Scanner in) {
+	public static String eligeMenuGestionOficinas () {
 		String opcion="";
 
 		//opciones para el menu
@@ -397,10 +401,10 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
-	public static String eligeMenuGestionEmpleados (Empresa a, Scanner in) {
+	public static String eligeMenuGestionEmpleados () {
 		String opcion="";
 
 		//opciones para el menu
@@ -416,10 +420,10 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
-	public static String eligeMenuGestionCliente(Empresa a, Scanner in) {
+	public static String eligeMenuGestionCliente() {
 		String opcion="";
 
 		//opciones para el menu
@@ -435,12 +439,11 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
+
 	
-	
-	
-	public static String eligeMenuGestionEmpresa (Empresa a, Scanner in) {
+	public static String eligeMenuGestionEmpresa () {
 		String opcion="";
 		
 		//opciones para el menu
@@ -458,10 +461,10 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 
-	public static String eligeMenuVehiculo (Empresa a, Scanner in) {
+	public static String eligeMenuVehiculo () {
 
 		String opcion="";
 		
@@ -480,53 +483,53 @@ public class Especificos {
 			opc_posibles.add((i+1)+"");
 		}
 		
-		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, in);
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 
-	public static Moto pideMoto(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuMotos(a);
-		Moto moto =	GestionEmpresa.seleccionaMotoMenu(a, in);	
+	public static Moto pideMoto(){		
+		InterfazUsuario.impimeMenuMotos();
+		Moto moto =	GestionEmpresa.seleccionaMotoMenu();	
 		return moto;
 	}
 
-	public static Furgoneta pideFurgoneta(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuFurgoneta(a);
-		Furgoneta furgoneta=GestionEmpresa.seleccionaFurgonetaMenu(a, in);
+	public static Furgoneta pideFurgoneta(){		
+		InterfazUsuario.impimeMenuFurgoneta();
+		Furgoneta furgoneta=GestionEmpresa.seleccionaFurgonetaMenu();
 		return furgoneta;
 	}
 	
-	public static CocheCombustion pideCocheCombustion(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuCocheCombustión(a);
-		CocheCombustion coche =	GestionEmpresa.seleccionaCocheCombustionMenu(a, in);	
+	public static CocheCombustion pideCocheCombustion(){		
+		InterfazUsuario.impimeMenuCocheCombustión();
+		CocheCombustion coche =	GestionEmpresa.seleccionaCocheCombustionMenu();	
 		return coche;
 	}
 	
-	public static CocheElectrico pideCocheElectrico(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuCocheCombustión(a);
-		CocheElectrico coche =	GestionEmpresa.seleccionaCocheElectricoMenu(a, in);	
+	public static CocheElectrico pideCocheElectrico(){		
+		InterfazUsuario.impimeMenuCocheCombustión();
+		CocheElectrico coche =	GestionEmpresa.seleccionaCocheElectricoMenu();	
 		return coche;	}
 
-	public static Categoria pideCategoria(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuCategorias(a);
-		Categoria categoria = GestionEmpresa.elegirCategoria(a, in);	
+	public static Categoria pideCategoria(){		
+		InterfazUsuario.impimeMenuCategorias();
+		Categoria categoria = GestionEmpresa.elegirCategoria();	
 		return categoria;
 	}
 
-	public static Oficina pideOficina(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuOficina(a);
-		Oficina oficina= GestionEmpresa.elegirOficina(a, in);	
+	public static Oficina pideOficina(){		
+		InterfazUsuario.impimeMenuOficina();
+		Oficina oficina= GestionEmpresa.elegirOficina();	
 		return oficina;
 	}
 	
-	public static Cliente pideCliente(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuCliente(a);
-		Cliente cliente= GestionEmpresa.elegirCliente(a, in);	
+	public static Cliente pideCliente(){		
+		InterfazUsuario.impimeMenuCliente();
+		Cliente cliente= GestionEmpresa.elegirCliente();	
 		return cliente;
 	}
 	
-	public static Empleado pideEmpleado(Empresa a, Scanner in){		
-		InterfazUsuario.impimeMenuEmpleado(a);
-		Empleado empleado= GestionEmpresa.elegirEmpleado(a, in);	
+	public static Empleado pideEmpleado(){		
+		InterfazUsuario.impimeMenuEmpleado();
+		Empleado empleado= GestionEmpresa.elegirEmpleado();	
 		return empleado;
 	}
 

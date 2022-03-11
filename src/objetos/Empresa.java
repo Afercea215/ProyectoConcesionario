@@ -99,35 +99,26 @@ public class Empresa implements Serializable{
 	
 	/**
 	 * Lee datos de la empresa del archivo datosEmpresa.ser
+	
 	 */
-	public static Empresa leeDatosFichero(Empresa empresa) {
+	public static Empresa leeDatosFichero() {
+		
+		Empresa emp=null;
+		
 		FileInputStream f = null;
 		ObjectInputStream o = null;
 		
+		
 		try {
 			f = new FileInputStream ("datosEmpresa.ser");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			o = new ObjectInputStream(f);
-		} catch (IOException e) {
+			emp = (Empresa) o.readObject();
+		} catch ( ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		try {
-			try {
-				empresa = (Empresa) o.readObject();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		return empresa;
+	
+		return emp;
 	}
 
 	
@@ -502,7 +493,7 @@ public class Empresa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Empresa " + nombre + ", " + desc + " ofi : " + oficinas;
+		return "Empresa " + nombre + ", " + desc;
 	}
 	
 	

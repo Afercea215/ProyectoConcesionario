@@ -7,22 +7,28 @@ import metodos.DatosPrograma;
 import objetos.*;
 
 public class Principal {
+	
+	public static Empresa empresa;
+	public static Scanner in = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 
-	Empresa a = metodos.DatosPrograma.creaEmpresaDefault();
-	metodos.DatosPrograma.importarDatos(a);
+	empresa = metodos.DatosPrograma.creaEmpresaDefault();
+	//System.out.println(a.getClass());
+	metodos.DatosPrograma.importarDatos(empresa);
 	
-    //a.grabaDatosEmpresa();
+    empresa.grabaDatosEmpresa();
 	
-	//Empresa.leeDatosFichero(a);
-	System.out.println(a.getAlquileres().size());	
+	//empresa=Empresa.leeDatosFichero();
+	//System.out.println(a.getVehiculos().size());	
+	//System.out.println(a.getVehiculos());
 	
 	Scanner in = new Scanner(System.in);
 	
-	metodos.Especificos.menuPrincipal(a, in);
+	metodos.Especificos.menuPrincipal();
+
 	
 	}
 
