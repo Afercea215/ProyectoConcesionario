@@ -240,7 +240,7 @@ public class GestionEmpresa {
 		System.out.println("¿Cuantos Kilometros a recorrido con el vehículo?");
 		kmsRecorridos=miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
 		
-		InterfazUsuario.imprimeMenuGestionEmpleados();
+		InterfazUsuario.impimeMenuEmpleado();
 		empleado = elegirEmpleado();
 			
 		System.out.println("Fecha de finalizacion Alquiler :");
@@ -258,6 +258,7 @@ public class GestionEmpresa {
 		oficina=alquiler.getOficina();
 		
 		Principal.empresa.getDevoluciones().put(id, new Devolucion(Integer.valueOf(id), oficina, alquiler, vehiculo, kmsRecorridos, fechaDevolucionReal, empleado, cliente));
+		System.out.println("¡Devolucion realizada!. Importe final : "+Principal.empresa.getVehiculos().get(vehiculo.getMatricula()).calculaAlquilerReal(alquiler, Principal.empresa.getDevoluciones().get(id))+"€");
 	}
 	
 	
@@ -1100,6 +1101,14 @@ public class GestionEmpresa {
 	
 	public static void eliminaCategoria( String key){		
 		Principal.empresa.getCategorias().remove(key);
+	}
+	
+	public static void eliminaAlquiler( String key){		
+		Principal.empresa.getAlquileres().remove(key);
+	}
+	
+	public static void eliminaDevolucion( String key){		
+		Principal.empresa.getDevoluciones().remove(key);
 	}
 	
 	public static void eliminaCliente( String key){		

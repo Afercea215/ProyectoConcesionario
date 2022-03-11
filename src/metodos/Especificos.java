@@ -19,6 +19,7 @@ public class Especificos {
 			{
 			case "1":
 				menuGestionEmpresa();
+				Principal.empresa.grabaDatosEmpresa();
 				break;
 			case "2":
 				GestionEmpresa.creaAlquiler();
@@ -143,7 +144,7 @@ public class Especificos {
 			{
 			case "1":
 				GestionEmpresa.creaCategoria();
-				System.out.println("Vehiculo creado.");
+				System.out.println("Categoria creada.");
 				break;
 			case "2":
 				Categoria categoria = pideCategoria();

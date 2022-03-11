@@ -138,14 +138,11 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 
 	@Override
 	public String toString() {
-		return "DATOS DE ALQUILER :\n"
-				+"	-ID :" + id + "\n"
-				+"	-Vehiculo : " + vehiculo +"\n"
-				+"	-Alquilador por : "+ cliente + "\n"
-				+"	-Fecha alquiler : " + fechaIniAlquiler+"\n"
-				+"	-Oficina :" + oficina +"\n"
-				+"	-Fin alquiler : " + fechaFinPrevista+"\n"
-				+"	-Precio previsto : "+vehiculo.calculaAlquilerPrevisto(this);
+		int mes = fechaIniAlquiler.get(Calendar.MONTH);
+		int dia = fechaIniAlquiler.get(Calendar.DAY_OF_MONTH);
+		int año = fechaIniAlquiler.get(Calendar.YEAR);
+		
+		return id +", Vehiculo : " + vehiculo +", Alquilador por : "+ cliente.nombreCompleto() + ", Fecha alquiler : " + dia+"/"+mes+"/"+año+", Oficina :" + oficina +", Precio previsto : "+vehiculo.calculaAlquilerPrevisto(this);
 	}
 
 }

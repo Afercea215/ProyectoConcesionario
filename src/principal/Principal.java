@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import metodos.DatosPrograma;
+import metodos.GestionEmpresa;
 import objetos.*;
 
 public class Principal {
@@ -19,9 +20,10 @@ public class Principal {
 	//System.out.println(a.getClass());
 	metodos.DatosPrograma.importarDatos(empresa);
 	
+    
     empresa.grabaDatosEmpresa();
-	
-	//empresa=Empresa.leeDatosFichero();
+    empresa=Empresa.leeDatosFichero();
+    GestionEmpresa.eliminaAlquiler("5345");
 	//System.out.println(a.getVehiculos().size());	
 	//System.out.println(a.getVehiculos());
 	
