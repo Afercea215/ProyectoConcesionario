@@ -16,14 +16,14 @@ public class Principal {
 		// TODO Auto-generated method stub
 
 
-	empresa = metodos.DatosPrograma.creaEmpresaDefault();
+	//empresa = metodos.DatosPrograma.creaEmpresaDefault();
 	//System.out.println(a.getClass());
-	metodos.DatosPrograma.importarDatos(empresa);
+	//metodos.DatosPrograma.importarDatos(empresa);
 	
     
-    empresa.grabaDatosEmpresa();
+    //empresa.grabaDatosEmpresa();
     empresa=Empresa.leeDatosFichero();
-    GestionEmpresa.eliminaAlquiler("5345");
+    //GestionEmpresa.eliminaAlquiler("5345");
 	//System.out.println(a.getVehiculos().size());	
 	//System.out.println(a.getVehiculos());
 	

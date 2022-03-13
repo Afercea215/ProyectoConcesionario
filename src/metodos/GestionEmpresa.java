@@ -25,7 +25,7 @@ public class GestionEmpresa {
 
 		//pido todos los datos
 		System.out.println("Introduce la matricula del Vehículo.");
-		matricula = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		matricula = miLibreria.metodos.PedirDatos.pideMatricula(Principal.in).toUpperCase();
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
@@ -258,6 +258,7 @@ public class GestionEmpresa {
 		oficina=alquiler.getOficina();
 		
 		Principal.empresa.getDevoluciones().put(id, new Devolucion(Integer.valueOf(id), oficina, alquiler, vehiculo, kmsRecorridos, fechaDevolucionReal, empleado, cliente));
+		vehiculo.setKms(vehiculo.getKms()+kmsRecorridos);
 		System.out.println("¡Devolucion realizada!. Importe final : "+Principal.empresa.getVehiculos().get(vehiculo.getMatricula()).calculaAlquilerReal(alquiler, Principal.empresa.getDevoluciones().get(id))+"€");
 	}
 	
@@ -276,7 +277,7 @@ public class GestionEmpresa {
 
 		//pido todos los datos
 		System.out.println("Introduce el DNI del Empleado.");
-		dni = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		dni = miLibreria.metodos.PedirDatos.pideDni(Principal.in).toUpperCase();
 		System.out.println();
 
 		System.out.println("Introduce nombre del empleado.");
@@ -332,7 +333,7 @@ public class GestionEmpresa {
 
 		//pido todos los datos
 		System.out.println("Introduce el DNI del Cliente.");
-		dni = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		dni = miLibreria.metodos.PedirDatos.pideDni(Principal.in).toUpperCase();
 		System.out.println();
 
 		System.out.println("Introduce nombre del Cliente.");
@@ -408,7 +409,7 @@ public class GestionEmpresa {
 
 		//pido todos los datos
 		System.out.println("Introduce la matricula del Vehículo.");
-		matricula = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		matricula = miLibreria.metodos.PedirDatos.pideMatricula(Principal.in).toUpperCase();
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
@@ -476,7 +477,7 @@ public class GestionEmpresa {
 
 		//pido todos los datos
 		System.out.println("Introduce la matricula del Vehículo.");
-		matricula = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		matricula = miLibreria.metodos.PedirDatos.pideMatricula(Principal.in).toUpperCase();
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");
@@ -543,7 +544,7 @@ public class GestionEmpresa {
 
 		//pido todos los datos
 		System.out.println("Introduce la matricula del Vehículo.");
-		matricula = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		matricula = miLibreria.metodos.PedirDatos.pideMatricula(Principal.in).toUpperCase();
 		System.out.println();
 
 		System.out.println("Introduce la marca del Vehículo.");

@@ -1,11 +1,32 @@
 package metodos;
 
 import java.util.*;
+
+import comparadores.*;
 import objetos.*;
 import principal.Principal;
 
 public class InterfazUsuario {
 
+	public static void imprimeAlquilerOrdenadoOfi() {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
+			list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+		
+		Collections.sort(list_opc, new AlquilerOrdenaOfi());
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
+	}
+	
 	public static void imprimeMenuPrincipal() {
 		
 		//1.Modificaión y Gestión empresa.
@@ -19,6 +40,57 @@ public class InterfazUsuario {
 		list_opc.add("Modificación de la empresa.");
 		list_opc.add("Alquilar Vehiculo.");
 		list_opc.add("Devolver un Vehículo.");
+		list_opc.add("Listados Empresa.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");	
+	}
+	
+	public static void imprimeMenuListados() {
+		
+		//1.Modificaión y Gestión empresa.
+		//2.Alquiler vehiculo.
+		//3.Devolver un Vehiculo.
+		//4.Salir
+		String opcion="";
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Imprime Alquiler entre fechas.");
+		list_opc.add("Imprime alquileres de un determinado Vehiculo.");
+		list_opc.add("Menu Listados de Stock.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecione una opción", opc_posibles, ".");	
+	}
+	
+	public static void imprimeMenuListadoStock() {
+		
+		//1.Modificaión y Gestión empresa.
+		//2.Alquiler vehiculo.
+		//3.Devolver un Vehiculo.
+		//4.Salir
+		String opcion="";
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Ordenado por oficinas.");
+		list_opc.add("Ordenado por marcas.");
+		list_opc.add("Ordenado por modelos.");
 		list_opc.add("Salir.");
 		
 		//opciones para el indicador del menu
@@ -595,6 +667,46 @@ public class InterfazUsuario {
 		}
 				
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige el alquiler", opc_posibles, ".");
+	}
+	
+	public static void imprimeAlquilerEntreFechas(GregorianCalendar fechaIni, GregorianCalendar fechaFin) {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
+			if (b.getValue().getFechaIniAlquiler().compareTo(fechaIni)>0 && b.getValue().getFechaFinPrevista().compareTo(fechaFin)<0) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));	
+			}
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
+	}
+	
+	public static void imprimeListadoAlquilerVehiculo(Vehiculo a) {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
+			if (b.getValue().getVehiculo().equals(a)) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));	
+			}
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
 	}
 	
 	public static void impimeMenuDevolucion() {

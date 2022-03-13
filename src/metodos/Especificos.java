@@ -1,12 +1,15 @@
 package metodos;
 
 import objetos.*;
+
 import principal.Principal;
 
 import java.util.*;
 
-public class Especificos {
+import comparadores.*;
 
+public class Especificos {
+	
 	public static void menuPrincipal () {
 		
 		String opcion ="";
@@ -28,13 +31,16 @@ public class Especificos {
 				GestionEmpresa.creaDevolucion();
 				break;
 			case "4":
+				menuListados();
+				break;
+			case "5":
 				System.out.println("¡Adiós!");
 				Principal.empresa.grabaDatosEmpresa();
 				break;
 			}
 			
 			
-		}while (opcion.indexOf("4")==-1);
+		}while (opcion.indexOf("5")==-1);
 
 
 	}
@@ -69,6 +75,98 @@ public class Especificos {
 			}
 			
 		}while (opcion.indexOf("6")==-1);
+
+	}
+	
+	public static void menuListados() {
+
+		String opcion ="";
+		
+		do {
+			InterfazUsuario.imprimeMenuListados();
+			opcion=eligeMenuListados();
+			switch (opcion)
+			{
+			case "1":
+				System.out.println("Introduce la fecha de inicio :");
+				System.out.println("Introduce el dia inicio.");
+				int dia = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+				System.out.println("Introduce el mes de inicio.");
+				int mes = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+				System.out.println("Introduce el año de inicio.");
+				int año = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+				GregorianCalendar fechaInicio = new GregorianCalendar(año, mes, dia);
+				System.out.println();
+				System.out.println("Introduce la fecha de fin :");
+				System.out.println("Introduce el dia de fin.");
+				int dia2 = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+				System.out.println("Introduce el mes de fin.");
+				int mes2 = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+				System.out.println("Introduce el año de fin.");
+				int año2 = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+				GregorianCalendar fechaFinal = new GregorianCalendar(año2, mes2, dia2);
+				System.out.println();
+				InterfazUsuario.imprimeAlquilerEntreFechas(fechaInicio, fechaFinal);
+				break;
+			case "2":
+				InterfazUsuario.imprimeMenuVehiculo();
+				String opc = eligeMenuVehiculo();
+				Vehiculo vehiculo = null;
+				
+				switch (opcion)
+				{
+				case "1":
+					vehiculo = pideMoto();
+					break;
+				case "2":
+					vehiculo = pideFurgoneta();
+					break;
+				case "3":
+					vehiculo = pideCocheCombustion();
+					break;
+				case "4":
+					vehiculo = pideCocheElectrico();
+					break;
+				case "5":
+					System.out.println("¡Adiós!");
+					break;
+				}
+				InterfazUsuario.imprimeListadoAlquilerVehiculo(vehiculo);
+				break;
+			case "3":
+				menuListadoStock();
+				break; 
+			case "4":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			
+		}while (opcion.indexOf("4")==-1);
+
+	}
+	
+	public static void menuListadoStock() {
+
+		String opcion ="";
+		
+		do {
+			InterfazUsuario.imprimeMenuListadoStock();
+			opcion=eligeMenuListados();
+			switch (opcion)
+			{
+			case "1":
+				InterfazUsuario.imprimeAlquilerOrdenadoOfi();
+				break;
+			case "2":
+				break;
+			case "3":
+				break;  
+			case "4":
+				System.out.println("¡Adiós!");
+				break;
+			}
+			
+		}while (opcion.indexOf("4")==-1);
 
 	}
 	
@@ -347,6 +445,49 @@ public class Especificos {
 		
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
+	
+	public static String eligeMenuListados () {
+
+		String opcion="";
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Imprime Alquiler entre fechas.");
+		list_opc.add("Imprime alquileres de un determinado Vehiculo.");
+		list_opc.add("Menu Listados de Stock.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
+	}
+	
+	public static String eligeMenuListadoStock () {
+
+		String opcion="";
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		list_opc.add("Ordenado por oficinas.");
+		list_opc.add("Ordenado por marcas.");
+		list_opc.add("Ordenado por modelos.");
+		list_opc.add("Salir.");
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		
+		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
+	}
+	
 	
 	public static String eligeMenuGestionVehiculo () {
 		String opcion="";
