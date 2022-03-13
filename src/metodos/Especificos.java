@@ -9,7 +9,11 @@ import java.util.*;
 import comparadores.*;
 
 public class Especificos {
-
+	
+	/**
+	 * Genera ids unaicas para los clientes
+	 * @return String con el id
+	 */
 	public static String generaIdCliente () {
 		
 		Random random = new Random();
@@ -17,6 +21,7 @@ public class Especificos {
 		boolean distinto = true;
 		int num=0;
 		
+		//genera un numero random de 4 digitos que no se encuentre en los clientes
 		do {
 			num = 1000+random.nextInt(9999);
 			for (Map.Entry<String, Cliente> b : Principal.empresa.getClientes().entrySet()) {
@@ -27,13 +32,17 @@ public class Especificos {
 		return num+"";
 	}
 	
+	/**
+	 * Genera ids unicas para las oficinas
+	 * @return String con el id
+	 */
 	public static String generaIdOficina () {
 		
 		Random random = new Random();
 
 		boolean distinto = true;
 		int num=0;
-		
+		//genera un numero random de 4 digitos que no se encuentre en las oficinas	
 		do {
 			num = 1000+random.nextInt(9999);
 			for (Map.Entry<String, Oficina> b : Principal.empresa.getOficinas().entrySet()) {
@@ -44,13 +53,17 @@ public class Especificos {
 		return num+"";
 	}
 	
+	/**
+	 * Genera ids unicas para los alquileres
+	 * @return String con el id
+	 */
 	public static String generaIdAlquiler () {
 		
 		Random random = new Random();
 
 		boolean distinto = true;
 		int num=0;
-		
+		//genera un numero random de 4 digitos que no se encuentre en los alquileres	
 		do {
 			num = 1000+random.nextInt(9999);
 			for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
@@ -60,14 +73,17 @@ public class Especificos {
 		
 		return num+"";
 	}
-	
+	/**
+	 * Genera ids unicas para los alquileres
+	 * @return String con el id
+	 */
 	public static String generaIdDevolucion () {
 		
 		Random random = new Random();
 
 		boolean distinto = true;
 		int num=0;
-		
+		//genera un numero random de 4 digitos que no se encuentre en los alquileres	
 		do {
 			num = 1000+random.nextInt(9999);
 			for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
@@ -78,11 +94,15 @@ public class Especificos {
 		return num+"";
 	}
 	
+	/**
+	 * Menu principal del programa, que llama a los demás metodos (Imprime y pide).
+	 */
 	public static void menuPrincipal () {
 		
 		String opcion ="";
 	
 		do {
+			//imprimo y pido opc del menu
 			InterfazUsuario.imprimeMenuPrincipal();
 			opcion=eligeMenuPrincipal();
 
@@ -106,19 +126,20 @@ public class Especificos {
 				Principal.empresa.grabaDatosEmpresa();
 				break;
 			}
-			
-			
+			//si no es la opcion SALIR, pertenece en en menu principal
 		}while (opcion.indexOf("5")==-1);
-
-
 	}
 	
+	/**
+	 * Menu con la gention de la empresa, de vehiculos, categorias, oficinas....
+	 */
 	public static void menuGestionEmpresa() {
 
 		String opcion ="";
 		
 		do {
 			Principal.empresa.grabaDatosEmpresa();
+			//imprimo y pido la opcion
 			InterfazUsuario.imprimeMenuGestionEmpresa();
 			opcion=eligeMenuGestionEmpresa();
 			switch (opcion)
@@ -144,9 +165,11 @@ public class Especificos {
 			}
 			
 		}while (opcion.indexOf("6")==-1);
-
 	}
 	
+	/**
+	 * Menu para elegir el tipo de listado que deseamos mostrar.
+	 */
 	public static void menuListados() {
 
 		String opcion ="";
@@ -157,6 +180,7 @@ public class Especificos {
 			switch (opcion)
 			{
 			case "1":
+				//pido las fechas en las que quiero filtrar
 				System.out.println("Introduce la fecha de inicio :");
 				System.out.println("Introduce el dia inicio.");
 				int dia = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
@@ -166,6 +190,8 @@ public class Especificos {
 				int año = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
 				GregorianCalendar fechaInicio = new GregorianCalendar(año, mes, dia);
 				System.out.println();
+				
+				
 				System.out.println("Introduce la fecha de fin :");
 				System.out.println("Introduce el dia de fin.");
 				int dia2 = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
@@ -175,11 +201,15 @@ public class Especificos {
 				int año2 = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
 				GregorianCalendar fechaFinal = new GregorianCalendar(año2, mes2, dia2);
 				System.out.println();
+				//imprimo los alquileres que estén entre las fechas pedidas
 				InterfazUsuario.imprimeAlquilerEntreFechas(fechaInicio, fechaFinal);
 				break;
 			case "2":
+				//imprimo todos los vehiculos.
 				InterfazUsuario.imprimeVehiculos();
+				//pido que vehiculo.
 				Vehiculo vehiculo=eligeVehiculo();
+				//imprimo el alquiler de ese vehiculo.
 				InterfazUsuario.imprimeListadoAlquilerVehiculo(vehiculo);
 				break;
 			case "3":
@@ -195,7 +225,7 @@ public class Especificos {
 				InterfazUsuario.imprimeVehiculos();
 				break;
 			case "7":
-				InterfazUsuario.impimeMenuCliente();
+				InterfazUsuario.imprimeMenuCliente();
 				break;
 			case "8":
 				InterfazUsuario.impimeMenuEmpleado();
@@ -206,9 +236,11 @@ public class Especificos {
 			}
 			
 		}while (opcion.indexOf("10")==-1);
-
 	}
 	
+	/**
+	 * Menu que muetra y pide las dierentes tipos de impresiones segun orden
+	 */
 	public static void menuListadoStock() {
 
 		String opcion ="";
@@ -222,18 +254,32 @@ public class Especificos {
 				InterfazUsuario.imprimeAlquilerOrdenadoOfi();
 				break;
 			case "2":
+				try {
+					InterfazUsuario.imprimeAlquilerOrdenadoMarcas();
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Herramienta no funcional actualmente.");
+				}
 				break;
 			case "3":
+				try {
+					InterfazUsuario.imprimeAlquilerOrdenadoModelos();
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("Herramienta no funcional actualmente.");
+				}
 				break;  
 			case "4":
 				System.out.println("¡Adiós!");
 				break;
 			}
-			
 		}while (opcion.indexOf("4")==-1);
-
 	}
-	
+
+	/**
+	 * Imprime y pide opciones que hacer con los empleados, crear, modificar y eliminar.
+	 */
 	public static void menuGestionEmpleados() {
 		
 		String opcion ="";
@@ -265,6 +311,9 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
+	/**
+	 * Imprime y pide opciones que hacer con los clientes, crear, modificar y eliminar.
+	 */
 	public static void menuGestionClientes() {
 		
 		String opcion ="";
@@ -295,7 +344,10 @@ public class Especificos {
 			
 		}while (opcion.indexOf("4")==-1);
 	}
- 	
+
+	/**
+	 * Imprime y pide opciones que hacer con las categorias, crear, modificar y eliminar.
+	 */
 	public static void menuGestionCategorias() {
 		
 		String opcion ="";
@@ -327,6 +379,9 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
+	/**
+	 * Imprime y pide opciones que hacer con las oficinas, crear, modificar y eliminar.
+	 */
 	public static void menuGestionOficinas() {
 		
 		String opcion ="";
@@ -358,7 +413,9 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 
-	
+	/**
+	 * Imprime y pide opciones que hacer con los vehiculos, crear, modificar y eliminar.
+	 */
 	public static void menuGestionVehiculos() {
 		
 		String opcion ="";
@@ -387,7 +444,9 @@ public class Especificos {
 		}while (opcion.indexOf("4")==-1);
 	}
 	
-	
+	/**
+	 * Imprime y pide el tipo de vehiculo, para despues crearlo.
+	 */
 	public static void menuAñadirVehiculo() {
 		String opcion="";
 		
@@ -395,6 +454,7 @@ public class Especificos {
 			InterfazUsuario.imprimeMenuVehiculo();
 			opcion=eligeMenuVehiculo();
 			
+			//una vez elegido que tipo de vehiculo, empezamos a crearlo
 			switch (opcion)
 			{
 			case "1":
@@ -418,10 +478,12 @@ public class Especificos {
 				break;
 			}
 			break;
-			
 		}while (opcion.indexOf("5")==-1);
 	}
 	
+	/**
+	 * Imprime y pide tipo de vehiculo, para despues borrarlo.
+	 */
 	public static void menuEliminarVehiculo() {
 		String opcion="";
 		
@@ -460,6 +522,9 @@ public class Especificos {
 		}while (opcion.indexOf("5")==-1);
 	}
 	
+	/**
+	 * Imprime y pide tipo de vehiculo para despues modificarlo.
+	 */
 	public static void menuModificarVehiculo() {
 		String opcion="";
 		
@@ -494,6 +559,9 @@ public class Especificos {
 		}while (opcion.indexOf("5")==-1);
 	}
 
+	/**
+	 * pide opciones del menu principal.
+	 */
 	public static String eligeMenuPrincipal () {
 
 		String opcion="";
@@ -507,14 +575,18 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
 		
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
+	/**
+	 * pide opciones del menu de listados
+	 */
 	public static String eligeMenuListados () {
 
 		String opcion="";
@@ -534,14 +606,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones	
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
+	/**
+	 * pide opciones del menu de listados por stock.
+	 */
 	public static String eligeMenuListadoStock () {
 
 		String opcion="";
@@ -555,15 +630,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones		
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
-	
+	/**
+	 * pide opciones del menu de gestion de los vehiculos.
+	 */
 	public static String eligeMenuGestionVehiculo () {
 		String opcion="";
 
@@ -576,13 +653,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones	
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
+	/**
+	 * pide opciones del menu de gestion de los categorias.
+	 */
 	public static String eligeMenuGestionCategorias () {
 		String opcion="";
 
@@ -595,13 +676,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones	
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
+	/**
+	 * pide opciones del menu de gestion de los oficinas.
+	 */
 	public static String eligeMenuGestionOficinas () {
 		String opcion="";
 
@@ -618,9 +703,13 @@ public class Especificos {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
+	/**
+	 * pide opciones del menu de gestion de los empleados.
+	 */
 	public static String eligeMenuGestionEmpleados () {
 		String opcion="";
 
@@ -633,13 +722,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones	
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 	
+	/**
+	 * pide opciones del menu de gestion de los cliente.
+	 */
 	public static String eligeMenuGestionCliente() {
 		String opcion="";
 
@@ -652,14 +745,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones		
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 
-	
+	/**
+	 * pide opciones del menu de gestion de los empresa.
+	 */
 	public static String eligeMenuGestionEmpresa () {
 		String opcion="";
 		
@@ -674,13 +770,17 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones			
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 
+	/**
+	 * pide opciones del menu de que tipo de vehiculo deseea.
+	 */
 	public static String eligeMenuVehiculo () {
 
 		String opcion="";
@@ -695,61 +795,97 @@ public class Especificos {
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
-				
+		//relleno el array con numeros, segun con la cantidad de las opciones				
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-		
+		//devuelvo la opcion pedida, con el metodo que lo valida
 		return opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 	}
 
+	/**
+	 * Imprime y pide una moto del listado
+	 * @return la Moto elegida
+	 */
 	public static Moto pideMoto(){		
 		InterfazUsuario.impimeMenuMotos();
 		Moto moto =	GestionEmpresa.seleccionaMotoMenu();	
 		return moto;
 	}
 
+	/**
+	 * Imprime y pide una furgoneta del listado
+	 * @return la Furgoneta elegida
+	 */
 	public static Furgoneta pideFurgoneta(){		
 		InterfazUsuario.impimeMenuFurgoneta();
 		Furgoneta furgoneta=GestionEmpresa.seleccionaFurgonetaMenu();
 		return furgoneta;
 	}
 	
+	/**
+	 * Imprime y pide una Coche Combustion del listado
+	 * @return la Coche Combustion elegida
+	 */
 	public static CocheCombustion pideCocheCombustion(){		
-		InterfazUsuario.impimeMenuCocheCombustión();
+		InterfazUsuario.imprimeMenuCocheCombustión();
 		CocheCombustion coche =	GestionEmpresa.seleccionaCocheCombustionMenu();	
 		return coche;
 	}
 	
+	/**
+	 * Imprime y pide una Coche Electrico del listado
+	 * @return la Coche Electrico elegida
+	 */
 	public static CocheElectrico pideCocheElectrico(){		
-		InterfazUsuario.impimeMenuCocheCombustión();
+		InterfazUsuario.imprimeMenuCocheCombustión();
 		CocheElectrico coche =	GestionEmpresa.seleccionaCocheElectricoMenu();	
 		return coche;	}
 
+	/**
+	 * Imprime y pide una categoria del listado
+	 * @return la Categoria elegida
+	 */
 	public static Categoria pideCategoria(){		
-		InterfazUsuario.impimeMenuCategorias();
+		InterfazUsuario.imprimeMenuCategorias();
 		Categoria categoria = GestionEmpresa.elegirCategoria();	
 		return categoria;
 	}
 
+	/**
+	 * Imprime y pide una Oficina del listado
+	 * @return la Oficina elegida
+	 */
 	public static Oficina pideOficina(){		
 		InterfazUsuario.impimeMenuOficina();
 		Oficina oficina= GestionEmpresa.elegirOficina();	
 		return oficina;
 	}
 	
+	/**
+	 * Imprime y pide un cliente del listado
+	 * @return el cliente elegido
+	 */
 	public static Cliente pideCliente(){		
-		InterfazUsuario.impimeMenuCliente();
+		InterfazUsuario.imprimeMenuCliente();
 		Cliente cliente= GestionEmpresa.elegirCliente();	
 		return cliente;
 	}
 	
+	/**
+	 * Imprime y pide un Empleado del listado
+	 * @return el empleado elegida
+	 */
 	public static Empleado pideEmpleado(){		
 		InterfazUsuario.impimeMenuEmpleado();
 		Empleado empleado= GestionEmpresa.elegirEmpleado();	
 		return empleado;
 	}
 
+	/**
+	 * Pide un vehiculo validado
+	 * @return el vehiculo elegido
+	 */
 	public static Vehiculo eligeVehiculo () {
 		
 		//opciones para el menu

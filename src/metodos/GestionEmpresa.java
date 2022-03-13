@@ -6,6 +6,10 @@ import principal.Principal;
 import java.util.*;
 
 public class GestionEmpresa {
+	
+	/**
+	 * Pide datos de una moto y lo crea
+	 */
 	public static void creaMoto(){
 		String matricula ="";
 		String marca ="";
@@ -67,9 +71,13 @@ public class GestionEmpresa {
 		InterfazUsuario.imprimeMenuTipoCarnet();
 		tipoCarnet=elegirTipoCarnet();
 		
+		//Creo la nueva moto
 		Principal.empresa.getVehiculos().put(matricula, new Moto(matricula, marca, modelo, color, fecha_alta, kms, categoria, oficina, false, autonomia, tiempoRecarga, cilindrada, tipoCarnet));
 	}
 	
+	/**
+	 * Pide datos de una OFICINA y lo crea
+	 */
 	public static void creaOficina(){
 		String cod;
 		String descripcion;
@@ -103,6 +111,9 @@ public class GestionEmpresa {
 	
 	}
 	
+	/**
+	 * Pide datos de un Alquiler y lo crea
+	 */
 	public static void creaAlquiler()
 	{
 		String id;
@@ -125,6 +136,7 @@ public class GestionEmpresa {
 		System.out.println(id);
 		System.out.println();
 		
+		//bucle hasta que la oficina seleccionda tenga trabajdores, por si hay oficinas sin trabajdores en ese momento.
 		do {
 			System.out.println("Oficina donde se quiere realizar el alquiler.");
 			InterfazUsuario.imprimeMenuOficina();
@@ -133,11 +145,11 @@ public class GestionEmpresa {
 			InterfazUsuario.imprimeMenuVehiculo();
 			opcion=Especificos.eligeMenuVehiculo();
 			
+			//segun la opcion muestro y pide segun tipo de vehiculo
 			switch (opcion)
 			{
 			case "1":
 				if (InterfazUsuario.impimeMenuMotoDeOficina(oficinaAlquiler )> 0) {
-					//aux=InterfazUsuario.impimeMenuMotoDeOficina(oficinaAlquiler);
 					vehiculo = elegirMotoDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
@@ -147,7 +159,6 @@ public class GestionEmpresa {
 				break;
 			case "2":
 				if (InterfazUsuario.impimeMenuFurgonetaDeOficina(oficinaAlquiler )> 0) {
-					//aux=InterfazUsuario.impimeMenuFurgonetaDeOficina(oficinaAlquiler);
 					vehiculo = elegirFurgonetaDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
@@ -156,8 +167,7 @@ public class GestionEmpresa {
 
 				break;
 			case "3":
-				if (InterfazUsuario.impimeMenuCocheCombustionDeOficina(oficinaAlquiler )> 0) {
-					//aux=InterfazUsuario.impimeMenuCocheCombustionDeOficina(oficinaAlquiler);
+				if (InterfazUsuario.imprimeMenuCocheCombustionDeOficina(oficinaAlquiler )> 0) {
 					vehiculo = elegirCocheCombustionDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
@@ -166,8 +176,7 @@ public class GestionEmpresa {
 
 				break;
 			case "4":
-				if (InterfazUsuario.impimeMenuCocheElectricoDeOficina(oficinaAlquiler )> 0) {
-					//aux=InterfazUsuario.impimeMenuCocheElectricoDeOficina(oficinaAlquiler);
+				if (InterfazUsuario.imprimeMenuCocheElectricoDeOficina(oficinaAlquiler )> 0) {
 					vehiculo = elegirCocheElectricoDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
@@ -175,6 +184,7 @@ public class GestionEmpresa {
 				}
 			}
 			
+			//pido y guardo el empleado, y si no hay lo imprimo
 			if (InterfazUsuario.impimeMenuEmpleadoDeOficina(oficinaAlquiler )> 0) {
 				empleado = elegirEmpleadoDeOficina(oficinaAlquiler);
 			} else {
@@ -185,10 +195,7 @@ public class GestionEmpresa {
 			
 		}while (vehiculo==null && empleado==null);
 		
-		
-
-	
-		InterfazUsuario.impimeMenuCliente();
+		InterfazUsuario.imprimeMenuCliente();
 		cliente = elegirCliente();
 		
 		System.out.println("Fecha de inicio Alquiler :");
@@ -201,6 +208,7 @@ public class GestionEmpresa {
 		iniAlquiler = new GregorianCalendar(año, mes, dia);
 		System.out.println();
 	
+		//bulce hasta que la fecha de entrega sea mayor que la de comienzo
 		do {
 			System.out.println("Fecha de fin Alquiler prevista :");
 			System.out.println("Introduce el dia de alquiler.");
@@ -223,12 +231,19 @@ public class GestionEmpresa {
 		InterfazUsuario.imprimeMenuOficina();
 		oficinaDevolucion = elegirOficina();
 		
+		//creo el alquiler
 		Principal.empresa.getAlquileres().put(id, new Alquiler(Integer.valueOf(id), vehiculo, empleado, cliente, iniAlquiler, oficinaAlquiler, oficinaDevolucion, finAlquilerPrevisto));
 	
+		//imprimo el precio de alquiler previsto.
 		System.out.println("Precio previsto : "+vehiculo.calculaAlquilerPrevisto(Principal.empresa.getAlquileres().get(id))+"€");
+		//pongo el vehiculo en alquiler
+		vehiculo.setAlquilado(true);
 		System.out.println("Alquiler creado.");
 	}
 	
+	/**
+	 * Pide datos de un Devolucion y lo crea
+	 */
 	public static void creaDevolucion()
 	{
 		String id;
@@ -249,7 +264,7 @@ public class GestionEmpresa {
 		System.out.println(id);
 
 		System.out.println("Elige el alquiler que realizó.");
-		InterfazUsuario.impimeMenuAlquiler();
+		InterfazUsuario.imprimeMenuAlquiler();
 		alquiler = elegirAlquiler();
 		
 		System.out.println("¿Cuantos Kilometros a recorrido con el vehículo?");
@@ -272,13 +287,19 @@ public class GestionEmpresa {
 		cliente=alquiler.getCliente();
 		oficina=alquiler.getOficinaDevolucion();
 		
+		//creo la devolucion
 		Principal.empresa.getDevoluciones().put(id, new Devolucion(Integer.valueOf(id), oficina, alquiler, vehiculo, kmsRecorridos, fechaDevolucionReal, empleado, cliente));
+		//actualizo los kms del vehiculo
 		vehiculo.setKms(vehiculo.getKms()+kmsRecorridos);
 		System.out.println("¡Devolucion realizada!. Importe final : "+Principal.empresa.getVehiculos().get(vehiculo.getMatricula()).calculaAlquilerReal(alquiler, Principal.empresa.getDevoluciones().get(id))+"€");
+		//pongo que el vehiculo no está alquilado
+		vehiculo.setAlquilado(false);
 		System.out.println();
 	}
 	
-	
+	/**
+	 * Pide datos de un empleado y lo crea
+	 */
 	public static void creaEmpleado(){
 		String dni;
 		String nombre;
@@ -331,9 +352,13 @@ public class GestionEmpresa {
 		InterfazUsuario.imprimeMenuOficina();
 		oficina = elegirOficina();
 		
+		//creo el empleado
 		Principal.empresa.getEmpleados().put(dni, new Empleado(ap1, ap2, nombre, fechaNac, dni, oficina, fechaAlta));
 	}
 	
+	/**
+	 * Pide datos de un cliente y lo crea
+	 */
 	public static void creaCliente(){
 		String dni;
 		String nombre;
@@ -385,7 +410,9 @@ public class GestionEmpresa {
 		Principal.empresa.getClientes().put(dni, new Cliente(ap1, ap2, nombre, fechaNac, dni, tipoCarnet, nTarjeta));
 	}
 	
-	
+	/**
+	 * Pide datos de una Categoria y lo crea
+	 */
 	public static void creaCategoria(){
 		String codigo;
 		String desc;
@@ -406,6 +433,9 @@ public class GestionEmpresa {
 		Principal.empresa.getCategorias().put(codigo, new Categoria(codigo, desc, porcentajeRecargo));
 	}
 	
+	/**
+	 * Pide datos de una furgoneta y lo crea
+	 */
 	public static void creaFurgoneta(){
 		String matricula ="";
 		String marca ="";
@@ -474,6 +504,9 @@ public class GestionEmpresa {
 		Principal.empresa.getVehiculos().put(matricula, new Furgoneta(matricula, marca, modelo, color, fecha_alta, kms, categoria, oficina, false, consumo, potencia, nivelEmision, capacidadCarga, tipoCarnet));
 	}
 	
+	/**
+	 * Pide datos de un Coche de Combustion y lo crea
+	 */
 	public static void creaCocheCombustion(){
 		String matricula ="";
 		String marca ="";
@@ -542,6 +575,9 @@ public class GestionEmpresa {
 		Principal.empresa.getVehiculos().put(matricula, new CocheCombustion(matricula, marca, modelo, color, fecha_alta, kms, categoria, oficina, false, consumo, potencia, nivelEmision, nPlazas, tipo));
 	}
 
+	/**
+	 * Pide datos de un Coche Electrico y lo crea
+	 */
 	public static void creaCocheElectrico(){
 		String matricula ="";
 		String marca ="";
@@ -606,11 +642,15 @@ public class GestionEmpresa {
 		Principal.empresa.getVehiculos().put(matricula, new CocheElectrico(matricula, marca, modelo, color, fecha_alta, kms, categoria, oficina, false, autonomia, tiempoRecarga, nPlazas, tipo));
 	}
 	
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de una moto, y la modificamoss
+	 */
 	public static void modificaMoto( Moto moto){
 		
 		String opcion="";
 				
-		InterfazUsuario.impimeAtributosMotos();
+		//imprimo y pido el atributo que deseeamos modificar
+		InterfazUsuario.imprimeAtributosMotos();
 		opcion = seleccionaPropiedadMoto();
 		
 		switch (opcion)
@@ -678,11 +718,14 @@ public class GestionEmpresa {
 		}
 	}
 
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de una furgoneta, y la modificamoss
+	 */
 	public static void modificaFurgoneta(Furgoneta furgoneta){
 		
 		String opcion="";
 		
-		InterfazUsuario.impimeAtributosFurgoneta();
+		InterfazUsuario.imprimeAtributosFurgoneta();
 		opcion = seleccionaPropiedadFurgoneta();
 		
 		switch (opcion)
@@ -766,11 +809,14 @@ public class GestionEmpresa {
 		}
 	}
 	
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de un coche de combustion, y la modificamoss
+	 */
 	public static void modificaCocheCombustion( CocheCombustion coche){
 		
 		String opcion="";
 		
-		InterfazUsuario.impimeAtributosCocheCombustion();
+		InterfazUsuario.imprimeAtributosCocheCombustion();
 		opcion = seleccionaPropiedadCocheCombustion();
 		
 		switch (opcion)
@@ -855,11 +901,14 @@ public class GestionEmpresa {
 		}
 	}
 
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de un coche electrico, y la modificamoss
+	 */
 	public static void modificaCocheElectrico( CocheElectrico coche){
 		
 		String opcion="";
 		
-		InterfazUsuario.impimeAtributosCocheElectrico();
+		InterfazUsuario.imprimeAtributosCocheElectrico();
 		opcion = seleccionaPropiedadCocheElectrico();
 		
 		switch (opcion)
@@ -938,11 +987,14 @@ public class GestionEmpresa {
 		}
 	}
 	
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de una categoria, y la modificamoss
+	 */
 	public static void modificaCategoria(Categoria categoria){
 		
 		String opcion="";
 				
-		InterfazUsuario.impimeAtributosCategoria();
+		InterfazUsuario.imprimeAtributosCategoria();
 		opcion = seleccionaPropiedadMoto();
 		
 		switch (opcion)
@@ -966,11 +1018,14 @@ public class GestionEmpresa {
 		}
 	}
 	
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de una oficina, y la modificamoss
+	 */
 	public static void modificaOficina(Oficina oficina){
 		
 		String opcion="";
 				
-		InterfazUsuario.impimeAtributosOficina();
+		InterfazUsuario.imprimeAtributosOficina();
 		opcion = seleccionaPropiedadOficina();
 		
 		switch (opcion)
@@ -1004,11 +1059,14 @@ public class GestionEmpresa {
 		}
 	}
 	
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de un cliente, y la modificamoss
+	 */
 	public static void modificaCliente( Cliente cliente){
 		
 		String opcion="";
 				
-		InterfazUsuario.impimeAtributosCliente();
+		InterfazUsuario.imprimeAtributosCliente();
 		opcion = seleccionaPropiedadCliente();
 		
 		switch (opcion)
@@ -1056,11 +1114,14 @@ public class GestionEmpresa {
 		}
 	}
 	
+	/**
+	 * Imprime menu para la opcion que deseamos modificar de un empleado, y la modificamoss
+	 */
 	public static void modificaEmpleado( Empleado empleado){
 		
 		String opcion="";
 				
-		InterfazUsuario.impimeAtributosEmpleado();
+		InterfazUsuario.imprimeAtributosEmpleado();
 		opcion = seleccionaPropiedadEmpleado();
 		
 		switch (opcion)
@@ -1113,34 +1174,63 @@ public class GestionEmpresa {
 		}
 	}
 	
+	/**
+	 * Elimina un vehiculo, que tenga la clave pasada por parametro	
+	 * @param key , String con la matricula del vehiculo.
+	 */
 	public static void eliminaVehiculo( String key){		
 		Principal.empresa.getVehiculos().remove(key);
 	}
 	
+	/**
+	 * Elimina una categoria, que tenga la clave pasada por parametro	
+	 * @param key , String con la clave de la categoria.
+	 */
 	public static void eliminaCategoria( String key){		
 		Principal.empresa.getCategorias().remove(key);
 	}
 	
+	/**
+	 * Elimina un alquiler, que tenga la clave pasada por parametro	
+	 * @param key , String con la id del alquiler.
+	 */
 	public static void eliminaAlquiler( String key){		
 		Principal.empresa.getAlquileres().remove(key);
 	}
 	
+	/**
+	 * Elimina una devolucion, que tenga la clave pasada por parametro	
+	 * @param key , String con la id de la devolucion.
+	 */
 	public static void eliminaDevolucion( String key){		
 		Principal.empresa.getDevoluciones().remove(key);
 	}
-	
+	/**
+	 * Elimina un cliente, que tenga la clave pasada por parametro	
+	 * @param key , String con el dni del cliente.
+	 */
 	public static void eliminaCliente( String key){		
 		Principal.empresa.getClientes().remove(key);
 	}
-	
+	/**
+	 * Elimina una oficina, que tenga la clave pasada por parametro	
+	 * @param key , String con la id de la oficina.
+	 */
 	public static void eliminaOficina( String key){		
 		Principal.empresa.getOficinas().remove(key);
 	}
-	
+	/**
+	 * Elimina un Empleado, que tenga la clave pasada por parametro	
+	 * @param key , String con el dni del empleado.
+	 */
 	public static void eliminaEmpleado( String key){		
 		Principal.empresa.getEmpleados().remove(key);
 	}
 	
+	/**
+	 * Pide categoria del menu imprimido
+	 * @return Categoria seleccionda.
+	 */
 	public static Categoria elegirCategoria() {
 		String opcion="";
 		Categoria categoria = null;
@@ -1170,6 +1260,10 @@ public class GestionEmpresa {
 				
 	}
 
+	/**
+	 * Pide oficina del menu imprimido
+	 * @return oficina seleccionda.
+	 */
 	public static Oficina elegirOficina() {
 		String opcion="";
 		Oficina oficina= null;
@@ -1199,6 +1293,10 @@ public class GestionEmpresa {
 				
 	}
 
+	/**
+	 * Pide alquiler del menu imprimido
+	 * @return Alquiler seleccionda.
+	 */
 	public static Alquiler elegirAlquiler() {
 		String opcion="";
 		Alquiler alquiler= null;
@@ -1228,6 +1326,10 @@ public class GestionEmpresa {
 				
 	}
 
+	/**
+	 * Pide devolucion del menu imprimido
+	 * @return Devolucion seleccionda.
+	 */
 	public static Devolucion elegirDevolucion() {
 		String opcion="";
 		Devolucion devolucion= null;
@@ -1254,10 +1356,12 @@ public class GestionEmpresa {
 		devolucion=Principal.empresa.getDevoluciones().get(key);
 		
 		return devolucion;
-				
 	}
 
-	
+	/**
+	 * Pide cliente del menu imprimido
+	 * @return Cliente seleccionda.
+	 */	
 	public static Cliente elegirCliente() {
 		String opcion="";
 		Cliente cliente= null;
@@ -1287,6 +1391,10 @@ public class GestionEmpresa {
 				
 	}
 
+	/**
+	 * Pide empleado del menu imprimido
+	 * @return Empleado seleccionda.
+	 */
 	public static Empleado elegirEmpleado() {
 		String opcion="";
 		Empleado empleado= null;
@@ -1313,9 +1421,13 @@ public class GestionEmpresa {
 		empleado=Principal.empresa.getEmpleados().get(key);
 		
 		return empleado;
-				
 	}
 
+	/**
+	 * Pide moto de una determinada oficina, ya imprimidos en otro metodo.
+	 * @param ofi Oficina del cual queremos filtrar
+	 * @return Moto elegida
+	 */
 	public static Moto elegirMotoDeOficina ( Oficina ofi) {
 		
 		//opciones para el menu
@@ -1349,7 +1461,12 @@ public class GestionEmpresa {
 		
 		return b;
 	}
-	
+
+	/**
+	 * Pide empleado de una determinada oficina, ya imprimidos en otro metodo.
+	 * @param ofi Oficina del cual queremos filtrar
+	 * @return Empleado elegida
+	 */
 	public static Empleado elegirEmpleadoDeOficina ( Oficina ofi) {
 		
 		//opciones para el menu
@@ -1384,6 +1501,11 @@ public class GestionEmpresa {
 		return b;
 	}
 	
+	/**
+	 * Pide Furgoneta de una determinada oficina, ya imprimidos en otro metodo.
+	 * @param ofi Oficina del cual queremos filtrar
+	 * @return Furgoneta elegida
+	 */
 	public static Furgoneta elegirFurgonetaDeOficina ( Oficina ofi) {
 		
 		//opciones para el menu
@@ -1417,6 +1539,11 @@ public class GestionEmpresa {
 		return b;
 	}	
 
+	/**
+	 * Pide CocheElectrico de una determinada oficina, ya imprimidos en otro metodo.
+	 * @param ofi Oficina del cual queremos filtrar
+	 * @return CocheElctrico elegido
+	 */
 	public static CocheElectrico elegirCocheElectricoDeOficina ( Oficina ofi) {
 
 		//opciones para el menu
@@ -1450,6 +1577,11 @@ public class GestionEmpresa {
 		return b;
 	}
 	
+	/**
+	 * Pide CocheCombustion de una determinada oficina, ya imprimidos en otro metodo.
+	 * @param ofi Oficina del cual queremos filtrar
+	 * @return CocheCombustion elegida
+	 */
 	public static CocheCombustion elegirCocheCombustionDeOficina ( Oficina ofi) {
 
 		//opciones para el menu
@@ -1483,7 +1615,10 @@ public class GestionEmpresa {
 		return b;
 	}
 
-	
+	/**
+	 * Pide tipo carnet, de un menu ya impreso en otra funcion
+	 * @return TipoCarnet elegido
+	 */
 	public static TipoCarnet elegirTipoCarnet() {
 		String opcion="";
 		TipoCarnet tipoCarnet= null;
@@ -1514,6 +1649,10 @@ public class GestionEmpresa {
 				
 	}
 
+	/**
+	 * Pide nivel de emision, de un menu ya impreso en otra funcion
+	 * @return NivelEmison elegido
+	 */
 	public static String elegirNivelEmision() {
 		String opcion="";
 		
@@ -1533,6 +1672,10 @@ public class GestionEmpresa {
 				
 	}
 	
+	/**
+	 * Pide tipo vehiculo (4x4, familiar...etc), de un menu ya impreso en otra funcion
+	 * @return Tipo elegido
+	 */
 	public static String elegirTipo() {
 		String opcion="";
 		
@@ -1551,6 +1694,10 @@ public class GestionEmpresa {
 		return opcion;		
 	}
 
+	/**
+	 * Pide moto, de un menu ya impreso en otra funcion
+	 * @return Moto elegido
+	 */
 	public static Moto seleccionaMotoMenu () {
 		
 		//opciones para el menu
@@ -1580,6 +1727,10 @@ public class GestionEmpresa {
 		return b;
 	}
 	
+	/**
+	 * Pide Furgoneta, de un menu ya impreso en otra funcion
+	 * @return Furgoneta elegido
+	 */
 	public static Furgoneta seleccionaFurgonetaMenu () {
 		
 		//opciones para el menu
@@ -1609,6 +1760,10 @@ public class GestionEmpresa {
 		return b;
 	}
 	
+	/**
+	 * Pide CocheElectrico, de un menu ya impreso en otra funcion
+	 * @return CocheElectrico elegido
+	 */
 	public static CocheElectrico seleccionaCocheElectricoMenu () {
 		
 		//opciones para el menu
@@ -1638,6 +1793,10 @@ public class GestionEmpresa {
 		return b;
 	}
 	
+	/**
+	 * Pide cocheCombustion, de un menu ya impreso en otra funcion
+	 * @return CocheCombustion elegido
+	 */
 	public static CocheCombustion seleccionaCocheCombustionMenu () {
 		
 		//opciones para el menu
@@ -1667,6 +1826,10 @@ public class GestionEmpresa {
 		return b;
 	}
 	
+	/**
+	 * Pide seleccionar una propiedad de una moto, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadMoto () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosMoto();
@@ -1680,6 +1843,10 @@ public class GestionEmpresa {
 		return opcion;
 	}
 	
+	/**
+	 * Pide seleccionar una propiedad de una Furgoneta, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadFurgoneta () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosFurgoneta();
@@ -1694,6 +1861,10 @@ public class GestionEmpresa {
 		return opcion;
 	}
 	
+	/**
+	 * Pide seleccionar una propiedad de un coche electrico, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadCocheElectrico () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosCocheElectrico();
@@ -1708,6 +1879,10 @@ public class GestionEmpresa {
 		return opcion;
 	}
 	
+	/**
+	 * Pide seleccionar una propiedad de un coche de combustion, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadCocheCombustion () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosCocheCombustion();
@@ -1722,6 +1897,10 @@ public class GestionEmpresa {
 		return opcion;
 	}
 
+	/**
+	 * Pide seleccionar una propiedad de una oficina, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadOficina () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosOficina();
@@ -1736,6 +1915,10 @@ public class GestionEmpresa {
 		return opcion;
 	}
 
+	/**
+	 * Pide seleccionar una propiedad de un cliente, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadCliente () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosCliente();
@@ -1750,6 +1933,10 @@ public class GestionEmpresa {
 		return opcion;
 	}
 	
+	/**
+	 * Pide seleccionar una propiedad de un empleado, de un menu ya impreso en otra funcion
+	 * @return propiedad elegida
+	 */
 	public static String seleccionaPropiedadEmpleado () {
 		//opciones para el menu
 		ArrayList<String> list_opc = Principal.empresa.getAtributosEmpleado();
@@ -1763,7 +1950,5 @@ public class GestionEmpresa {
 		String opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
 		return opcion;
 	}
-
-
 }
 	
