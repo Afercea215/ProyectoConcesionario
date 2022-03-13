@@ -55,7 +55,7 @@ public class Cliente extends miLibreria.objetos.Persona implements Serializable{
 
 	@Override
 	public String toString() {
-		return super.toString()+"Carnet : " + carnetConducir + ", Ncliente cliente : " + nTarjetaCliente;
+		return super.toString()+", Carnet : " + carnetConducir + ", Ncliente cliente : " + nTarjetaCliente;
 	}
 	
 	

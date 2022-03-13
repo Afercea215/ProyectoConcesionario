@@ -18,7 +18,8 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 	private Empleado empleado;
 	private Cliente cliente;
 	private GregorianCalendar fechaIniAlquiler;
-	private Oficina oficina;
+	private Oficina oficinaAlquiler;
+	private Oficina oficinaDevolucion;
 	private GregorianCalendar fechaFinPrevista;
 	
 	/**
@@ -31,7 +32,7 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 	 * @param oficina objeto Oficina, en el que se realiza el alquiler.
 	 * @param fechaFinPrevista objeto GregorianCalendar, fecha prevista donde se termine el alquiler.
 	 */
-	public Alquiler(int id,Vehiculo vehiculo, Empleado empleado, Cliente cliente, GregorianCalendar fechaIniAlquiler, Oficina oficina,
+	public Alquiler(int id,Vehiculo vehiculo, Empleado empleado, Cliente cliente, GregorianCalendar fechaIniAlquiler, Oficina oficinaAlquiler, Oficina oficinaDevolucion,
 			GregorianCalendar fechaFinPrevista) 
 	{
 		super();
@@ -40,7 +41,8 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 		this.empleado = empleado;
 		this.cliente = cliente;
 		this.fechaIniAlquiler = fechaIniAlquiler;
-		this.oficina = oficina;
+		this.oficinaAlquiler = oficinaAlquiler;
+		this.oficinaDevolucion = oficinaDevolucion;
 		this.fechaFinPrevista = fechaFinPrevista;
 	}
 
@@ -75,8 +77,13 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 		return aux;
 	}
 
-	public Oficina getOficina() {
-		Oficina aux=this.oficina;
+	public Oficina getOficinaAlquiler() {
+		Oficina aux=this.oficinaAlquiler;
+		return aux;
+	}
+	
+	public Oficina getOficinaDevolucion() {
+		Oficina aux=this.oficinaDevolucion;
 		return aux;
 	}
 
@@ -105,11 +112,16 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 		this.fechaIniAlquiler = aux;
 	}
 
-	public void setOficina(Oficina oficina) {
+	public void setOficinaAlquiler(Oficina oficina) {
 		Oficina aux = oficina;
-		this.oficina = aux;
+		this.oficinaAlquiler = aux;
 	}
 
+	public void setOficinaDevolucion(Oficina oficina) {
+		Oficina aux = oficina;
+		this.oficinaDevolucion = aux;
+	}
+	
 	public void setFechaFinPrevista(GregorianCalendar fechaFinPrevista) {
 		GregorianCalendar aux = fechaFinPrevista;
 		this.fechaFinPrevista = aux;
@@ -142,7 +154,7 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 		int dia = fechaIniAlquiler.get(Calendar.DAY_OF_MONTH);
 		int año = fechaIniAlquiler.get(Calendar.YEAR);
 		
-		return id +", Vehiculo : " + vehiculo.getMatricula()+", "+vehiculo.getMarca() +", "+vehiculo.getModelo()+", Alquilador por : "+ cliente.nombreCompleto() + ", Fecha alquiler : " + dia+"/"+mes+"/"+año+", Oficina :" + oficina.getDescripcion()+", "+oficina.getLocalidad() +", Precio previsto : "+vehiculo.calculaAlquilerPrevisto(this);
+		return id +", Vehiculo : " + vehiculo.getMatricula()+", "+vehiculo.getMarca() +", "+vehiculo.getModelo()+", Alquilador por : "+ cliente.nombreCompleto() + ", Fecha alquiler : " + dia+"/"+mes+"/"+año+", Oficina :" + oficinaAlquiler.getDescripcion()+", "+oficinaAlquiler.getLocalidad() +", Precio previsto : "+vehiculo.calculaAlquilerPrevisto(this);
 	}
 
 }

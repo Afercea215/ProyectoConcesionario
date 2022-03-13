@@ -87,18 +87,20 @@ public class GestionEmpresa {
 		descripcion = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
 		System.out.println();
 		
-		System.out.println("Introduce la localidad de la oficina.");
-		localidad = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
-		System.out.println();
-		
 		System.out.println("Introduce la provincia de la oficina.");
 		provincia = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
 		System.out.println();
 		
+		System.out.println("Introduce la localidad de la oficina.");
+		localidad = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
+		System.out.println();
+		
+		System.out.println("¿Es una oficina de Aeropuerto?");
 		miLibreria.interfazDeUsuario.MenuBoolean.imprimir();
 		ofiAeropuerto=miLibreria.interfazDeUsuario.MenuBoolean.pedirOpc();
 		
 		Principal.empresa.getOficinas().put(cod, new Oficina(cod, descripcion, localidad, provincia, ofiAeropuerto));
+	
 	}
 	
 	public static void creaAlquiler()
@@ -118,8 +120,9 @@ public class GestionEmpresa {
 		
 		int aux;
 		//pido todos los datos
-		System.out.println("Introduce el codigo del Alquiler.");
+		System.out.println("Codigo del Alquiler.");
 		id = Especificos.generaIdAlquiler();
+		System.out.println(id);
 		System.out.println();
 		
 		do {
@@ -138,6 +141,7 @@ public class GestionEmpresa {
 					vehiculo = elegirMotoDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
+					break;
 				}
 
 				break;
@@ -147,6 +151,7 @@ public class GestionEmpresa {
 					vehiculo = elegirFurgonetaDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
+					break;
 				}
 
 				break;
@@ -156,6 +161,7 @@ public class GestionEmpresa {
 					vehiculo = elegirCocheCombustionDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
+					break;
 				}
 
 				break;
@@ -165,11 +171,11 @@ public class GestionEmpresa {
 					vehiculo = elegirCocheElectricoDeOficina(oficinaAlquiler);
 				} else {
 					System.out.println("Actualmente no tenemos es tipo de Vehiculos en esa Oficina.");
+					break;
 				}
 			}
 			
 			if (InterfazUsuario.impimeMenuEmpleadoDeOficina(oficinaAlquiler )> 0) {
-				aux=InterfazUsuario.impimeMenuEmpleadoDeOficina(oficinaAlquiler);
 				empleado = elegirEmpleadoDeOficina(oficinaAlquiler);
 			} else {
 				System.out.println("Actualmente no tenemos trabajdores en esa Oficina.");
@@ -195,24 +201,32 @@ public class GestionEmpresa {
 		iniAlquiler = new GregorianCalendar(año, mes, dia);
 		System.out.println();
 	
+		do {
+			System.out.println("Fecha de fin Alquiler prevista :");
+			System.out.println("Introduce el dia de alquiler.");
+			dia = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+			System.out.println("Introduce el mes de alquiler del Vehículo.");
+			mes = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+			System.out.println("Introduce el año de alquiler del Vehículo.");
+			año = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
+			finAlquilerPrevisto = new GregorianCalendar(año, mes, dia);
+			System.out.println();
+			
+			if (iniAlquiler.compareTo(finAlquilerPrevisto)>0) {
+				System.out.println("La fecha de fin debe ser posterior a la de comienzo");
+			}
+			
+		}while (iniAlquiler.compareTo(finAlquilerPrevisto)>0);
 		
-		System.out.println("Fecha de fin Alquiler prevista :");
-		System.out.println("Introduce el dia de alquiler.");
-		dia = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
-		System.out.println("Introduce el mes de alquiler del Vehículo.");
-		mes = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
-		System.out.println("Introduce el año de alquiler del Vehículo.");
-		año = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
-		finAlquilerPrevisto = new GregorianCalendar(año, mes, dia);
-		System.out.println();
-	
+		
 		System.out.println("Oficina donde se devuelverá el vehiculo : ");
 		InterfazUsuario.imprimeMenuOficina();
 		oficinaDevolucion = elegirOficina();
 		
-		Principal.empresa.getAlquileres().put(id, new Alquiler(Integer.valueOf(id), vehiculo, empleado, cliente, iniAlquiler, oficinaDevolucion, finAlquilerPrevisto));
+		Principal.empresa.getAlquileres().put(id, new Alquiler(Integer.valueOf(id), vehiculo, empleado, cliente, iniAlquiler, oficinaAlquiler, oficinaDevolucion, finAlquilerPrevisto));
 	
-		System.out.println(vehiculo.calculaAlquilerPrevisto(Principal.empresa.getAlquileres().get(id))+"€");
+		System.out.println("Precio previsto : "+vehiculo.calculaAlquilerPrevisto(Principal.empresa.getAlquileres().get(id))+"€");
+		System.out.println("Alquiler creado.");
 	}
 	
 	public static void creaDevolucion()
@@ -230,9 +244,9 @@ public class GestionEmpresa {
 		Cliente cliente;
 		
 		//pido todos los datos
-		System.out.println("Introduce el id de la Devolucion.");
+		System.out.println("Id de la Devolucion.");
 		id = Especificos.generaIdDevolucion();
-		System.out.println();
+		System.out.println(id);
 
 		System.out.println("Elige el alquiler que realizó.");
 		InterfazUsuario.impimeMenuAlquiler();
@@ -241,8 +255,8 @@ public class GestionEmpresa {
 		System.out.println("¿Cuantos Kilometros a recorrido con el vehículo?");
 		kmsRecorridos=miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
 		
-		InterfazUsuario.impimeMenuEmpleado();
-		empleado = elegirEmpleado();
+		InterfazUsuario.impimeMenuEmpleadoDeOficina(alquiler.getOficinaDevolucion());
+		empleado = elegirEmpleadoDeOficina(alquiler.getOficinaDevolucion());
 			
 		System.out.println("Fecha de finalizacion Alquiler :");
 		System.out.println("Introduce el dia de devolucion del Vehículo.");
@@ -256,11 +270,12 @@ public class GestionEmpresa {
 	
 		vehiculo=alquiler.getVehiculo();
 		cliente=alquiler.getCliente();
-		oficina=alquiler.getOficina();
+		oficina=alquiler.getOficinaDevolucion();
 		
 		Principal.empresa.getDevoluciones().put(id, new Devolucion(Integer.valueOf(id), oficina, alquiler, vehiculo, kmsRecorridos, fechaDevolucionReal, empleado, cliente));
 		vehiculo.setKms(vehiculo.getKms()+kmsRecorridos);
 		System.out.println("¡Devolucion realizada!. Importe final : "+Principal.empresa.getVehiculos().get(vehiculo.getMatricula()).calculaAlquilerReal(alquiler, Principal.empresa.getDevoluciones().get(id))+"€");
+		System.out.println();
 	}
 	
 	
@@ -290,7 +305,7 @@ public class GestionEmpresa {
 		System.out.println();
 		
 		System.out.println("Introduce el 2º apellido del empleado.");
-		ap2 = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
+		ap2 = Principal.in.nextLine();
 		System.out.println();
 
 		System.out.println("Fecha de nacimiento :");
@@ -346,7 +361,7 @@ public class GestionEmpresa {
 		System.out.println();
 		
 		System.out.println("Introduce el 2º apellido del Cliente.");
-		ap2 = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
+		ap2 = Principal.in.nextLine();
 		System.out.println();
 
 		System.out.println("Fecha de nacimiento :");
@@ -362,8 +377,9 @@ public class GestionEmpresa {
 		InterfazUsuario.imprimeMenuTipoCarnet();
 		tipoCarnet = elegirTipoCarnet();
 	
-		System.out.println("Introduce el Nº de tarjeta del Cliente.");
-		nTarjeta = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
+		System.out.println("Nº de tarjeta del Cliente.");
+		nTarjeta = Especificos.generaIdCliente();
+		System.out.println(nTarjeta);
 		System.out.println();
 		
 		Principal.empresa.getClientes().put(dni, new Cliente(ap1, ap2, nombre, fechaNac, dni, tipoCarnet, nTarjeta));
@@ -440,10 +456,10 @@ public class GestionEmpresa {
 		InterfazUsuario.imprimeMenuOficina();
 		oficina = elegirOficina();
 		
-		System.out.println("Introduce la autonomia del Vehículo.");
+		System.out.println("Introduce el consumo del Vehículo.");
 		consumo = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
 		
-		System.out.println("Introduce el Tiempo de Recarga del Vehículo.");
+		System.out.println("Introduce la potencia del Vehículo.");
 		potencia = miLibreria.metodos.PedirDatos.pideEntero(Principal.in);
 		
 		InterfazUsuario.imprimeMenuNivelEmision();
@@ -965,7 +981,7 @@ public class GestionEmpresa {
 		case "2":
 			System.out.println("Introduzca la nueva descripcion :");
 			String desc = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
-			oficina.setDescripcion(opcion);
+			oficina.setDescripcion(desc);
 			break;
 		case "3":
 			System.out.println("Introduzca la nueva localidad :");
@@ -1434,7 +1450,7 @@ public class GestionEmpresa {
 		return b;
 	}
 	
-	public static CocheElectrico elegirCocheCombustionDeOficina ( Oficina ofi) {
+	public static CocheCombustion elegirCocheCombustionDeOficina ( Oficina ofi) {
 
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
@@ -1462,7 +1478,7 @@ public class GestionEmpresa {
 		int posi = list_opc.get(Integer.parseInt(opcion)-1).indexOf(",");
 		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(0, posi);
 		
-		CocheElectrico b = (CocheElectrico) Principal.empresa.getVehiculos().get(key);
+		CocheCombustion b = (CocheCombustion) Principal.empresa.getVehiculos().get(key);
 		
 		return b;
 	}

@@ -140,12 +140,7 @@ public class Devolucion implements Comparable<Devolucion>, Serializable{
 	
 	@Override
 	public String toString() {
-		return "DATOS DE ALQUILER :\n"
-				+"	-ID :" + id + "\n"
-				+"	-Vehiculo : " + vehiculo +"\n"
-				+"	-Cilente : "+ cliente + "\n"
-				+"	-Oficina :" + oficina +"\n"
-				+"	-Precio alquiler : "+vehiculo.calculaAlquilerReal(this.alquiler, this);
+		return id + ", Vehiculo : " + vehiculo +", Cliente : "+ cliente + ", Oficina :" + oficina +", Precio alquiler : "+vehiculo.calculaAlquilerReal(this.alquiler, this);
 	}
 		
 	

@@ -66,6 +66,12 @@ public class InterfazUsuario {
 		list_opc.add("Imprime Alquiler entre fechas.");
 		list_opc.add("Imprime alquileres de un determinado Vehiculo.");
 		list_opc.add("Menu Listados de Stock.");
+		list_opc.add("Imprime listado Alquileres.");
+		list_opc.add("Imprime listado Devoluciones.");
+		list_opc.add("Imprime listado Vehiculos.");
+		list_opc.add("Imprime Clientes.");
+		list_opc.add("Imprime Empleados.");
+		list_opc.add("Imprime Oficinas.");
 		list_opc.add("Salir.");
 		
 		//opciones para el indicador del menu
@@ -196,9 +202,9 @@ public class InterfazUsuario {
 
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
-		list_opc.add("Añadir Oficina.");
-		list_opc.add("Eliminar Oficina.");
-		list_opc.add("Modificar Oficina.");
+		list_opc.add("Añadir Cliente.");
+		list_opc.add("Eliminar Cliente.");
+		list_opc.add("Modificar Cliente.");
 		list_opc.add("Salir.");
 		
 		//opciones para el indicador del menu
@@ -293,7 +299,7 @@ public class InterfazUsuario {
 			opc_posibles.add((i+1)+"");
 		}
 				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecciona la Oficina", opc_posibles, ".");
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Oficinas", opc_posibles, ".");
 		
 	}
 
@@ -320,9 +326,13 @@ public class InterfazUsuario {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
 		//convierto el TreeMap en arraylist para el menu.
-		for (Map.Entry<String, Categoria> b : Principal.empresa.getCategorias().entrySet()) {
-			list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
-		}
+		list_opc.add("   A++");
+		list_opc.add("   A+");
+		list_opc.add("   A");
+		list_opc.add("   B");
+		list_opc.add("   C");
+		list_opc.add("   D");
+		
 		
 		//opciones para el indicador del menu
 		ArrayList<String> opc_posibles = new ArrayList<String>();
@@ -331,7 +341,7 @@ public class InterfazUsuario {
 			opc_posibles.add((i+1)+"");
 		}
 				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Selecciona la categoria", opc_posibles, ".");
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Emision", opc_posibles, ".");
 		
 	}
 	
@@ -445,7 +455,9 @@ public class InterfazUsuario {
 			
 			boolean mismaOfi = false;
 			String key = b.getKey();
-			if (Principal.empresa.getEmpleados().get(key).getOficina().equals(ofi)) mismaOfi=true;
+			if (Principal.empresa.getEmpleados().get(key).getOficina().compareTo(ofi)==0) {
+				mismaOfi=true;
+			}
 			//si es una moto se guarda en el arraylist
 			if (b.getValue() instanceof Empleado && mismaOfi) {
 				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
@@ -648,7 +660,7 @@ public class InterfazUsuario {
 			opc_posibles.add((i+1)+"");
 		}
 				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige el cliente", opc_posibles, ".");
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Clientes", opc_posibles, ".");
 	}
 	
 	public static void impimeMenuAlquiler() {
@@ -689,6 +701,60 @@ public class InterfazUsuario {
 		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
 	}
 	
+	public static void imprimeAlquileres() {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));	
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
+	}
+	
+	public static void imprimeDevoluciones() {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Devolucion> b : Principal.empresa.getDevoluciones().entrySet()) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));	
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Devoluciones", opc_posibles, ".");
+	}
+	
+	public static void imprimeVehiculos() {
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Vehiculo> b : Principal.empresa.getVehiculos().entrySet()) {
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));	
+		}
+		
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+				
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Vehiculos", opc_posibles, ".");
+	}
+	
 	public static void imprimeListadoAlquilerVehiculo(Vehiculo a) {
 		//opciones para el menu
 		ArrayList<String> list_opc = new ArrayList<String>();
@@ -705,8 +771,12 @@ public class InterfazUsuario {
 		for (int i=0; i<=list_opc.size();i++) {
 			opc_posibles.add((i+1)+"");
 		}
-				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
+		try {
+			miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Alquileres", opc_posibles, ".");
+		} catch (Exception e) {
+			System.out.println("Este vehiculo no tiene alquileres.");
+		}
+		
 	}
 	
 	public static void impimeMenuDevolucion() {
@@ -743,7 +813,7 @@ public class InterfazUsuario {
 			opc_posibles.add((i+1)+"");
 		}
 				
-		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Elige el empleado", opc_posibles, ".");
+		miLibreria.interfazDeUsuario.Menu.imprimeMenu(list_opc, "Empleados", opc_posibles, ".");
 	}
 
 	

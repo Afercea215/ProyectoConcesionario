@@ -1,9 +1,8 @@
 package principal;
 
 import java.util.Scanner;
-import java.util.TreeMap;
 
-import metodos.DatosPrograma;
+import java.util.TreeMap;
 import metodos.GestionEmpresa;
 import objetos.*;
 
@@ -23,10 +22,7 @@ public class Principal {
     
     //empresa.grabaDatosEmpresa();
     empresa=Empresa.leeDatosFichero();
-    //GestionEmpresa.eliminaAlquiler("5345");
-	//System.out.println(a.getVehiculos().size());	
-	//System.out.println(a.getVehiculos());
-	
+    
 	Scanner in = new Scanner(System.in);
 	
 	metodos.Especificos.menuPrincipal();

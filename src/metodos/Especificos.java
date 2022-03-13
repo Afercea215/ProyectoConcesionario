@@ -10,6 +10,23 @@ import comparadores.*;
 
 public class Especificos {
 
+	public static String generaIdCliente () {
+		
+		Random random = new Random();
+
+		boolean distinto = true;
+		int num=0;
+		
+		do {
+			num = 1000+random.nextInt(9999);
+			for (Map.Entry<String, Cliente> b : Principal.empresa.getClientes().entrySet()) {
+				if (b.getValue().getnTarjetaCliente().equals(b)) distinto=false;
+			}
+		}while(!distinto && num>9999);
+		
+		return num+"";
+	}
+	
 	public static String generaIdOficina () {
 		
 		Random random = new Random();
@@ -22,7 +39,7 @@ public class Especificos {
 			for (Map.Entry<String, Oficina> b : Principal.empresa.getOficinas().entrySet()) {
 				if (b.getKey().equals(b)) distinto=false;
 			}
-		}while(!distinto);
+		}while(!distinto && num>9999);
 		
 		return num+"";
 	}
@@ -39,7 +56,7 @@ public class Especificos {
 			for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
 				if (b.getKey().equals(b)) distinto=false;
 			}
-		}while(!distinto);
+		}while(!distinto && num>9999);
 		
 		return num+"";
 	}
@@ -56,7 +73,7 @@ public class Especificos {
 			for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
 				if (b.getKey().equals(b)) distinto=false;
 			}
-		}while(!distinto);
+		}while(!distinto && num>9999);
 		
 		return num+"";
 	}
@@ -101,6 +118,7 @@ public class Especificos {
 		String opcion ="";
 		
 		do {
+			Principal.empresa.grabaDatosEmpresa();
 			InterfazUsuario.imprimeMenuGestionEmpresa();
 			opcion=eligeMenuGestionEmpresa();
 			switch (opcion)
@@ -115,10 +133,10 @@ public class Especificos {
 				menuGestionOficinas();
 				break;
 			case "4":
-				menuGestionClientes();
+				menuGestionEmpleados();
 				break;
 			case "5":
-				menuGestionEmpleados();
+				menuGestionClientes();
 				break;
 			case "6":
 				System.out.println("¡Adiós!");
@@ -160,39 +178,34 @@ public class Especificos {
 				InterfazUsuario.imprimeAlquilerEntreFechas(fechaInicio, fechaFinal);
 				break;
 			case "2":
-				InterfazUsuario.imprimeMenuVehiculo();
-				String opc = eligeMenuVehiculo();
-				Vehiculo vehiculo = null;
-				
-				switch (opcion)
-				{
-				case "1":
-					vehiculo = pideMoto();
-					break;
-				case "2":
-					vehiculo = pideFurgoneta();
-					break;
-				case "3":
-					vehiculo = pideCocheCombustion();
-					break;
-				case "4":
-					vehiculo = pideCocheElectrico();
-					break;
-				case "5":
-					System.out.println("¡Adiós!");
-					break;
-				}
+				InterfazUsuario.imprimeVehiculos();
+				Vehiculo vehiculo=eligeVehiculo();
 				InterfazUsuario.imprimeListadoAlquilerVehiculo(vehiculo);
 				break;
 			case "3":
 				menuListadoStock();
 				break; 
 			case "4":
-				System.out.println("¡Adiós!");
+				InterfazUsuario.imprimeAlquileres();
+				break;
+			case "5":
+				InterfazUsuario.imprimeDevoluciones();
+				break;
+			case "6":
+				InterfazUsuario.imprimeVehiculos();
+				break;
+			case "7":
+				InterfazUsuario.impimeMenuCliente();
+				break;
+			case "8":
+				InterfazUsuario.impimeMenuEmpleado();
+				break;
+			case "9":
+				InterfazUsuario.imprimeMenuOficina();
 				break;
 			}
 			
-		}while (opcion.indexOf("4")==-1);
+		}while (opcion.indexOf("10")==-1);
 
 	}
 	
@@ -226,6 +239,7 @@ public class Especificos {
 		String opcion ="";
 		
 		do {
+			Principal.empresa.grabaDatosEmpresa();
 			InterfazUsuario.imprimeMenuGestionEmpleados();
 			opcion=eligeMenuGestionEmpleados();
 			
@@ -256,6 +270,7 @@ public class Especificos {
 		String opcion ="";
 		
 		do {
+			Principal.empresa.grabaDatosEmpresa();
 			InterfazUsuario.imprimeMenuGestionClientes();
 			opcion=eligeMenuGestionCliente();
 			
@@ -286,6 +301,7 @@ public class Especificos {
 		String opcion ="";
 		
 		do {
+			Principal.empresa.grabaDatosEmpresa();
 			InterfazUsuario.imprimeMenuGestionCategorias();
 			opcion=eligeMenuGestionCategorias();
 			
@@ -316,6 +332,7 @@ public class Especificos {
 		String opcion ="";
 		
 		do {
+			Principal.empresa.grabaDatosEmpresa();
 			InterfazUsuario.imprimeMenuGestionOficinas();
 			opcion=eligeMenuGestionOficinas();
 			
@@ -347,6 +364,7 @@ public class Especificos {
 		String opcion ="";
 		
 		do {
+			Principal.empresa.grabaDatosEmpresa();
 			InterfazUsuario.imprimeMenuGestionVehiculos();
 			opcion=eligeMenuGestionVehiculo();
 			
@@ -506,6 +524,12 @@ public class Especificos {
 		list_opc.add("Imprime Alquiler entre fechas.");
 		list_opc.add("Imprime alquileres de un determinado Vehiculo.");
 		list_opc.add("Menu Listados de Stock.");
+		list_opc.add("Imprime listado Alquileres.");
+		list_opc.add("Imprime listado Devoluciones.");
+		list_opc.add("Imprime listado Vehiculos.");
+		list_opc.add("Imprime Clientes.");
+		list_opc.add("Imprime Empleados.");
+		list_opc.add("Imprime Oficinas.");
 		list_opc.add("Salir.");
 		
 		//opciones para el indicador del menu
@@ -726,4 +750,28 @@ public class Especificos {
 		return empleado;
 	}
 
+	public static Vehiculo eligeVehiculo () {
+		
+		//opciones para el menu
+		ArrayList<String> list_opc = new ArrayList<String>();
+		//convierto el TreeMap en arraylist para el menu.
+		for (Map.Entry<String, Vehiculo> b : Principal.empresa.getVehiculos().entrySet()) {
+			//si es una moto se guarda en el arraylist
+				list_opc.add(b.toString().substring(b.toString().indexOf("=")+1));
+		}
+	
+		//opciones para el indicador del menu
+		ArrayList<String> opc_posibles = new ArrayList<String>();
+				
+		for (int i=0; i<=list_opc.size();i++) {
+			opc_posibles.add((i+1)+"");
+		}
+		String opcion=miLibreria.interfazDeUsuario.Menu.pedirValidarOpcMenu(opc_posibles, Principal.in);
+		
+		//extraigo la clave de la opcion elegida para buscarlo en el Treemap
+		int posi = list_opc.get(Integer.parseInt(opcion)-1).indexOf(",");
+		String key = list_opc.get(Integer.parseInt(opcion)-1).substring(0, posi);
+		
+		return Principal.empresa.getVehiculos().get(key);
+	}
 }
