@@ -14,13 +14,9 @@ public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-
-	//empresa = metodos.DatosPrograma.creaEmpresaDefault();
-	//System.out.println(a.getClass());
-	//metodos.DatosPrograma.importarDatos(empresa);
-	
-    
-    //empresa.grabaDatosEmpresa();
+	////////////////////////////////////////
+	//	CONTRASEÑA : Andres1234
+	///////////////////////////////////////
     empresa=Empresa.leeDatosFichero();
     
 	Scanner in = new Scanner(System.in);

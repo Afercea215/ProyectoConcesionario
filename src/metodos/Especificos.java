@@ -10,6 +10,18 @@ import comparadores.*;
 
 public class Especificos {
 	
+	public static boolean pideyVerificaContraseña () {
+		boolean valido = false;
+		String contraseña = "";
+		
+			contraseña=Principal.in.nextLine();
+			if (contraseña.equalsIgnoreCase("Andres1234")) {
+				valido=true;
+			}
+		
+		return valido;
+	}
+	
 	/**
 	 * Genera ids unaicas para los clientes
 	 * @return String con el id
@@ -102,6 +114,7 @@ public class Especificos {
 		String opcion ="";
 	
 		do {
+
 			//imprimo y pido opc del menu
 			InterfazUsuario.imprimeMenuPrincipal();
 			opcion=eligeMenuPrincipal();
@@ -109,6 +122,11 @@ public class Especificos {
 			switch (opcion)
 			{
 			case "1":
+				System.out.println("Introduce la clave de acceso :");
+				if (!pideyVerificaContraseña()) {
+					System.out.println("Clave Incorrecta.");
+					break;
+				}
 				menuGestionEmpresa();
 				Principal.empresa.grabaDatosEmpresa();
 				break;
