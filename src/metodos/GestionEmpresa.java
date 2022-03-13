@@ -78,8 +78,9 @@ public class GestionEmpresa {
 		boolean ofiAeropuerto;
 
 		//pido todos los datos
-		System.out.println("Introduce el codigo de la oficina.");
-		cod = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in).toUpperCase();
+		System.out.println("Codigo de la oficina.");
+		cod = Especificos.generaIdOficina();
+		System.out.println(cod);
 		System.out.println();
 
 		System.out.println("Introduce la descripcion de la oficina.");
@@ -118,7 +119,7 @@ public class GestionEmpresa {
 		int aux;
 		//pido todos los datos
 		System.out.println("Introduce el codigo del Alquiler.");
-		id = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
+		id = Especificos.generaIdAlquiler();
 		System.out.println();
 		
 		do {
@@ -230,7 +231,7 @@ public class GestionEmpresa {
 		
 		//pido todos los datos
 		System.out.println("Introduce el id de la Devolucion.");
-		id = miLibreria.metodos.PedirDatos.pideStringNoVacia(Principal.in);
+		id = Especificos.generaIdDevolucion();
 		System.out.println();
 
 		System.out.println("Elige el alquiler que realizó.");

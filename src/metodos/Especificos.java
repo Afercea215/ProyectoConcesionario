@@ -9,6 +9,57 @@ import java.util.*;
 import comparadores.*;
 
 public class Especificos {
+
+	public static String generaIdOficina () {
+		
+		Random random = new Random();
+
+		boolean distinto = true;
+		int num=0;
+		
+		do {
+			num = 1000+random.nextInt(9999);
+			for (Map.Entry<String, Oficina> b : Principal.empresa.getOficinas().entrySet()) {
+				if (b.getKey().equals(b)) distinto=false;
+			}
+		}while(!distinto);
+		
+		return num+"";
+	}
+	
+	public static String generaIdAlquiler () {
+		
+		Random random = new Random();
+
+		boolean distinto = true;
+		int num=0;
+		
+		do {
+			num = 1000+random.nextInt(9999);
+			for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
+				if (b.getKey().equals(b)) distinto=false;
+			}
+		}while(!distinto);
+		
+		return num+"";
+	}
+	
+	public static String generaIdDevolucion () {
+		
+		Random random = new Random();
+
+		boolean distinto = true;
+		int num=0;
+		
+		do {
+			num = 1000+random.nextInt(9999);
+			for (Map.Entry<String, Alquiler> b : Principal.empresa.getAlquileres().entrySet()) {
+				if (b.getKey().equals(b)) distinto=false;
+			}
+		}while(!distinto);
+		
+		return num+"";
+	}
 	
 	public static void menuPrincipal () {
 		
