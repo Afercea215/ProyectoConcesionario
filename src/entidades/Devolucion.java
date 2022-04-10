@@ -1,4 +1,4 @@
-package objetos;
+package entidades;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;

@@ -2,7 +2,7 @@
 
 import java.util.Comparator;
 
-import objetos.*;
+import entidades.*;
 
 public class AlquilerOrdenaMarca implements Comparator<String>{
 

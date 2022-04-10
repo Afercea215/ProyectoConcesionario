@@ -1,9 +1,10 @@
 package metodos;
 
-import objetos.*;
 import principal.Principal;
 
 import java.util.*;
+
+import entidades.*;
 
 public class GestionEmpresa {
 	

@@ -2,7 +2,7 @@ package comparadores;
 
 import java.util.Comparator;
 
-import objetos.*;
+import entidades.*;
 
 public class AlquilerOrdenaOfi implements Comparator<String>{
 

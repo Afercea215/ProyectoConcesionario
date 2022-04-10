@@ -3,8 +3,10 @@ package principal;
 import java.util.Scanner;
 
 import java.util.TreeMap;
+
+import entidades.*;
+import gui.VentanaPrincipal;
 import metodos.GestionEmpresa;
-import objetos.*;
 
 public class Principal {
 	
@@ -14,14 +16,16 @@ public class Principal {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+	VentanaPrincipal v = new VentanaPrincipal();	
+	v.setVisible(true);
 	////////////////////////////////////////
 	//	CONTRASEÑA : Andres1234
 	///////////////////////////////////////
-    empresa=Empresa.leeDatosFichero();
+    //empresa=Empresa.leeDatosFichero();
     
-	Scanner in = new Scanner(System.in);
+	//Scanner in = new Scanner(System.in);
 	
-	metodos.Especificos.menuPrincipal();
+	//metodos.Especificos.menuPrincipal();
 
 	
 	}

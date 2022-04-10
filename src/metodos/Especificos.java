@@ -1,12 +1,11 @@
 package metodos;
 
-import objetos.*;
-
 import principal.Principal;
 
 import java.util.*;
 
 import comparadores.*;
+import entidades.*;
 
 public class Especificos {
 	

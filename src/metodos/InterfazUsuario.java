@@ -3,7 +3,7 @@ package metodos;
 import java.util.*;
 
 import comparadores.*;
-import objetos.*;
+import entidades.*;
 import principal.Principal;
 
 public class InterfazUsuario {
