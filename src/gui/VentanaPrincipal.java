@@ -17,6 +17,8 @@ import javax.swing.JMenuItem;
 import java.awt.ComponentOrientation;
 import javax.swing.JMenu;
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -57,6 +59,11 @@ public class VentanaPrincipal extends JFrame {
 		menuBar.add(mnListEInform);
 		
 		JMenuItem mntmOficinas = new JMenuItem("Oficinas");
+		mntmOficinas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		mnListEInform.add(mntmOficinas);
 		
 		JMenu mnProcesosDiarios = new JMenu("Procesos Diarios");
