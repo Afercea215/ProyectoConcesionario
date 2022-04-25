@@ -13,12 +13,13 @@ public class Principal {
 	
 	public static Empresa empresa;
 	public static Scanner in = new Scanner(System.in);
-
+	public static VentanaPrincipal v = new VentanaPrincipal();	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 	
 		AccesoADatos.abreConexion();
-		VentanaPrincipal v = new VentanaPrincipal();	
+		gui.MetodosGUI.centrarJFrame(v);
 		v.setVisible(true);
 	////////////////////////////////////////
 	//	CONTRASEÑA : Andres1234

@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import principal.Principal;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -23,6 +26,7 @@ import java.awt.event.ActionEvent;
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	public static FormuOficinas fOfi = new FormuOficinas();
 
 	/**
 	 * Launch the application.
@@ -32,6 +36,7 @@ public class VentanaPrincipal extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipal frame = new VentanaPrincipal();
+					
 					frame.setVisible(true);
 					MetodosGUI.centrarJFrame(frame);
 				} catch (Exception e) {
@@ -61,7 +66,8 @@ public class VentanaPrincipal extends JFrame {
 		JMenuItem mntmOficinas = new JMenuItem("Oficinas");
 		mntmOficinas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				fOfi.setLocationRelativeTo(Principal.v);
+				fOfi.setVisible(true);
 			}
 		});
 		mnListEInform.add(mntmOficinas);
