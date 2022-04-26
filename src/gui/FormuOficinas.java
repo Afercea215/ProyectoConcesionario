@@ -9,9 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import acessoADatos.AccesoADatos;
+import acessoADatos.RepositorioOficina;
+import entidades.Oficina;
 import principal.Principal;
 import java.awt.Toolkit;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
@@ -29,13 +32,20 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FormuOficinas extends JDialog {
 
+	private FormuOficinas fOfi;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tfNombre;
 	private JTextField tfCodigo;
+	JButton btGrabar;
 	JComboBox cbLocalidad = new JComboBox();
+	JComboBox cbProvincia;
+	JCheckBox chckbxOfiAeropuerto;
+	Oficina o;
 
 	/**
 	 * Launch the application.
@@ -69,9 +79,21 @@ public class FormuOficinas extends JDialog {
 		JButton btnLupa = new JButton("");
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vListadoOficinas vListOfi = new vListadoOficinas();
+				VListadoOficinas vListOfi = new VListadoOficinas(fOfi);
 				vListOfi.setLocationRelativeTo(VentanaPrincipal.fOfi);
 				vListOfi.setVisible(true);
+				o = vListOfi.elegido;
+				vListOfi.dispose();
+				
+				if(o!=null){
+					MetodosGUI.activPanel(contentPanel);
+					tfCodigo.setText(o.getCod());
+					tfNombre.setText(o.getDescripcion());
+					chckbxOfiAeropuerto.setSelected(o.isOfiAeropuerto());
+					
+					cbProvincia.setSelectedItem(o.getProvincia().toUpperCase());
+					cbLocalidad.setSelectedItem(o.getLocalidad().toUpperCase());
+				}
 			}
 		});
 		btnLupa.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\lupa.png"));
@@ -83,7 +105,7 @@ public class FormuOficinas extends JDialog {
 		lblOficinaAeropuerto.setBounds(10, 77, 129, 21);
 		contentPanel.add(lblOficinaAeropuerto);
 		
-		JCheckBox chckbxOfiAeropuerto = new JCheckBox("");
+		chckbxOfiAeropuerto = new JCheckBox("");
 		chckbxOfiAeropuerto.setBounds(145, 78, 93, 21);
 		contentPanel.add(chckbxOfiAeropuerto);
 		{
@@ -94,6 +116,25 @@ public class FormuOficinas extends JDialog {
 		}
 		{
 			tfCodigo = new JTextField();
+			tfCodigo.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					 if(e.getKeyCode()==KeyEvent.VK_ENTER){
+		                    o = RepositorioOficina.buscaOficina(tfCodigo.getText());
+		                    
+		                    MetodosGUI.activPanel(contentPanel);
+		                    tfCodigo.setEnabled(false);
+		                    tfNombre.setFocusable(true);
+		                    btnLupa.setEnabled(false);
+		                    if (o!=null) {
+			                    tfNombre.setText(o.getDescripcion());
+			                    chckbxOfiAeropuerto.setSelected(o.isOfiAeropuerto());
+			                    cbProvincia.setSelectedItem(o.getProvincia());
+			                    cbLocalidad.setSelectedItem(o.getLocalidad());
+		                    }
+		              }
+				}
+			});
 			tfCodigo.setColumns(4);
 			tfCodigo.setBounds(62, 10, 56, 21);
 			contentPanel.add(tfCodigo);
@@ -105,18 +146,18 @@ public class FormuOficinas extends JDialog {
 			contentPanel.add(lblProvincia);
 		}
 		
-		
-		
-		JComboBox cbProvincia = new JComboBox<>(MetodosGUI.defaultCBModelProv());
+		//
+		cbProvincia = new JComboBox<>(MetodosGUI.defaultCBModelProv());
 		cbProvincia.setSelectedIndex(0);
 		cbProvincia.setBounds(62, 108, 116, 21);
 		contentPanel.add(cbProvincia);
 		cbProvincia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//
 				cbLocalidad.setModel(MetodosGUI.defaultCBModelLoc(cbProvincia.getSelectedItem()+""));
 			}
 		});
-
+		//
 		cbLocalidad.setModel(MetodosGUI.defaultCBModelLoc("ALBACETE"));
 		cbLocalidad.setBounds(62, 141, 116, 21);
 		contentPanel.add(cbLocalidad);
@@ -137,6 +178,21 @@ public class FormuOficinas extends JDialog {
 				JButton btBorrar = new JButton("Borrar");
 				btBorrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						int n = JOptionPane.showConfirmDialog(fOfi, "¿Está seguro de que quiere borrarlo?","ADVERTENCIA", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+						//si elige el boton si
+						if (n==0) {
+							//para comprobar que existe la ofi
+							Oficina o = RepositorioOficina.buscaOficina(tfCodigo.getText());
+							if (o!=null) {
+								RepositorioOficina.borraOficina(o.getCod());
+								MetodosGUI.vaciarPanel(contentPanel);
+								MetodosGUI.descactPanel(contentPanel);
+								tfCodigo.setEnabled(true);
+								btnLupa.setEnabled(true);
+							}else {
+								JOptionPane.showMessageDialog(fOfi,"La oficina que desea borrar no existe.");
+							}
+						}
 					}
 				});
 				btBorrar.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -144,15 +200,22 @@ public class FormuOficinas extends JDialog {
 				buttonPane.add(btBorrar);
 			}
 			{
-				JButton btGrabar = new JButton("Grabar");
+				btGrabar = new JButton("Grabar");
+				btGrabar.setFocusPainted(false);
 				btGrabar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(RepositorioOficina.buscaOficina(tfCodigo.getText())!=null) {
+							RepositorioOficina.borraOficina(tfCodigo.getText());
+						}
+						RepositorioOficina.creaOficina(tfCodigo.getText(), tfNombre.getText(), cbProvincia.getSelectedItem()+"", cbLocalidad.getSelectedItem()+"", chckbxOfiAeropuerto.isSelected());
+						MetodosGUI.descactPanel(contentPanel);
+						MetodosGUI.vaciarPanel(contentPanel);
+						tfCodigo.setEnabled(true);
+						btnLupa.setEnabled(true);
 					}
 				});
 				btGrabar.setVerticalAlignment(SwingConstants.BOTTOM);
-				btGrabar.setActionCommand("OK");
 				buttonPane.add(btGrabar);
-				getRootPane().setDefaultButton(btGrabar);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
@@ -161,17 +224,28 @@ public class FormuOficinas extends JDialog {
 				
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cbProvincia.setSelectedIndex(0);
-						tfNombre.setText("");
-						tfCodigo.setText("");
-						chckbxOfiAeropuerto.setSelected(false);
+						MetodosGUI.vaciarPanel(contentPanel);
+						MetodosGUI.descactPanel(contentPanel);
+						tfCodigo.setEnabled(true);
+						btnLupa.setEnabled(true);
 					}
 				});
 			}
 		}
 		{
+			
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
-		}
+		}	
+			
+			
+		
+		
+			MetodosGUI.descactPanel(contentPanel);
+			tfCodigo.setEnabled(true);
+			btnLupa.setEnabled(true);
+			
+			
+		
 	}
 }

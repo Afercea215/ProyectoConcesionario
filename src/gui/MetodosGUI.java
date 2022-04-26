@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -24,4 +25,51 @@ public class MetodosGUI {
 		DefaultComboBoxModel modelLoc = new DefaultComboBoxModel(AccesoADatos.arrayListNombreLocDeProv(prov).toArray());
 		return modelLoc;
 	}
+	
+	public static void descactPanel (JPanel panel)
+	{
+		for (Component c : panel.getComponents())
+		{
+			if (!(c instanceof JLabel)){
+				c.setEnabled(false);
+			}
+			if ((c instanceof JPanel)){
+				descactPanel((JPanel)c);
+			}			
+		}
+	}
+	
+	
+	public static void activPanel (JPanel panel)
+	{
+		for (Component c : panel.getComponents())
+		{
+			if (!(c instanceof JLabel)){
+				c.setEnabled(true);
+			}
+			if ((c instanceof JPanel)){
+				activPanel((JPanel)c);
+			}			
+		}
+	}
+	
+	public static void vaciarPanel (JPanel panel)
+	{
+		for (Component c : panel.getComponents())
+		{
+			if ((c instanceof JTextField)){
+				((JTextField) c).setText("");
+			}
+			if ((c instanceof JCheckBox)){
+				((JCheckBox) c).setSelected(false);
+			}
+			if ((c instanceof JComboBox)){
+				((JComboBox) c).setSelectedIndex(-1);;
+			}
+			if ((c instanceof JPanel)){
+				activPanel((JPanel)c);
+			}			
+		}
+	}
+	
 }
