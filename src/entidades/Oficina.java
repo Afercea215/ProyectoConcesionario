@@ -16,6 +16,7 @@ public class Oficina implements Comparable<Oficina>, Serializable{
 	private String descripcion;
 	private String localidad;
 	private String provincia;
+	private String observaciones;
 	private boolean ofiAeropuerto;
 	
 	/**
@@ -26,14 +27,27 @@ public class Oficina implements Comparable<Oficina>, Serializable{
 	 * @param provincia String de provincia donde está la oficina.
 	 * @param ofiAeropuerto Boolean si es o no una oficina ubicada en un aeropuerto.
 	 */
-	public Oficina(String cod, String descripcion, String localidad, String provincia, boolean ofiAeropuerto) {
+	public Oficina(String cod, String descripcion, String localidad, String provincia, boolean ofiAeropuerto, String observaciones) {
 		super();
 		this.cod = cod;
 		this.descripcion = descripcion;
 		this.localidad = localidad;
 		this.provincia = provincia;
 		this.ofiAeropuerto = ofiAeropuerto;
+		this.observaciones=observaciones;
 	}
+	
+
+	public String getObservaciones() {
+		String aux=this.observaciones;
+		return aux;
+	}
+
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
 
 	public String getCod() {
 		String aux=this.cod;

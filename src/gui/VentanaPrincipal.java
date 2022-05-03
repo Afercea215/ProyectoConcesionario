@@ -26,25 +26,12 @@ import java.awt.event.ActionEvent;
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
-	public static FormuOficinas fOfi = new FormuOficinas();
+	public static FormuOficinas fOfi = null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipal frame = new VentanaPrincipal();
-					
-					frame.setVisible(true);
-					MetodosGUI.centrarJFrame(frame);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
@@ -55,7 +42,7 @@ public class VentanaPrincipal extends JFrame {
 		setTitle("ENTERPRISE");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 500);
+		setBounds(100, 100, 661, 401);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -63,20 +50,21 @@ public class VentanaPrincipal extends JFrame {
 		JMenu mnListEInform = new JMenu("Listados e informes");
 		menuBar.add(mnListEInform);
 		
-		JMenuItem mntmOficinas = new JMenuItem("Oficinas");
-		mntmOficinas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fOfi.setLocationRelativeTo(Principal.v);
-				fOfi.setVisible(true);
-			}
-		});
-		mnListEInform.add(mntmOficinas);
-		
 		JMenu mnProcesosDiarios = new JMenu("Procesos Diarios");
 		menuBar.add(mnProcesosDiarios);
 		
 		JMenu mnFicherosMaestros = new JMenu("FicherosMaestros");
 		menuBar.add(mnFicherosMaestros);
+		
+		JMenuItem mntmOficinas = new JMenuItem("Oficinas");
+		mntmOficinas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fOfi = new FormuOficinas();
+				fOfi.setLocationRelativeTo(Principal.v);
+				fOfi.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmOficinas);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0,88,165));
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));

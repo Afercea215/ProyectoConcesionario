@@ -19,6 +19,7 @@ public class RepositorioOficina {
 		String nomProv="";
 		String nomLoc="";
 		boolean ofiAero=false;
+		String observaciones;
 		Oficina o = null;
 		
 		try {
@@ -31,11 +32,13 @@ public class RepositorioOficina {
 				nomProv = rs.getString("NOMBREPROV");
 				nomLoc = rs.getString("NOMBRELOC");
 				ofiAero = rs.getBoolean("OFIAEROPUERTO");
+				observaciones = rs.getString("OBSERVACIONES");
 				
-				o=new Oficina(cod, desc, nomLoc, nomProv, ofiAero);
+				o=new Oficina(cod, desc, nomLoc, nomProv, ofiAero, observaciones);
 				
 				lista.add(o);
 			}
+			st.executeQuery("commit");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,6 +53,7 @@ public class RepositorioOficina {
 		String nomProv="";
 		String nomLoc="";
 		boolean ofiAero=false;
+		String observaciones;
 		Oficina o = null;
 		
 		try {
@@ -61,9 +65,9 @@ public class RepositorioOficina {
 				desc = rs.getString("DESCRIPCION");
 				nomProv = rs.getString("NOMBREPROV");
 				nomLoc = rs.getString("NOMBRELOC");
-				ofiAero = rs.getBoolean("OFIAEROPUERTO");
+				observaciones = rs.getString("OBSERVACIONES");
 				
-				o=new Oficina(cod, desc, nomLoc, nomProv, ofiAero);
+				o=new Oficina(cod, desc, nomLoc, nomProv, ofiAero, observaciones);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -80,6 +84,7 @@ public class RepositorioOficina {
 		String nomProv="";
 		String nomLoc="";
 		boolean ofiAero=false;
+		String observaciones;
 		Oficina o = null;
 		
 		try {
@@ -92,8 +97,9 @@ public class RepositorioOficina {
 				nomProv = rs.getString("NOMBREPROV");
 				nomLoc = rs.getString("NOMBRELOC");
 				ofiAero = rs.getBoolean("OFIAEROPUERTO");
+				observaciones = rs.getString("OBSERVACIONES");
 				
-				o=new Oficina(cod, desc, nomLoc, nomProv, ofiAero);
+				o=new Oficina(cod, desc, nomLoc, nomProv, ofiAero, observaciones);
 				
 				lista.add(o);
 			}
@@ -111,7 +117,7 @@ public class RepositorioOficina {
 		try {
 			st = AccesoADatos.getCn().createStatement();
 			ResultSet rs = st.executeQuery("delete from oficina where cod like '"+codigo+"'");
-			
+			st.executeQuery("commit");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,7 +125,7 @@ public class RepositorioOficina {
 	}
 	
 	
-	public static void creaOficina(String codigo, String nombre, String nomProv, String nomloc, boolean ofiAero) {
+	public static void creaOficina(String codigo, String nombre, String nomProv, String nomloc, boolean ofiAero, String observaciones) {
 		
 		String aero = "";
 		
@@ -129,8 +135,8 @@ public class RepositorioOficina {
 		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			ResultSet rs = st.executeQuery("insert into oficina values (upper('"+codigo+"'),upper('"+nombre+"'),upper('"+nomloc+"'),upper('"+nomProv+"'),'upper("+aero+"'))");
-			
+			ResultSet rs = st.executeQuery("insert into oficina values ("+codigo+",upper('"+nombre+"'),upper('"+nomloc+"'),upper('"+nomProv+"'),upper('"+aero+"'),upper('"+observaciones+"'))");
+			st.executeQuery("commit");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

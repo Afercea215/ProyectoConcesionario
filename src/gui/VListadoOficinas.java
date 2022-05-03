@@ -56,7 +56,7 @@ public class VListadoOficinas extends JDialog {
 	 * Create the dialog.
 	 */
 	public VListadoOficinas(JDialog padre) {
-		setMinimumSize(new Dimension(375, 250));
+		setMinimumSize(new Dimension(450, 250));
 		listOfi = this;
 		padre=(FormuOficinas) padre;
 		setTitle("Listado Oficinas");
@@ -71,39 +71,9 @@ public class VListadoOficinas extends JDialog {
 			JScrollPane scrollPane = new JScrollPane();
 			contentPanel.add(scrollPane);
 			{
-				tableOficina = new JTable();
+				tableOficina = MetodosOficina.creaRellenaTabOfi(RepositorioOficina.arrayListOficinas());
 				scrollPane.setViewportView(tableOficina);
 				
-				modelTabOfi = new DefaultTableModel(){
-				    @Override
-				    public boolean isCellEditable(int row, int column) {
-				       //all cells false
-				       return false;
-				    }
-				};
-			    
-				modelTabOfi.addColumn("COD");
-				modelTabOfi.addColumn("Descripicion");
-				modelTabOfi.addColumn("Provincia");
-			    modelTabOfi.addColumn("Localidad");
-			    modelTabOfi.addColumn("Oficina Aeropuerto");
-			    modelTabOfi.addColumn("Objeto");
-			    
-			    tableOficina.setModel(modelTabOfi);
-			    
-			    for (Oficina a : RepositorioOficina.arrayListOficinas()) {
-			    	modelTabOfi.addRow(new Object[] { a.getCod()+"", a.getDescripcion()+"", a.getProvincia()+"",a.getLocalidad()+"",a.isOfiAeropuerto()+"",a});
-			    }
-			    
-			    tableOficina.removeColumn(tableOficina.getColumnModel().getColumn(5));
-			    
-			    //ordenar tabla
-			    //ACTIVAMOS LA ORDENACION DE COLUMNAS
-			    tableOficina.setAutoCreateRowSorter(true);
-			    
-			    //CREAMOS LOS SORTERS NECESARIOS DE LA TABLA OFI
-			    TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableOficina.getModel());
-			    tableOficina.setRowSorter(sorter);
 			    
 			    {
 			    	JPanel panelBuscador = new JPanel();
@@ -119,21 +89,10 @@ public class VListadoOficinas extends JDialog {
 			    			@Override
 			    			public void keyPressed(KeyEvent e) {
 		   					 if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				    				modelTabOfiPorNombre = new DefaultTableModel();
-				    				
-				    				modelTabOfiPorNombre.addColumn("COD");
-				    				modelTabOfiPorNombre.addColumn("Descripicion");
-				    				modelTabOfiPorNombre.addColumn("Provincia");
-				    				modelTabOfiPorNombre.addColumn("Localidad");
-				    			    modelTabOfiPorNombre.addColumn("Oficina Aeropuerto");
-				    			    modelTabOfiPorNombre.addColumn("Objeto");
-				    			    
-				    			    for (Oficina a : RepositorioOficina.arrayListOficinasPorNombre(tfEscriNombre.getText().toUpperCase())) {
-				    			    	modelTabOfiPorNombre.addRow(new Object[] { a.getCod()+"", a.getDescripcion()+"", a.getProvincia()+"",a.getLocalidad()+"",a.isOfiAeropuerto()+"",a});
-				    			    }
-				    			    tableOficina.setModel(modelTabOfiPorNombre);
-			    			    	System.out.println(modelTabOfiPorNombre.getRowCount());
-		   		              }
+		   						 //cambio el model por un model que contenga el nombre introducido en el jtext.
+				    			    tableOficina.setModel(MetodosOficina.creaModelTabOfi(RepositorioOficina.arrayListOficinasPorNombre(tfEscriNombre.getText().toUpperCase())));
+				    			    tableOficina.removeColumn(tableOficina.getColumnModel().getColumn(6));
+		   					 }
 			    			}
 			    		});
 			    		tfEscriNombre.setColumns(10);
@@ -144,21 +103,9 @@ public class VListadoOficinas extends JDialog {
 			    		btnLupa.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\lupa.png"));
 			    		btnLupa.addActionListener(new ActionListener() {
 			    			public void actionPerformed(ActionEvent e) {
-
-			    				modelTabOfiPorNombre = new DefaultTableModel();
-			    				
-			    				modelTabOfiPorNombre.addColumn("COD");
-			    				modelTabOfiPorNombre.addColumn("Descripicion");
-			    				modelTabOfiPorNombre.addColumn("Provincia");
-			    				modelTabOfiPorNombre.addColumn("Localidad");
-			    			    modelTabOfiPorNombre.addColumn("Oficina Aeropuerto");
-			    			    modelTabOfiPorNombre.addColumn("Objeto");
-			    			    
-			    			    for (Oficina a : RepositorioOficina.arrayListOficinasPorNombre(tfEscriNombre.getText().toUpperCase())) {
-			    			    	modelTabOfiPorNombre.addRow(new Object[] { a.getCod()+"", a.getDescripcion()+"", a.getProvincia()+"",a.getLocalidad()+"",a.isOfiAeropuerto()+"",a});
-			    			    }
-			    			    tableOficina.setModel(modelTabOfiPorNombre);
-		    			    	System.out.println(modelTabOfiPorNombre.getRowCount());
+			    				 //cambio el model por un model que contenga el nombre introducido en el jtext.
+			    			    tableOficina.setModel(MetodosOficina.creaModelTabOfi(RepositorioOficina.arrayListOficinasPorNombre(tfEscriNombre.getText().toUpperCase())));
+			    			    tableOficina.removeColumn(tableOficina.getColumnModel().getColumn(6));
 			    			}
 			    		});
 			    		panelBuscador.add(btnLupa);
@@ -167,22 +114,14 @@ public class VListadoOficinas extends JDialog {
 			    		JButton btnRecargar = new JButton("recargar");
 			    		btnRecargar.addActionListener(new ActionListener() {
 			    			public void actionPerformed(ActionEvent e) {
-			    				tableOficina.setModel(modelTabOfi);
+			    				tableOficina.setModel(MetodosOficina.creaModelTabOfi(RepositorioOficina.arrayListOficinas()));
+			    				tfEscriNombre.setText("");
+			    				tableOficina.removeColumn(tableOficina.getColumnModel().getColumn(6));
 			    			}
 			    		});
 			    		panelBuscador.add(btnRecargar);
 			    	}
 			    }
-			    List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-			    
-			    //ORDENAR LA TABLA POR DEFAULT, PRIMERO POR NOMBRE, PROV, LOC.
-			    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-			    sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
-			    sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
-			    
-			    //AÑADIMOS LOS SORTKEYS DE LAS CULOM QUE QUERAMOS AL SORTER
-			    sorter.setSortKeys(sortKeys);
-			    sorter.sort();
 			}
 			
 		}
@@ -196,22 +135,31 @@ public class VListadoOficinas extends JDialog {
 				JButton btSeleccionar = new JButton("Seleccionar");
 				btSeleccionar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int fila = tableOficina.getSelectedRow();
-						if(fila==-1) {
-							JOptionPane.showMessageDialog(tableOficina, "Debe marcar una fila.","Error en la selección",JOptionPane.ERROR_MESSAGE);
-						}else {
-							elegido= (Oficina) modelTabOfi.getValueAt(fila,5);
-							
-							listOfi.setVisible(false);
+						elegido=null;
+						elegido= (Oficina) MetodosGUI.cogerSeleccionado(tableOficina,6);
+						if (elegido!=null) {
+							listOfi.setVisible(false);			
+							}
 						}
-						
-					}
 				});
 				btSeleccionar.setActionCommand("Cancel");
 				buttonPane.add(btSeleccionar);
 			}
+			
+			
+			tableOficina.addMouseListener(new java.awt.event.MouseAdapter() {
+			      public void mouseClicked(java.awt.event.MouseEvent e) {
+				      if(e.getClickCount()==2){
+				    		elegido=null;
+							elegido= (Oficina) MetodosGUI.cogerSeleccionado(tableOficina,6);
+							if (elegido!=null) {
+								listOfi.setVisible(false);			
+								} 
+				      }
+				      
+		     	 }
+			 });
 		}
-		
 		
 	}
 	
