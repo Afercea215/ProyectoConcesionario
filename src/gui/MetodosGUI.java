@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import acessoADatos.AccesoADatos;
+import accesoADatos.AccesoADatos;
 import entidades.Oficina;
 
 public class MetodosGUI {
@@ -45,6 +45,34 @@ public class MetodosGUI {
 			}
 		}
 	}
+	
+	public static void desactPanel (JPanel panel, ArrayList<Component> excepciones)
+	{
+		for (Component c : panel.getComponents())
+		{
+			for (Component l : excepciones) {
+				if (l.getName().equals(c.getName())) {
+					break;
+				}else {
+					if (!(c instanceof JLabel)){
+						c.setEnabled(false);
+					}
+					if ((c instanceof JScrollPane)){
+						desactPanel((JScrollPane)c);
+					}
+					if ((c instanceof JPanel)){
+						desactPanel((JPanel)c);
+					}	
+					if ((c instanceof JViewport)) {
+						desactPanel((JViewport)c);
+					}
+				}
+			}
+			
+		}
+	}
+	
+	
 	public static void desactPanel (JScrollPane panel)
 	{
 		for (Component c : panel.getComponents())
@@ -97,6 +125,32 @@ public class MetodosGUI {
 			if ((c instanceof JPanel)){
 				activPanel((JPanel)c);
 			}			
+		}
+	}
+	
+	public static void activPanel (JPanel panel, ArrayList<Component> excepciones)
+	{
+		for (Component c : panel.getComponents())
+		{
+			for (Component l : excepciones) {
+				if (l.getName().equals(c.getName())) {
+					break;
+				}else {
+					if (!(c instanceof JLabel)){
+						c.setEnabled(true);
+					}
+					if ((c instanceof JScrollPane)){
+						desactPanel((JScrollPane)c);
+					}
+					if ((c instanceof JPanel)){
+						desactPanel((JPanel)c);
+					}	
+					if ((c instanceof JViewport)) {
+						desactPanel((JViewport)c);
+					}
+				}
+			}
+			
 		}
 	}
 	
@@ -320,6 +374,7 @@ public class MetodosGUI {
 		Component comp = null;
 		for (Component c : panel.getComponents())
 		{
+			System.out.println(c.getName());
 			if ((c.getName()+"").equals(nombre)) {
 				comp =  c;
 				break;

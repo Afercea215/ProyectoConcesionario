@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import acessoADatos.RepositorioOficina;
+import accesoADatos.RepositorioOficina;
 import entidades.Oficina;
 
 public class MetodosOficina {
@@ -43,44 +43,38 @@ public class MetodosOficina {
 	    modelTabOfi.addColumn("Oficina Aeropuerto");
 	    modelTabOfi.addColumn("Observaciones");
 	    modelTabOfi.addColumn("Objeto");	
+	    //añado datos a la tabla
 	    for (Oficina a : lista) {
 			modelTabOfi.addRow(new Object[] { a.getCod()+"", a.getDescripcion()+"", a.getProvincia()+"",a.getLocalidad()+"",a.isOfiAeropuerto()+"",a.getObservaciones(),a});
 	    }
 		return modelTabOfi;
 	}
 
-	
+	/**
+	 * Crea una tabla rellena con los datos pasados por parametro.
+	 * @param lista lista de objetos para la tabla.
+	 * @return tabla rellenada.
+	 */
 	public static JTable creaRellenaTabOfi(ArrayList<Oficina> lista) {
 		JTable tableOficina = new JTable();
 	    tableOficina.setModel(creaModelTabOfi(lista));
-	    ////////////////////////////////////
 	    tableOficina.removeColumn(tableOficina.getColumnModel().getColumn(6));
-	   
 	    //ACTIVAMOS LA ORDENACION DE COLUMNAS
 	    tableOficina.setAutoCreateRowSorter(true);
-	    
-	    //CREAMOS LOS SORTERS NECESARIOS DE LA TABLA OFI
-//	    TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableOficina.getModel());
-//	    tableOficina.setRowSorter(sorter);
-//	    
-//	    List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-//	    
-//	    //ORDENAR LA TABLA POR DEFAULT, PRIMERO POR NOMBRE, PROV, LOC.
-//	    sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-//	    sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
-//	    sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
-//	    
-//	    //AÑADIMOS LOS SORTKEYS DE LAS CULOM QUE QUERAMOS AL SORTER
-//	    sorter.setSortKeys(sortKeys);
-//	    sorter.sort();
 	    
 		return tableOficina;
 	}
 	
+	/**
+	 * Graba la oficina en la base de datos.
+	 * @param panel Panel donde se encuentran los componjentes
+	 */
 	public static void grabaOficina (JPanel panel) {
 		
+		//si todo esta relleno lo graba, si no sale un mensaje
 		if (MetodosGUI.datosRellenos(panel)) {
 			
+			//busco los componentes por su nombre y los guardo
 			JTextField codigo=((JTextField) MetodosGUI.buscarCompPorNombre(panel, "codigo"));
 			JTextField nombre=((JTextField) MetodosGUI.buscarCompPorNombre(panel, "nombre"));
 			JComboBox<Object> provincia = ((JComboBox<Object>) MetodosGUI.buscarCompPorNombre(panel, "provincia"));
@@ -89,10 +83,12 @@ public class MetodosOficina {
 			JTextArea observaciones = ((JTextArea) MetodosGUI.buscarCompPorNombre(panel, "observaciones"));
 			JButton lupa = ((JButton) MetodosGUI.buscarCompPorNombre(panel, "lupa"));
 			
+			//si la oficina ya existe la borro
 			if(RepositorioOficina.buscaOficina(codigo.getText())!=null) {
 				RepositorioOficina.borraOficina(codigo.getText());
 			}
 			
+			//creo la nueva oficina en la base de datos
 			RepositorioOficina.creaOficina(codigo.getText(), nombre.getText(), provincia.getSelectedItem()+"", localidad.getSelectedItem()+"", aeropuerto.isSelected(),observaciones.getText());
 			MetodosGUI.desactPanel(panel);
 			MetodosGUI.vaciarPanel(panel);

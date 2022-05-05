@@ -8,5 +8,11 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Andres/Desktop/1ºDAW/Programacion/java/Libreria/libb.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andres/Desktop/1ºDAW/Programacion/java/Drivers/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andres/Desktop/1ºDAW/Programacion/ProyectoConcesionario/jcalendar-1.4/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andres/Desktop/1ºDAW/Programacion/ProyectoConcesionario/jcalendar-1.4/lib/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andres/Desktop/1ºDAW/Programacion/ProyectoConcesionario/jcalendar-1.4/lib/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andres/Desktop/1ºDAW/Programacion/ProyectoConcesionario/jcalendar-1.4/lib/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

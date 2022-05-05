@@ -27,6 +27,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	public static FormuOficinas fOfi = null;
+	public static FormuClientes fCli = null;
 
 	/**
 	 * Launch the application.
@@ -65,6 +66,16 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnFicherosMaestros.add(mntmOficinas);
+		
+		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fCli = new FormuClientes();
+				fCli.setLocationRelativeTo(Principal.v);
+				fCli.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmClientes);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0,88,165));
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));

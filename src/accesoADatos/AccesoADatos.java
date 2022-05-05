@@ -1,4 +1,4 @@
-package acessoADatos;
+package accesoADatos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

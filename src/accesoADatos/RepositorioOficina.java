@@ -1,4 +1,4 @@
-package acessoADatos;
+package accesoADatos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +11,10 @@ public class RepositorioOficina {
 	
 	private static Statement st=null;
 
+	/**
+	 * Devuelve todas las oficinas de la base de datos.
+	 * @return ArrayList con las oficinas
+	 */
 	public static ArrayList<Oficina> arrayListOficinas() {
 		
 		ArrayList<Oficina> lista = new ArrayList<Oficina>();
@@ -46,6 +50,11 @@ public class RepositorioOficina {
 		return lista;
 	}
 	
+	/**
+	 * Busca la oficina que tenga ese codigo en la base de datos
+	 * @param codigo codigo de la oficina
+	 * @return Oficina
+	 */
 	public static Oficina buscaOficina(String codigo) {
 		
 		String cod="";
@@ -76,6 +85,12 @@ public class RepositorioOficina {
 		return o;
 	}
 	
+	
+	/**
+	 * Busca las oficinas que tengan ese nombre en la base de datos
+	 * @param nombre nombre de la oficina
+	 * @return ArrayList
+	 */
 	public static ArrayList<Oficina> arrayListOficinasPorNombre(String nombre) {
 		
 		ArrayList<Oficina> lista = new ArrayList<Oficina>();
@@ -111,8 +126,10 @@ public class RepositorioOficina {
 	}
 	
 	
-	
-	
+	/**
+	 * Borra la oficina que tenga el codigo en la base de datos
+	 * @param codigo codigo de la oficina
+	 */
 	public static void borraOficina(String codigo) {
 		try {
 			st = AccesoADatos.getCn().createStatement();
@@ -124,7 +141,15 @@ public class RepositorioOficina {
 		}
 	}
 	
-	
+	/**
+	 * Crea una oficina en la base de datos
+	 * @param codigo Codigo de la ofi
+	 * @param nombre Nombre de la ofi
+	 * @param nomProv Provincia de la ofi
+	 * @param nomloc Localidad de la ofi
+	 * @param ofiAero Si es una oficina de aeropuerto
+	 * @param observaciones Observaciones de la oficina
+	 */
 	public static void creaOficina(String codigo, String nombre, String nomProv, String nomloc, boolean ofiAero, String observaciones) {
 		
 		String aero = "";

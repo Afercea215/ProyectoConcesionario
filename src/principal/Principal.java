@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import java.util.TreeMap;
 
-import acessoADatos.AccesoADatos;
+import accesoADatos.AccesoADatos;
 import entidades.*;
 import gui.VentanaPrincipal;
 import metodos.GestionEmpresa;

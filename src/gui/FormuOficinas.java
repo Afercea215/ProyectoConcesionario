@@ -8,8 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import acessoADatos.AccesoADatos;
-import acessoADatos.RepositorioOficina;
 import entidades.Oficina;
 import principal.Principal;
 import java.awt.Toolkit;
@@ -37,6 +35,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
+import accesoADatos.*;
 
 public class FormuOficinas extends JDialog {
 
@@ -259,10 +258,10 @@ public class FormuOficinas extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListadoOficinas vListOfi = new VListadoOficinas(fOfi);
+				VListado vListOfi = new VListado(fOfi, MetodosOficina.creaModelTabOfi(RepositorioOficina.arrayListOficinas()));
 				vListOfi.setLocationRelativeTo(VentanaPrincipal.fOfi);
 				vListOfi.setVisible(true);
-				o = vListOfi.elegido;
+				o = (Oficina)vListOfi.getElegido();
 				vListOfi.dispose();
 				
 				//SI se a selecciomnao alguna fila, se rellena en el formulario.
@@ -329,6 +328,11 @@ public class FormuOficinas extends JDialog {
 		lblLocalidad.setBounds(10, 141, 56, 21);
 		contentPanel.add(lblLocalidad);
 		
+		
+		////////
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(319, 44, 312, 141);
+		contentPanel.add(scrollPane);
 		
 		//OBSERVACIONES
 		JTextArea taObservaciones = new JTextArea();
@@ -426,9 +430,7 @@ public class FormuOficinas extends JDialog {
 			tfCodigo.setEnabled(true);
 			btnLupa.setEnabled(true);
 				
-			scrollPane = new JScrollPane();
-			scrollPane.setBounds(319, 44, 312, 141);
-			contentPanel.add(scrollPane);
+
 			
 		
 			
