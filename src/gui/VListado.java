@@ -9,8 +9,12 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -32,6 +36,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.JTextField;
 import java.awt.Component;
@@ -40,11 +45,17 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -62,6 +73,10 @@ public class VListado extends JDialog {
 	private JPanel panelBuscador;
 	private JButton btnSeleccionar;
 	private JButton btnCancelar;
+	private int selectedRow=0;
+	private int selectedColum=0;
+	private int sortedColum=0;
+	private int columOrdenada=0;
 
 	/**
 	 * Launch the application.
@@ -108,8 +123,15 @@ public class VListado extends JDialog {
 
 	/////////////////crear model con los parametros ///// DefaultTableModel model 
 	///////////////, ArrayList<Integer> anchuraColumnas
+	 public boolean isCellEditable(int row, int column) {                
+         return false;               
+	 };
+	
 	
 	public VListado(DatosTabla datos) {
+		
+		
+		
 		listVentana = this;
 		setTitle("Listado");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\lista.png"));
@@ -120,7 +142,12 @@ public class VListado extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		
-		DefaultTableModel model = new DefaultTableModel();
+		DefaultTableModel model = new DefaultTableModel() {
+	            @Override
+	            public boolean isCellEditable(int row, int column) {
+	                return false;
+	            }
+		};
 		table = new JTable(model);
 		table.setAutoCreateRowSorter(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -167,15 +194,8 @@ public class VListado extends JDialog {
 		this.setMinimumSize(new Dimension(ancho, minAlto));
 		nColum = table.getModel().getColumnCount();
 		
-		setBounds(100, 100, ancho, minAlto);
+		setBounds(100, 100, 609, 250);
 		
-		{
-
-			{
-				
-			}
-			
-		}
 		{
 			JPanel panel = new JPanel();
 			contentPanel.add(panel, BorderLayout.SOUTH);
@@ -185,18 +205,12 @@ public class VListado extends JDialog {
 				panel.add(panelBuscador, BorderLayout.CENTER);
 				panelBuscador.setLayout(null);
 				
-				JButton btSeleccionar = new JButton("");
-				btSeleccionar.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\lupa.png"));
-				btSeleccionar.setActionCommand("Cancel");
-				btSeleccionar.setBounds(276, 34, 27, 28);
-				panelBuscador.add(btSeleccionar);
 				{
-					tfEmpiezaPor = new JTextField();
-					tfEmpiezaPor.setName("empiezaPor");
-					tfEmpiezaPor.setBounds(104, 16, 156, 19);
-					panelBuscador.add(tfEmpiezaPor);
-					tfEmpiezaPor.setColumns(10);
-				}
+				tfEmpiezaPor = new JTextField();
+				tfEmpiezaPor.setName("empiezaPor");
+				tfEmpiezaPor.setBounds(104, 16, 156, 19);
+				panelBuscador.add(tfEmpiezaPor);
+				tfEmpiezaPor.setColumns(10);
 				
 				JLabel lblNewLabel = new JLabel("Comienza por :");
 				lblNewLabel.setBounds(9, 19, 70, 13);
@@ -211,6 +225,29 @@ public class VListado extends JDialog {
 				tfContiene.setColumns(10);
 				tfContiene.setBounds(104, 40, 156, 19);
 				panelBuscador.add(tfContiene);
+				
+				JButton btnLupa = new JButton("New button");
+				btnLupa.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int filaModel;
+						int fila=table.getSelectedRow();
+						filaModel= table.convertRowIndexToModel(fila);
+						if(!tfContiene.getText().equals("")) {
+							for (int i=0;i<model.getRowCount();i++) {
+								filaModel= table.convertRowIndexToModel(i);
+								String valor = (model.getValueAt(filaModel, columOrdenada))+"";
+								
+								if(valor.toUpperCase().indexOf(tfContiene.getText().toUpperCase())!=-1) {
+									//filaModel= table.convertRowIndexToModel(i);
+									table.setRowSelectionInterval(0, i);
+									break;
+								}
+							}
+						} 				
+					}
+				});
+				btnLupa.setBounds(270, 39, 85, 21);
+				panelBuscador.add(btnLupa);
 			}
 			{
 				JPanel panelBotones = new JPanel();
@@ -218,10 +255,28 @@ public class VListado extends JDialog {
 				panelBotones.setLayout(new MigLayout("", "[85px]", "[10][][21px]"));
 				
 				btnSeleccionar = new JButton("Seleccionar");
+				btnSeleccionar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						elegido=null;
+						elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
+						if (elegido!=null) {
+							listVentana.setVisible(false);	
+							tfContiene.setText("");
+							tfEmpiezaPor.setText("");
+						} 
+					}
+				});
 				btnSeleccionar.setName("seleccionar");
 				panelBotones.add(btnSeleccionar, "cell 0 1,grow");
 				
 				btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						table.setRowSelectionInterval(0, 0);
+						tfContiene.setText("");
+						tfEmpiezaPor.setText("");
+					}
+				});
 				btnCancelar.setName("cancelar");
 				panelBotones.add(btnCancelar, "cell 0 2,grow");
 			}
@@ -232,21 +287,64 @@ public class VListado extends JDialog {
 			
 			table.addMouseListener(new java.awt.event.MouseAdapter() {
 			      public void mouseClicked(java.awt.event.MouseEvent e) {
-				      if(e.getClickCount()==2){
+			    	  
+			    	  sortedColum = table.columnAtPoint(new Point(e.getX(), e.getY()));
+			    	  //////////////////sort
+			    	  
+			    	  if(e.getClickCount()==2){
 				    		elegido=null;
-							elegido= MetodosGUI.cogerSeleccionado(table,nColum);
+							elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
 							if (elegido!=null) {
 								listVentana.setVisible(false);			
-								} 
+							} 
 				      }
-				      
 		     	 }
 			 });
 			
+			table.setRowSelectionAllowed(true);
+			
+			table.getRowSorter().addRowSorterListener(new RowSorterListener() {
+			    @Override
+			    public void sorterChanged(RowSorterEvent e) {
+			    	if (e.getType() == RowSorterEvent.Type.SORT_ORDER_CHANGED) {
+	                    List<SortKey> keys = (List<SortKey>) e.getSource().getSortKeys();
+	                    for (SortKey key : keys) {
+	                    	columOrdenada=key.getColumn();
+	                    }
+	                }
+			    }
+			});
 			
 			table.removeColumn(table.getColumnModel().getColumn(nColum-1));
-			//////////table.setUpdateSelectionOnSort(true);
+			table.getRowSorter().toggleSortOrder(0);
+
+			tfEmpiezaPor.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					int filaModel;
+					int fila=table.getSelectedRow();
+					filaModel= table.convertRowIndexToModel(fila);
+					if(!tfEmpiezaPor.getText().equals("")) {
+						for (int i=0;i<model.getRowCount();i++) {
+							
+							filaModel= table.convertRowIndexToModel(i);
+							String valor = (model.getValueAt(filaModel, columOrdenada))+"";
+							
+							if(valor.toUpperCase().startsWith(tfEmpiezaPor.getText().toUpperCase())) {
+								//filaModel= table.convertRowIndexToModel(i);
+								System.out.println("----------------------------");
+								table.setRowSelectionInterval(0, i);
+								break;
+							}
+						}
+					} 					
+				}
+			});
+			
+			table.setRowSelectionInterval(0, 0);
+			table.setRowSelectionAllowed(true);
 		}
 		
 	}
+}
 }

@@ -442,15 +442,17 @@ public class MetodosGUI {
 		Object elegido = null;
 		
 		fila=tabla.getSelectedRow();
+		int filaModel = tabla.convertRowIndexToModel(fila);
 		
-		if(fila==-1) {
+		
+		if(filaModel==-1) {
 			JOptionPane.showMessageDialog(tabla, "Debe marcar una fila.","Error en la selección",JOptionPane.ERROR_MESSAGE);
 		}else {
-			elegido= tabla.getModel().getValueAt(fila,numFila);
-			
+			elegido= tabla.getModel().getValueAt(filaModel,numFila);
 		}
 		
 		return elegido;
+		
 	}
 	
 }

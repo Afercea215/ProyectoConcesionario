@@ -170,13 +170,27 @@ public class RepositorioCliente {
 	 */
 	public static void creaCliente(String dni,String ap1,String ap2,String nombre,GregorianCalendar fechaNac,String carnetConducir,String nTarjetaCliente) {
 		
-		int mes = fechaNac.get(Calendar.MONTH);
+		int mes = fechaNac.get(Calendar.MONTH)+1;
 		int dia = fechaNac.get(Calendar.DAY_OF_MONTH);
 		int año = fechaNac.get(Calendar.YEAR);
 		
+		String mesString="";
+		if (mes<10) {
+			mesString="0"+mes;
+		}else {
+			mesString=mes+"";
+		}
+		
+		String diaString="";
+		if (dia<10) {
+			diaString="0"+dia;
+		}else {
+			diaString=dia+"";
+		}
+		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			st.executeQuery("insert into persona values (upper('"+dni+"'),upper('"+nombre+"'),upper('"+ap1+"'),upper('"+ap2+"'),'"+dia+"/"+mes+"/"+año+"')");
+			st.executeQuery("insert into persona values (upper('"+dni+"'),upper('"+nombre+"'),upper('"+ap1+"'),upper('"+ap2+"'),'"+diaString+"/"+mesString+"/"+año+"')");
 			st.executeQuery("insert into cliente2 values (upper('"+dni+"'),upper('"+carnetConducir+"'),upper('"+nTarjetaCliente+"'))");
 			st.executeQuery("commit");
 		} catch (SQLException e) {

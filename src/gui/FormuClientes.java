@@ -378,8 +378,8 @@ public class FormuClientes extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						MetodosGUI.vaciarPanel(getContentPanel());
 						MetodosGUI.desactPanel(getContentPanel(), listaExcepDesact);
-//						tfDni.setEnabled(true);
-//						btnLupa.setEnabled(true);
+						tfDni.setEnabled(true);
+						btnLupa.setEnabled(true);
 //						btGrabar.setEnabled(false);
 //						btBorrar.setEnabled(false);
 					}
