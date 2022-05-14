@@ -37,7 +37,7 @@ public class CocheElectrico extends Electrico {
 	 * @param n_plazas int numero de plazas que tiene.
 	 * @param tipo String (Deportivo, Familiar, 4x4).
 	 */
-	public CocheElectrico(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
+	public CocheElectrico(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado, int autonimia, int tiempoRecarga, int n_plazas,
 			String tipo) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado, autonimia, tiempoRecarga);

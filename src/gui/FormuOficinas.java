@@ -1,6 +1,8 @@
+
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -23,6 +25,8 @@ import javax.swing.JComboBox;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.HierarchyListener;
@@ -47,20 +51,30 @@ public class FormuOficinas extends JDialog {
 	private JComboBox cbLocalidad = new JComboBox();
 	private JComboBox cbProvincia;
 	private JCheckBox chckbxOfiAeropuerto;
-	private Oficina o;
 	private JButton btBorrar;
 	private JButton btnLupa;
 	private JScrollPane scrollPane;
+	private JTextArea taObservaciones;
+	private JButton btnCancel;
+	private ArrayList<Component> lista = new ArrayList<Component>();
+
+
+	public ArrayList<Component> getLista() {
+		return lista;
+	}
+
+	public void setLista(ArrayList<Component> lista) {
+		this.lista = lista;
+	}
 
 	
-	/**
-	 * Launch the application.
-	 */
-	
-	//////////////////////////////////////////
-	//GETTERS Y SETTERS
-	//////////////////////////////////////////
-	
+	public JTextArea getTaObservaciones() {
+		return taObservaciones;
+	}
+
+	public void setTaObservaciones(JTextArea taObservaciones) {
+		this.taObservaciones = taObservaciones;
+	}
 	
 	public FormuOficinas getfOfi() {
 		return fOfi;
@@ -102,9 +116,6 @@ public class FormuOficinas extends JDialog {
 		return chckbxOfiAeropuerto;
 	}
 
-	public Oficina getO() {
-		return o;
-	}
 
 	public JButton getBtBorrar() {
 		return btBorrar;
@@ -138,9 +149,6 @@ public class FormuOficinas extends JDialog {
 		this.chckbxOfiAeropuerto = chckbxOfiAeropuerto;
 	}
 
-	public void setO(Oficina o) {
-		this.o = o;
-	}
 
 	public void setBtBorrar(JButton btBorrar) {
 		this.btBorrar = btBorrar;
@@ -162,7 +170,7 @@ public class FormuOficinas extends JDialog {
 		setResizable(false);
 		setModal(true);
 		setTitle("Oficinas");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\oficina.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("media/oficina.png"));
 		setBounds(100, 100, 695, 316);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
@@ -181,53 +189,28 @@ public class FormuOficinas extends JDialog {
 		tfCodigo.setColumns(4);
 		tfCodigo.setBounds(62, 10, 44, 21);
 		contentPanel.add(tfCodigo);
+		tfCodigo.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
 		tfCodigo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				//si se pulsa intro se verifica si el coodigo es valido
 				 if(e.getKeyCode()==KeyEvent.VK_ENTER){
-					 
-					btGrabar.setEnabled(true);
-					btBorrar.setEnabled(true);
-	                   
-					//si la longitud es correcta  
-					if (miLibreria.metodos.Validadores.validarLongitud(tfCodigo.getText(), 4)) {
-						//se busca la oficina en la base de datos y se activa el formu
-						o = RepositorioOficina.buscaOficina(tfCodigo.getText());
-		                    
-	                    MetodosGUI.activPanel(contentPanel);
-	                    tfCodigo.setEnabled(false);
-	                    tfNombre.setFocusable(true);
-	                    btnLupa.setEnabled(false);
-	                    btBorrar.setEnabled(true);
-	                    btGrabar.setEnabled(true);
-	                    
-	                    //si ha encontrado una oficina, rellena el formu con los datos.
-	                    if (o!=null) {
-	                    	
-		                    tfNombre.setText(o.getDescripcion());
-		                    chckbxOfiAeropuerto.setSelected(o.isOfiAeropuerto());
-		                    cbProvincia.setSelectedItem(o.getProvincia());
-		                    cbLocalidad.setSelectedItem(o.getLocalidad());
-	                    }
-	                    
-					 } else {
-							JOptionPane.showMessageDialog(fOfi, "Longitud del código incorrecta, debe ser de 4 digitos.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
-							tfCodigo.setText("");
-					 }
+					MetodosOficina.rellenaPanelOfi(RepositorioOficina.buscaOficina(tfCodigo.getText()), fOfi);
+					
+					MetodosGUI.activPanel(contentPanel);
+					excepcionesActiva();
 	             }
 			}
-			
 			//cuando escribe capamos que escriba valores que no sean numeros, intro o borrar. Tammbien cuango la long sea 0
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
-				if (!Character.isDigit(c)||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE||c==KeyEvent.VK_ENTER||tfCodigo.getText().length()==4)
+				if (tfCodigo.getText().length()==4)
 				{
-					getToolkit().beep();
 					e.consume();
 				}
 			}
+
 		});
 		
 		
@@ -250,7 +233,7 @@ public class FormuOficinas extends JDialog {
 		//LUPA
 		btnLupa = new JButton("");
 		btnLupa.setName("lupa");
-		btnLupa.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\lupa.png"));
+		btnLupa.setIcon(new ImageIcon("media/lupa.png"));
 		btnLupa.setBounds(118, 10, 20, 21);
 		contentPanel.add(btnLupa);
 		
@@ -258,27 +241,15 @@ public class FormuOficinas extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vListOfi = new VListado(fOfi, MetodosOficina.creaModelTabOfi(RepositorioOficina.arrayListOficinas()));
+				VListado vListOfi = new VListado(MetodosOficina.creaDatosTabla());
 				vListOfi.setLocationRelativeTo(VentanaPrincipal.fOfi);
 				vListOfi.setVisible(true);
-				o = (Oficina)vListOfi.getElegido();
+				Oficina o = (Oficina)vListOfi.getElegido();
 				vListOfi.dispose();
 				
-				//SI se a selecciomnao alguna fila, se rellena en el formulario.
-				if(o!=null){
-					MetodosGUI.activPanel(contentPanel);
-					
-					tfCodigo.setText(o.getCod());
-					tfNombre.setText(o.getDescripcion());
-					chckbxOfiAeropuerto.setSelected(o.isOfiAeropuerto());
-					cbProvincia.setSelectedItem(o.getProvincia().toUpperCase());
-					cbLocalidad.setSelectedItem(o.getLocalidad().toUpperCase());
-					tfCodigo.setEnabled(false);
-					btnLupa.setEnabled(false);
-					
-					btGrabar.setEnabled(true);
-					btBorrar.setEnabled(true);
-				}
+				MetodosOficina.rellenaPanelOfi(o, fOfi);
+				MetodosGUI.activPanel(contentPanel);
+				excepcionesActiva();
 			}
 		});
 		
@@ -335,7 +306,7 @@ public class FormuOficinas extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		//OBSERVACIONES
-		JTextArea taObservaciones = new JTextArea();
+		taObservaciones = new JTextArea();
 		taObservaciones.setEnabled(false);
 		scrollPane.setViewportView(taObservaciones);
 		taObservaciones.setRows(5);
@@ -356,7 +327,7 @@ public class FormuOficinas extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btBorrar = new JButton("");
-				btBorrar.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\borrar.png"));
+				btBorrar.setIcon(new ImageIcon("media/borrar.png"));
 				btBorrar.setEnabled(false);
 				
 				btBorrar.addActionListener(new ActionListener() {
@@ -367,15 +338,15 @@ public class FormuOficinas extends JDialog {
 							//para comprobar que existe la ofi
 							Oficina o = RepositorioOficina.buscaOficina(tfCodigo.getText());
 							if (o!=null) {
-								RepositorioOficina.borraOficina(o.getCod());
+								try {
+									RepositorioOficina.borraOficina(o.getCod());
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									MetodosGUI.mensajeErrorBorrado(fOfi);
+								}
 								MetodosGUI.vaciarPanel(contentPanel);
 								MetodosGUI.desactPanel(contentPanel);
-								
-								tfCodigo.setEnabled(true);
-								btnLupa.setEnabled(true);
-								
-								btGrabar.setEnabled(false);
-								btBorrar.setEnabled(false);
+								excepcionesDesact();
 							}else {
 								JOptionPane.showMessageDialog(fOfi,"La oficina que desea borrar no existe.");
 							}
@@ -388,53 +359,58 @@ public class FormuOficinas extends JDialog {
 			}
 			{
 				btGrabar = new JButton("");
-				btGrabar.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\guardar.png"));
+				btGrabar.setIcon(new ImageIcon("media/guardar.png"));
 				btGrabar.setFocusPainted(false);
 				btGrabar.setEnabled(false);
 				btGrabar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						MetodosOficina.grabaOficina(contentPanel);
-						//ggrasbar
-						
-					}
+							MetodosOficina.grabaOficina(fOfi);
+							
+							
+						}
 				});
 				btGrabar.setVerticalAlignment(SwingConstants.BOTTOM);
 				buttonPane.add(btGrabar);
 			}
 			{
-				JButton cancelButton = new JButton("");
-				cancelButton.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\cancel.png"));
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancel = new JButton("");
+				btnCancel.setIcon(new ImageIcon("media/cancel.png"));
+				btnCancel.setActionCommand("Cancel");
+				buttonPane.add(btnCancel);
 				
-				cancelButton.addActionListener(new ActionListener() {
+				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						MetodosGUI.vaciarPanel(contentPanel);
 						MetodosGUI.desactPanel(contentPanel);
-						tfCodigo.setEnabled(true);
-						btnLupa.setEnabled(true);
-						btGrabar.setEnabled(false);
-						btBorrar.setEnabled(false);
+						excepcionesDesact();
 					}
 				});
 			}
 		}
-		{
 			
-			JMenuBar menuBar = new JMenuBar();
-			setJMenuBar(menuBar);
-		}	
-			
-				
-			MetodosGUI.desactPanel(contentPanel);
-			tfCodigo.setEnabled(true);
-			btnLupa.setEnabled(true);
-				
-
-			
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
 		
-			
-			
+		MetodosGUI.desactPanel(contentPanel);
+		excepcionesDesact();
 		
+		lista.add(taObservaciones);
+	}
+	
+	public void excepcionesActiva () {
+		tfCodigo.setEnabled(false);
+		btnLupa.setEnabled(false);
+		
+		btGrabar.setEnabled(true);
+		btBorrar.setEnabled(true);
+	}
+	
+	public void excepcionesDesact () {
+		tfCodigo.setEnabled(true);
+		btnLupa.setEnabled(true);
+		btnCancel.setEnabled(true);
+		
+		btGrabar.setEnabled(false);
+		btBorrar.setEnabled(false);
 	}
 }

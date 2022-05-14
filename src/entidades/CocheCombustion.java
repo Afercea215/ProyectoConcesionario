@@ -35,7 +35,7 @@ public class CocheCombustion extends Combustion{
 	 * @param n_plazas int numero de plazas que tiene.
 	 * @param tipo String (Deportivo, Familiar, 4x4).
 	 */
-	public CocheCombustion(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
+	public CocheCombustion(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia, String nivel_emison,
 			int n_plazas, String tipo) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado, consumo, potencia,

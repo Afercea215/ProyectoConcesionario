@@ -57,4 +57,13 @@ public class Empleado extends miLibreria.objetos.Persona implements Serializable
 		return super.toString()+", Oficina : " + oficina;
 	}
 	
+	public String fechaAltaString() {
+		
+		int mes = fechaAlta.get(Calendar.MONTH)+1;
+		int dia = fechaAlta.get(Calendar.DAY_OF_MONTH);
+		int año = fechaAlta.get(Calendar.YEAR)+1900;
+		
+		return dia+"/"+mes+"/"+año;
+	}
+	
 }

@@ -28,6 +28,8 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel contentPane;
 	public static FormuOficinas fOfi = null;
 	public static FormuClientes fCli = null;
+	public static FormuEmpleados fEmple = null;
+	public static FormuMotos fMoto = null;
 
 	/**
 	 * Launch the application.
@@ -41,7 +43,7 @@ public class VentanaPrincipal extends JFrame {
 		setForeground(new Color(0, 0, 0));
 		setBackground(new Color(0, 0, 0));
 		setTitle("ENTERPRISE");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\logo.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("media/logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 661, 401);
 		
@@ -76,6 +78,26 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnFicherosMaestros.add(mntmClientes);
+		
+		JMenuItem mntmEmpleados = new JMenuItem("Empleados");
+		mntmEmpleados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fEmple = new FormuEmpleados();
+				fEmple.setLocationRelativeTo(Principal.v);
+				fEmple.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmEmpleados);
+		
+		JMenuItem mntmMotos = new JMenuItem("Motos");
+		mntmMotos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fMoto = new FormuMotos();
+				fMoto.setLocationRelativeTo(Principal.v);
+				fMoto.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmMotos);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0,88,165));
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -85,7 +107,7 @@ public class VentanaPrincipal extends JFrame {
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setHorizontalAlignment(SwingConstants.CENTER);
 
-		lblFondo.setIcon(new ImageIcon("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\logo.png"));
+		lblFondo.setIcon(new ImageIcon("media/logo.png"));
 		lblFondo.setBackground(new Color(100, 0, 0));
 		contentPane.add(lblFondo, BorderLayout.CENTER);
 	}

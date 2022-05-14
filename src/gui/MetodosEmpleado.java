@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -26,19 +27,20 @@ import javax.swing.table.TableRowSorter;
 import com.toedter.calendar.JDateChooser;
 
 import accesoADatos.RepositorioCliente;
+import accesoADatos.RepositorioEmpleado;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
 import entidades.*;
 
-public class MetodosCliente {
+public class MetodosEmpleado {
 	
 	
 	public static ArrayList<String> nombreColumnas() {
 		ArrayList<String> nombreColumnas = new ArrayList<String>();
 		nombreColumnas.add("Nombre Completo");
 		nombreColumnas.add("Fecha nacimiento");
-		nombreColumnas.add("Carnet");
-		nombreColumnas.add("Num Cliente");
+		nombreColumnas.add("Oficina");
+		nombreColumnas.add("Fecha alta");
 		nombreColumnas.add("DNI");
 		nombreColumnas.add("obj");
 		
@@ -48,7 +50,7 @@ public class MetodosCliente {
 	public static ArrayList<Integer> anchoColumnas() {
 		ArrayList<Integer> anchoColumnas = new ArrayList<Integer>();
 		anchoColumnas.add(250);
-		anchoColumnas.add(100);
+		anchoColumnas.add(55);
 		anchoColumnas.add(55);
 		anchoColumnas.add(55);
 		anchoColumnas.add(55);
@@ -58,47 +60,46 @@ public class MetodosCliente {
 	}
 	
 	public static DatosTabla creaDatosTabla() {
-		return (new DatosTabla(MetodosCliente.nombreColumnas(), MetodosCliente.listaClientesTabla(), MetodosCliente.anchoColumnas()));
+		return (new DatosTabla(nombreColumnas(), listaEmpleadosTabla(), anchoColumnas()));
 	}
 	
-	public static Object[][] listaClientesTabla(){
-		ArrayList<Cliente> lista = RepositorioCliente.arrayListClientes();
+	public static Object[][] listaEmpleadosTabla(){
+		ArrayList<Empleado> lista = RepositorioEmpleado.arrayListEmpleados();
 		int numColumnas = 6;
-		int numClientes = lista.size();
-		Object[][] listaTabla = new Object[numClientes][numColumnas];		
+		int numFilas = lista.size();
+		Object[][] listaTabla = new Object[numFilas][numColumnas];		
 		
-		for (int i=0;i<numClientes;i++) {
+		for (int i=0;i<numFilas;i++) {
 				listaTabla[i][0]=lista.get(i).getNombre()+" "+lista.get(i).getAp1()+" "+lista.get(i).getAp2();
 				listaTabla[i][1]=new Date(lista.get(i).getFechaNac().get(Calendar.YEAR), lista.get(i).getFechaNac().get(Calendar.MONTH), lista.get(i).getFechaNac().get(Calendar.DAY_OF_MONTH));
-				listaTabla[i][2]=lista.get(i).getCarnetConducir().getNombre();
-				listaTabla[i][3]=lista.get(i).getnTarjetaCliente();
+				listaTabla[i][2]=lista.get(i).getOficina().getDescripcion();
+				listaTabla[i][3]=new Date(lista.get(i).getFechaAlta().get(Calendar.YEAR), lista.get(i).getFechaAlta().get(Calendar.MONTH), lista.get(i).getFechaAlta().get(Calendar.DAY_OF_MONTH));
 				listaTabla[i][4]=lista.get(i).getDni();
 				listaTabla[i][5]=lista.get(i);
 		}
 		
 		return listaTabla;
 	}
-	
+		
 	/**
 	 * Coge el cliente del formulario y lo graba en la base de datos.
 	 * @param panel Panel donde se encuentran los componjentes
 	 */
-	public static void grabaCliente (JDialog jframe) {
+	public static void grabaEmpleado (JDialog jframe) {
 		JPanel panel = (JPanel) jframe.getContentPane();
-		FormuClientes formu = (FormuClientes) jframe;
+		FormuEmpleados formu = (FormuEmpleados) jframe;
 		
 		//si todo esta relleno lo graba, si no sale un mensaje
 		if (MetodosGUI.datosRellenos(panel,formu.getExcepciones(), true)) {
 			
-			Cliente c = creaCliPanel(formu);
+			Empleado e = creaEmplePanel(formu);
 
 			//si la cliente ya existe la borro
-			if(RepositorioCliente.buscaCliente(c.getDni())!=null) {
-				RepositorioCliente.updateCliente(c);
+			if(RepositorioEmpleado.buscaEmpleado(e.getDni())!=null) {
+				RepositorioEmpleado.updateEmpleado(e);
 			}else {
-				RepositorioCliente.creaCliente(c);
+				RepositorioEmpleado.creaEmpleado(e, formu);
 			}
-			
 			MetodosGUI.vaciarPanel(panel);
 			MetodosGUI.desactPanel(panel);
 			formu.excepcionesDesact();
@@ -108,46 +109,53 @@ public class MetodosCliente {
 		}
 	}
 	
-	public static Cliente creaCliPanel (JDialog dialog) {
+	
+	public static Empleado creaEmplePanel (JDialog dialog) {
 		
 		JPanel panel = (JPanel) dialog.getContentPane();
-		FormuClientes formu = (FormuClientes) dialog;
+		FormuEmpleados formu = (FormuEmpleados) dialog;
 
 		String dni=formu.getTfDni().getText();
 		String nombre= formu.getTfNombre().getText();
 		String ap1 = formu.getTfAp1().getText();
 		String ap2 = formu.getTfAp2().getText();
-		TipoCarnet tipoCarnet = RepositorioTipoCarnet.buscaTipoCarnet(formu.getCbTipoCarnet().getSelectedItem()+"");
-		String nTarjeta = formu.getTfNTarjeta().getText();
 		GregorianCalendar fechaNac = new GregorianCalendar(formu.getDtFechaNac().getDate().getYear(), formu.getDtFechaNac().getDate().getMonth(), formu.getDtFechaNac().getDate().getDay()) ;
-		
-		return new Cliente(ap1, ap2, nombre, fechaNac, dni, tipoCarnet, nTarjeta);
+		GregorianCalendar fechaAlta = new GregorianCalendar(formu.getDtFechaAlta().getDate().getYear(), formu.getDtFechaAlta().getDate().getMonth(), formu.getDtFechaAlta().getDate().getDay()) ;
+		Oficina ofi = RepositorioOficina.buscaOficina(( (Oficina) formu.getCbOficina().getSelectedItem()).getCod());
+		 
+		return new Empleado(ap1, ap2, nombre, fechaNac, dni, ofi, fechaAlta);
 	}
 	
-	public static void rellenaPanelCli (Cliente c, JDialog dialog) {
+	
+	public static void rellenaPanelEmple (Empleado e, JDialog dialog) {
 		
 		JPanel panel = (JPanel) dialog.getContentPane();
-		FormuClientes formu = (FormuClientes) dialog;
+		FormuEmpleados formu = (FormuEmpleados) dialog;
 		
 		//si la longitud es correcta  
-		if (c!=null) {
+		if (e!=null) {
 			
-			if (miLibreria.metodos.Validadores.DNIvalido(c.getDni())) {
-				int mes = c.getFechaNac().get(Calendar.MONTH)+1;
-				int dia = c.getFechaNac().get(Calendar.DAY_OF_MONTH);
-				int año = c.getFechaNac().get(Calendar.YEAR);
+			if (miLibreria.metodos.Validadores.DNIvalido(e.getDni())) {
+				int mes = e.getFechaNac().get(Calendar.MONTH)+1;
+				int dia = e.getFechaNac().get(Calendar.DAY_OF_MONTH);
+				int año = e.getFechaNac().get(Calendar.YEAR);
+				
+				int mes2 = e.getFechaAlta().get(Calendar.MONTH)+1;
+				int dia2 = e.getFechaAlta().get(Calendar.DAY_OF_MONTH);
+				int año2 = e.getFechaAlta().get(Calendar.YEAR);
 			
 				//se busca la oficina en la base de datos y se activa el formu
 	            //si ha encontrado una oficina, rellena el formu con los datos.
-				formu.getTfDni().setText(c.getDni());
-                formu.getTfNombre().setText(c.getNombre());
-                formu.getTfAp1().setText(c.getAp1());
-                formu.getTfAp2().setText(c.getAp2());
-                formu.getCbTipoCarnet().setSelectedItem(c.getCarnetConducir().getNombre());
-                formu.getTfNTarjeta().setText(c.getnTarjetaCliente());
+				formu.getTfDni().setText(e.getDni());
+                formu.getTfNombre().setText(e.getNombre());
+                formu.getTfAp1().setText(e.getAp1());
+                formu.getTfAp2().setText(e.getAp2());
                 formu.getDtFechaNac().setDate(new java.util.Date(año, mes, dia));
+                formu.getDtFechaAlta().setDate(new java.util.Date(año2, mes2, dia2));
+                formu.getCbOficina().setSelectedItem(e.getOficina());                
+                
 			 }else {
-					JOptionPane.showMessageDialog(formu.getfCli(), "DNI Incorrecto.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(formu.getfEmple(), "DNI Incorrecto.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
 					formu.getTfDni().setText("");
 			 }
 			 

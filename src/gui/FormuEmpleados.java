@@ -9,73 +9,78 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import accesoADatos.RepositorioCliente;
-import accesoADatos.RepositorioOficina;
-import accesoADatos.RepositorioTipoCarnet;
-import entidades.Cliente;
-import entidades.Oficina;
-import entidades.TipoCarnet;
-import principal.Principal;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-public class FormuClientes extends JDialog {
+import accesoADatos.RepositorioCliente;
+import accesoADatos.RepositorioEmpleado;
+import accesoADatos.RepositorioTipoCarnet;
+import entidades.Cliente;
+import entidades.Empleado;
+import entidades.TipoCarnet;
+import principal.Principal;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.AncestorEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
-	private FormuClientes fCli=this;
+public class FormuEmpleados extends JDialog {
+
+	private FormuEmpleados fEmple=this;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tfNombre;
 	private JTextField tfDni;
 	private JButton btGrabar;
-	private Cliente cli;
+	private Empleado emple;
 	private JButton btBorrar;
 	private JButton btnLupa;
 	private JTextField tfAp1 = new JTextField();
 	private JTextField tfAp2 = new JTextField();
-	private JComboBox cbTipoCarnet;
+	private JComboBox cbOficina;
 	private JDateChooser dtFechaNac = new JDateChooser();
+	private JDateChooser dtFechaAlta = new JDateChooser();
 	private JButton btnCancel;
-	private JTextField tfNTarjeta;
 	private ArrayList<Component> excepciones = new ArrayList<Component>();
+
 	
-	public ArrayList<Component> getExcepciones() {
-		return excepciones;
-	}
+	
+	/**
+	 * Launch the application.
+	 */
+	
+	//////////////////////////////////////////
+	//GETTERS Y SETTERS
+	//////////////////////////////////////////
+	
 
-	public void setExcepciones(ArrayList<Component> excepciones) {
-		this.excepciones = excepciones;
-	}
-
+	
 	/**
 	 * Create the dialog.
 	 */
-	public FormuClientes() {
+	public FormuEmpleados() {
 		
 		setResizable(false);
 		setModal(true);
-		setTitle("Clientes");
+		setTitle("Empleados");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("media/persona.png"));
-		setBounds(100, 100, 273, 375);
+		setBounds(100, 100, 273, 328);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -99,7 +104,9 @@ public class FormuClientes extends JDialog {
 			public void keyPressed(KeyEvent e) {
 				//si se pulsa intro se verifica si el coodigo es valido
 				 if(e.getKeyCode()==KeyEvent.VK_ENTER){
-					MetodosCliente.rellenaPanelCli(RepositorioCliente.buscaCliente(tfDni.getText()), fCli);
+					
+					 MetodosEmpleado.rellenaPanelEmple(RepositorioEmpleado.buscaEmpleado(tfDni.getText()), fEmple);
+					
 					if (!tfDni.getText().equals("")) {
 						MetodosGUI.activPanel(contentPanel);
 						excepcionesActiva();
@@ -119,7 +126,6 @@ public class FormuClientes extends JDialog {
 			}
 		});
 		
-		
 		//NOMBRE
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -132,25 +138,6 @@ public class FormuClientes extends JDialog {
 		contentPanel.add(tfNombre);
 		tfNombre.setColumns(30);
 		
-		tfNTarjeta = new JTextField();
-		tfNTarjeta.setName("tarjeta");
-		tfNTarjeta.setBounds(72, 218, 56, 19);
-		contentPanel.add(tfNTarjeta);
-		tfNTarjeta.setColumns(10);
-		
-		tfNTarjeta.addKeyListener(new KeyAdapter() {
-			//cuando escribe capamos que escriba valores que no sean numeros, intro o borrar. Tammbien cuango la long sea 0
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!Character.isDigit(c)||c==KeyEvent.VK_BACK_SPACE||c==KeyEvent.VK_DELETE||c==KeyEvent.VK_ENTER||tfNTarjeta.getText().length()==4)
-				{
-					getToolkit().beep();
-					e.consume();
-				}
-			}
-		});
-		
 		//LUPA
 		btnLupa = new JButton("");
 		btnLupa.setName("lupa");
@@ -161,14 +148,14 @@ public class FormuClientes extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosCliente.creaDatosTabla());
-				vList.setLocationRelativeTo(VentanaPrincipal.fCli);
+				VListado vList = new VListado(MetodosEmpleado.creaDatosTabla());
+				vList.setLocationRelativeTo(VentanaPrincipal.fEmple);
 				vList.setVisible(true);
-				Cliente c = (Cliente)vList.getElegido();
+				Empleado em = (Empleado)vList.getElegido();
 				vList.dispose();
 				
-				if (c!=null) {
-					MetodosCliente.rellenaPanelCli(c, fCli);
+				if (em!=null) {
+					MetodosEmpleado.rellenaPanelEmple(em, fEmple);
 					MetodosGUI.activPanel(contentPanel);
 					excepcionesActiva();
 				}
@@ -191,23 +178,23 @@ public class FormuClientes extends JDialog {
 
 				btBorrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int n = JOptionPane.showConfirmDialog(fCli, "¿Está seguro de que quiere borrarlo?","ADVERTENCIA", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+						int n = JOptionPane.showConfirmDialog(fEmple, "¿Está seguro de que quiere borrarlo?","ADVERTENCIA", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 						//si elige el boton si
 						if (n==0) {
 							//para comprobar que existe la ofi
-							Cliente c = RepositorioCliente.buscaCliente(tfDni.getText());
-							if (c!=null) {
+							Empleado em = RepositorioEmpleado.buscaEmpleado(tfDni.getText());
+							if (em!=null) {
 								try {
-									RepositorioCliente.borraCliente(c.getDni());
+									RepositorioEmpleado.borraEmpleado(em.getDni());
 								} catch (SQLException e1) {
 									// TODO Auto-generated catch block
-									MetodosGUI.mensajeErrorBorrado(fCli);
+									MetodosGUI.mensajeErrorBorrado(fEmple);
 								}
 								MetodosGUI.vaciarPanel(contentPanel);
 								MetodosGUI.desactPanel(contentPanel);
 								excepcionesDesact();
 							}else {
-								JOptionPane.showMessageDialog(fCli,"El cliente que desea borrar no existe.");
+								JOptionPane.showMessageDialog(fEmple,"El empleado que desea borrar no existe.");
 							}
 						}
 					}
@@ -223,7 +210,13 @@ public class FormuClientes extends JDialog {
 				btGrabar.setFocusPainted(false);
 				btGrabar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						MetodosCliente.grabaCliente(fCli);
+						
+						if (dtFechaAlta.getDate().before(dtFechaNac.getDate())) {
+							JOptionPane.showMessageDialog(fEmple, "La fecha de alta debe ser mayor a la de nacimiento.","Error.",JOptionPane.ERROR_MESSAGE);
+							dtFechaAlta.setDate(dtFechaNac.getDate());
+						} else {
+							MetodosEmpleado.grabaEmpleado(fEmple);
+						}
 					}
 				});
 				btGrabar.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -238,15 +231,14 @@ public class FormuClientes extends JDialog {
 				
 				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						MetodosGUI.vaciarPanel(contentPanel);
-						MetodosGUI.desactPanel(contentPanel);
+						MetodosGUI.vaciarPanel(getContentPanel());
+						MetodosGUI.desactPanel(getContentPanel());
 						excepcionesDesact();
 					}
 				});
 			}
 		}
 		{
-			
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
 		}	
@@ -280,25 +272,14 @@ public class FormuClientes extends JDialog {
 			
 			JLabel lblFecha = new JLabel("Fecha de nacimiento");
 			lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblFecha.setBounds(10, 182, 127, 21);
+			lblFecha.setBounds(10, 141, 127, 21);
 			contentPanel.add(lblFecha);
 			
-			JLabel lblTipoDeCarnet = new JLabel("Tipo de carnet");
-			lblTipoDeCarnet.setName("ap1");
-			lblTipoDeCarnet.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblTipoDeCarnet.setBounds(10, 146, 93, 21);
-			contentPanel.add(lblTipoDeCarnet);
-			
-			cbTipoCarnet = new JComboBox();
-			cbTipoCarnet.setName("tipoCarnet");
-			cbTipoCarnet.setBounds(104, 146, 76, 21);
-			contentPanel.add(cbTipoCarnet);
-			
-			//////////////////pasar a metodos TipoCarnet
-			for (TipoCarnet t : RepositorioTipoCarnet.arrayListTipoCarnets()) {
-				cbTipoCarnet.addItem(t.getNombre());
-			}
-			
+			cbOficina = MetodosOficina.comboBoxOficinas();
+			cbOficina.setName("oficina");
+			cbOficina.setBounds(72, 200, 156, 21);
+			contentPanel.add(cbOficina);
+		
 			java.util.Date date;
 			try {
 				date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
@@ -309,22 +290,50 @@ public class FormuClientes extends JDialog {
 			}
 			
 			dtFechaNac.setName("fechaNac");
-			dtFechaNac.setDateFormatString("dd/MM/yyyy");
-			dtFechaNac.setBounds(134, 182, 89, 19);
+			dtFechaNac.setDateFormatString("dd/MM/YYYY");
+			dtFechaNac.setBounds(139, 143, 89, 19);
 			contentPanel.add(dtFechaNac);
+
 			
-			JLabel lblNTarjeta = new JLabel("nTarjeta");
-			lblNTarjeta.setName("");
-			lblNTarjeta.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblNTarjeta.setBounds(12, 216, 56, 21);
-			contentPanel.add(lblNTarjeta);
+			try {
+				date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
+				dtFechaAlta.setDate(date);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
-			cbTipoCarnet.setSelectedIndex(0);
+			dtFechaAlta.setName("fechaAlta");
+			dtFechaAlta.setDateFormatString("dd/MM/YYYY");
+			dtFechaAlta.setBounds(139, 172, 89, 19);
+			contentPanel.add(dtFechaAlta);
+
+			
+			JLabel lblFechaAlta = new JLabel("Fecha de Alta");
+			lblFechaAlta.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblFechaAlta.setBounds(10, 168, 127, 21);
+			contentPanel.add(lblFechaAlta);
+			
+			JLabel lblOficina = new JLabel("Oficina");
+			lblOficina.setName("");
+			lblOficina.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblOficina.setBounds(10, 199, 56, 21);
+			contentPanel.add(lblOficina);
+			
+			cbOficina.setSelectedIndex(0);
 			
 			MetodosGUI.desactPanel(contentPanel);
 			excepcionesDesact();
 			
 			excepciones.add(tfAp2);
+	}
+
+	public ArrayList<Component> getExcepciones() {
+		return excepciones;
+	}
+
+	public void setExcepciones(ArrayList<Component> excepciones) {
+		this.excepciones = excepciones;
 	}
 
 	public void excepcionesActiva () {
@@ -343,11 +352,13 @@ public class FormuClientes extends JDialog {
 		btGrabar.setEnabled(false);
 		btBorrar.setEnabled(false);
 	}
-	
 
-	public FormuClientes getfCli() {
-		return fCli;
+
+
+	public FormuEmpleados getfEmple() {
+		return fEmple;
 	}
+
 
 
 	public JPanel getContentPanel() {
@@ -355,9 +366,11 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public JTextField getTfNombre() {
 		return tfNombre;
 	}
+
 
 
 	public JTextField getTfDni() {
@@ -365,14 +378,17 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public JButton getBtGrabar() {
 		return btGrabar;
 	}
 
 
-	public Cliente getCli() {
-		return cli;
+
+	public Empleado getEmple() {
+		return emple;
 	}
+
 
 
 	public JButton getBtBorrar() {
@@ -380,9 +396,11 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public JButton getBtnLupa() {
 		return btnLupa;
 	}
+
 
 
 	public JTextField getTfAp1() {
@@ -390,14 +408,17 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public JTextField getTfAp2() {
 		return tfAp2;
 	}
 
 
-	public JComboBox getCbTipoCarnet() {
-		return cbTipoCarnet;
+
+	public JComboBox getCbOficina() {
+		return cbOficina;
 	}
+
 
 
 	public JDateChooser getDtFechaNac() {
@@ -405,19 +426,22 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
+	public JDateChooser getDtFechaAlta() {
+		return dtFechaAlta;
+	}
+
+
+
 	public JButton getBtnCancel() {
 		return btnCancel;
 	}
 
 
-	public JTextField getTfNTarjeta() {
-		return tfNTarjeta;
+	public void setfEmple(FormuEmpleados fEmple) {
+		this.fEmple = fEmple;
 	}
 
-
-	public void setfCli(FormuClientes fCli) {
-		this.fCli = fCli;
-	}
 
 
 	public void setTfNombre(JTextField tfNombre) {
@@ -425,9 +449,11 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public void setTfDni(JTextField tfDni) {
 		this.tfDni = tfDni;
 	}
+
 
 
 	public void setBtGrabar(JButton btGrabar) {
@@ -435,9 +461,11 @@ public class FormuClientes extends JDialog {
 	}
 
 
-	public void setCli(Cliente cli) {
-		this.cli = cli;
+
+	public void setEmple(Empleado emple) {
+		this.emple = emple;
 	}
+
 
 
 	public void setBtBorrar(JButton btBorrar) {
@@ -445,9 +473,11 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public void setBtnLupa(JButton btnLupa) {
 		this.btnLupa = btnLupa;
 	}
+
 
 
 	public void setTfAp1(JTextField tfAp1) {
@@ -455,14 +485,17 @@ public class FormuClientes extends JDialog {
 	}
 
 
+
 	public void setTfAp2(JTextField tfAp2) {
 		this.tfAp2 = tfAp2;
 	}
 
 
-	public void setCbTipoCarnet(JComboBox cbTipoCarnet) {
-		this.cbTipoCarnet = cbTipoCarnet;
+
+	public void setCbOficina(JComboBox cbOficina) {
+		this.cbOficina = cbOficina;
 	}
+
 
 
 	public void setDtFechaNac(JDateChooser dtFechaNac) {
@@ -470,13 +503,15 @@ public class FormuClientes extends JDialog {
 	}
 
 
-	public void setBtnCancel(JButton btnCancel) {
-		this.btnCancel = btnCancel;
+
+	public void setDtFechaAlta(JDateChooser dtFechaAlta) {
+		this.dtFechaAlta = dtFechaAlta;
 	}
 
 
-	public void setTfNTarjeta(JTextField tfNTarjeta) {
-		this.tfNTarjeta = tfNTarjeta;
+
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
 	}
 
 }

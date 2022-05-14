@@ -32,7 +32,7 @@ public abstract class Electrico extends Vehiculo{
 	 * @param autonimia Double con la autonomia del Vehiculo en horas (Ej : 1.5 horas)
 	 * @param tiempoRecarga Double con el tiempo de recarga del Vehiculo en horas (Ej : 1.5 horas)
 	 */
-	public Electrico(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
+	public Electrico(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado, int autonomia, int tiempoRecarga) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado);
 		this.autonomia = autonomia;

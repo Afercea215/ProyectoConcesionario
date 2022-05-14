@@ -16,7 +16,7 @@ public abstract class Vehiculo implements Comparable<Vehiculo>, Serializable {
 	private String matricula;
 	private String marca;
 	private String modelo;
-	private String color;
+	private Color color;
 	private GregorianCalendar fechaAlta;
 	private int kms;
 	private Categoria categoria;
@@ -36,7 +36,7 @@ public abstract class Vehiculo implements Comparable<Vehiculo>, Serializable {
 	 * @param alquilado Boolean si está o no alquilado.
 	 */
 	
-	public Vehiculo(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
+	public Vehiculo(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado) {
 		super();
 		this.matricula = matricula;
@@ -108,8 +108,8 @@ public abstract class Vehiculo implements Comparable<Vehiculo>, Serializable {
 		return aux;
 	}
 
-	public String getColor() {
-		String aux=this.color;
+	public Color getColor() {
+		Color aux=this.color;
 		return aux;
 	}
 
@@ -148,8 +148,8 @@ public abstract class Vehiculo implements Comparable<Vehiculo>, Serializable {
 		this.modelo = aux;
 	}
 
-	public void setColor(String color) {
-		String aux = color;
+	public void setColor(Color color) {
+		Color aux = color;
 		this.color = aux;
 	}
 

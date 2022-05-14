@@ -35,7 +35,7 @@ public class Furgoneta extends Combustion{
 	 * @param capacidadCarga int Capacidad carga KG.
 	 * @param carnetRequerido String Carnet Requerido (B1, A2...ETC)
 	 */
-	public Furgoneta(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
+	public Furgoneta(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia, String nivel_emison,
 			int capacidadCarga, TipoCarnet carnetRequerido) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado, consumo, potencia,

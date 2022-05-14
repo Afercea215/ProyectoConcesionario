@@ -75,7 +75,6 @@ public class VListado extends JDialog {
 	private JButton btnCancelar;
 	private int selectedRow=0;
 	private int selectedColum=0;
-	private int sortedColum=0;
 	private int columOrdenada=0;
 
 	/**
@@ -134,7 +133,7 @@ public class VListado extends JDialog {
 		
 		listVentana = this;
 		setTitle("Listado");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andres\\Desktop\\1\u00BADAW\\Programacion\\ProyectoConcesionario\\iconos\\lista.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("media/lista.png"));
 		setModal(true);
 		
 		getContentPane().setLayout(new BorderLayout());
@@ -163,17 +162,20 @@ public class VListado extends JDialog {
 		
 		Object[] dato = new Object[model.getColumnCount()];
 		int ancho=0;
-		
+		int cont=0;
 		for (int i = 0; i<datos.getDatosTabla().length;i++) {
 			for (int j = 0; j<model.getColumnCount();j++) {
 				//meto el dato
 				dato[j]= datos.getDatosTabla()[i][j];
 				
+				//pongo la anchura min del esa colum
+				table.getColumnModel().getColumn(j).setMinWidth(datos.getAnchuraColumnas().get(j));
+				cont++;
+				if (cont<model.getColumnCount()) {
+					ancho=ancho+datos.getAnchuraColumnas().get(j);
+				}
 			}
-			//pongo la anchura min del esa colum
-			table.getColumnModel().getColumn(i).setMinWidth(datos.getAnchuraColumnas().get(i));
-			
-			ancho=ancho+datos.getAnchuraColumnas().get(i);
+
 			model.addRow(dato);
 	    } 
 		
@@ -235,6 +237,7 @@ public class VListado extends JDialog {
 						if(!tfContiene.getText().equals("")) {
 							for (int i=0;i<model.getRowCount();i++) {
 								filaModel= table.convertRowIndexToModel(i);
+								///////
 								String valor = (model.getValueAt(filaModel, columOrdenada))+"";
 								
 								if(valor.toUpperCase().indexOf(tfContiene.getText().toUpperCase())!=-1) {
@@ -288,9 +291,6 @@ public class VListado extends JDialog {
 			table.addMouseListener(new java.awt.event.MouseAdapter() {
 			      public void mouseClicked(java.awt.event.MouseEvent e) {
 			    	  
-			    	  sortedColum = table.columnAtPoint(new Point(e.getX(), e.getY()));
-			    	  //////////////////sort
-			    	  
 			    	  if(e.getClickCount()==2){
 				    		elegido=null;
 							elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
@@ -310,6 +310,8 @@ public class VListado extends JDialog {
 	                    List<SortKey> keys = (List<SortKey>) e.getSource().getSortKeys();
 	                    for (SortKey key : keys) {
 	                    	columOrdenada=key.getColumn();
+	                    	System.out.println(columOrdenada);
+	                    	break;
 	                    }
 	                }
 			    }
@@ -332,7 +334,6 @@ public class VListado extends JDialog {
 							
 							if(valor.toUpperCase().startsWith(tfEmpiezaPor.getText().toUpperCase())) {
 								//filaModel= table.convertRowIndexToModel(i);
-								System.out.println("----------------------------");
 								table.setRowSelectionInterval(0, i);
 								break;
 							}

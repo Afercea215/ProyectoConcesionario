@@ -19,6 +19,18 @@ public class Moto extends Electrico{
 	//precio por dia de alquiler
 	private Double precioDiario = 10.00;
 
+	public Double getPrecioDiario() {
+		return precioDiario;
+	}
+
+
+
+	public void setPrecioDiario(Double precioDiario) {
+		this.precioDiario = precioDiario;
+	}
+
+
+
 	/**
 	 * Construcor completo de una Moto
 	 * @param matricula String matriculo vehiculo.
@@ -36,7 +48,7 @@ public class Moto extends Electrico{
 	 * @param cilindrada int con la cilindrada de la moto
 	 * @param carnetRequerido String Carnet Requerido (B1, A2...ETC)
 	 */
-	public Moto(String matricula, String marca, String modelo, String color, GregorianCalendar fechaAlta, int kms,
+	public Moto(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado, int autonimia, int tiempoRecarga, int cilindrada,
 			TipoCarnet carnetRequerido) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado, autonimia, tiempoRecarga);
