@@ -63,6 +63,27 @@ public class MetodosEmpleado {
 		return (new DatosTabla(nombreColumnas(), listaEmpleadosTabla(), anchoColumnas()));
 	}
 	
+	public static DatosTabla creaDatosTablaDeOfi(String codOfi) {
+		return (new DatosTabla(nombreColumnas(), listaEmpleadosTablaDeOfi(codOfi), anchoColumnas()));
+	}
+	
+	public static Object[][] listaEmpleadosTablaDeOfi(String codOfi){
+		ArrayList<Empleado> lista = RepositorioEmpleado.arrayListEmpleadosOfi(codOfi);
+		int numColumnas = 6;
+		int numFilas = lista.size();
+		Object[][] listaTabla = new Object[numFilas][numColumnas];		
+		
+		for (int i=0;i<numFilas;i++) {
+				listaTabla[i][0]=lista.get(i).getNombre()+" "+lista.get(i).getAp1()+" "+lista.get(i).getAp2();
+				listaTabla[i][1]=new Date(lista.get(i).getFechaNac().get(Calendar.YEAR)-1900, lista.get(i).getFechaNac().get(Calendar.MONTH), lista.get(i).getFechaNac().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][2]=lista.get(i).getOficina().getDescripcion();
+				listaTabla[i][3]=new Date(lista.get(i).getFechaAlta().get(Calendar.YEAR)-1900, lista.get(i).getFechaAlta().get(Calendar.MONTH), lista.get(i).getFechaAlta().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][4]=lista.get(i).getDni();
+				listaTabla[i][5]=lista.get(i);
+		}
+		return listaTabla;
+	}
+	
 	public static Object[][] listaEmpleadosTabla(){
 		ArrayList<Empleado> lista = RepositorioEmpleado.arrayListEmpleados();
 		int numColumnas = 6;
@@ -71,9 +92,9 @@ public class MetodosEmpleado {
 		
 		for (int i=0;i<numFilas;i++) {
 				listaTabla[i][0]=lista.get(i).getNombre()+" "+lista.get(i).getAp1()+" "+lista.get(i).getAp2();
-				listaTabla[i][1]=new Date(lista.get(i).getFechaNac().get(Calendar.YEAR), lista.get(i).getFechaNac().get(Calendar.MONTH), lista.get(i).getFechaNac().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][1]=new Date(lista.get(i).getFechaNac().get(Calendar.YEAR)-1900, lista.get(i).getFechaNac().get(Calendar.MONTH), lista.get(i).getFechaNac().get(Calendar.DAY_OF_MONTH));
 				listaTabla[i][2]=lista.get(i).getOficina().getDescripcion();
-				listaTabla[i][3]=new Date(lista.get(i).getFechaAlta().get(Calendar.YEAR), lista.get(i).getFechaAlta().get(Calendar.MONTH), lista.get(i).getFechaAlta().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][3]=new Date(lista.get(i).getFechaAlta().get(Calendar.YEAR)-1900, lista.get(i).getFechaAlta().get(Calendar.MONTH), lista.get(i).getFechaAlta().get(Calendar.DAY_OF_MONTH));
 				listaTabla[i][4]=lista.get(i).getDni();
 				listaTabla[i][5]=lista.get(i);
 		}

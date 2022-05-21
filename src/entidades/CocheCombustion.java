@@ -16,7 +16,7 @@ public class CocheCombustion extends Combustion{
 	private int n_plazas;
 	private String tipo;
 	
-	private Double precioDiario = 50.0;
+	public static Double precioDiario = 50.0;
 	
 	/**
 	 * Construcor completo de coche de combustión
@@ -36,10 +36,10 @@ public class CocheCombustion extends Combustion{
 	 * @param tipo String (Deportivo, Familiar, 4x4).
 	 */
 	public CocheCombustion(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
-			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia, String nivel_emison,
+			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia, NivelEmision nivelEmision,
 			int n_plazas, String tipo) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado, consumo, potencia,
-				nivel_emison);
+				nivelEmision);
 		this.n_plazas = n_plazas;
 		this.tipo = tipo;
 	}
@@ -86,10 +86,10 @@ public class CocheCombustion extends Combustion{
 	 */
 	@Override
 	public Double calculaAlquilerPrevisto(Alquiler a) {
-		
 		//consigo la diferencia de dias de la fecha de inicia y la de fin prevista
 		int difDias = miLibreria.metodos.Fechas.difDiasEntreFechas(a.getFechaIniAlquiler(), a.getFechaFinPrevista());
-		
+		System.out.println(a.getFechaFinPrevista().get(Calendar.DAY_OF_MONTH));
+		System.out.println(a.getFechaIniAlquiler().get(Calendar.DAY_OF_MONTH));
 		//calculo el precio total
 		Double total = (difDias*precioDiario)+((difDias*precioDiario)*(super.getPorcentajeSubida()/100));
 		

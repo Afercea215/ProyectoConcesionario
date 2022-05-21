@@ -103,8 +103,9 @@ public class MetodosOficina {
 	 * @param panel Panel donde se encuentran los componjentes
 	 */
 	public static void grabaOficina (JDialog jframe) {
-		JPanel panel = (JPanel) jframe.getContentPane();
+		
 		FormuOficinas formu = (FormuOficinas) jframe;
+		JPanel panel = formu.getContentPanel();
 		
 		//si todo esta relleno lo graba, si no sale un mensaje
 		if (MetodosGUI.datosRellenos(panel,formu.getLista(),true)) {

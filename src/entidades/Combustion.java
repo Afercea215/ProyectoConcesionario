@@ -15,9 +15,9 @@ public abstract class Combustion extends Vehiculo {
 	private static final long serialVersionUID = 1234233464567L;
 	private int consumo;
 	private int potencia;
-	private String nivel_emison;
+	private NivelEmision nivelEmison;
 	
-	private int porcentajeSubida = 0;
+	public static int porcentajeSubida = 0;
 
 	
 
@@ -38,11 +38,11 @@ public abstract class Combustion extends Vehiculo {
 	 */
 	public Combustion(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
 			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia,
-			String nivel_emison) {
+			NivelEmision nivelEmison) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado);
 		this.consumo = consumo;
 		this.potencia = potencia;
-		this.nivel_emison = nivel_emison;
+		this.nivelEmison = nivelEmison;
 	}
 
 
@@ -54,12 +54,6 @@ public abstract class Combustion extends Vehiculo {
 
 	public int getPotencia() {
 		int aux=this.potencia;
-		return aux;
-	}
-
-
-	public String getNivel_emison() {
-		String aux=this.nivel_emison;
 		return aux;
 	}
 
@@ -76,10 +70,20 @@ public abstract class Combustion extends Vehiculo {
 	}
 
 
-	public void setNivel_emison(String nivel_emison) {
-		String aux = nivel_emison;
-		this.nivel_emison = aux;	
+	public NivelEmision getNivelEmison() {
+		return nivelEmison;
 	}
+
+
+	public void setNivelEmison(NivelEmision nivelEmison) {
+		this.nivelEmison = nivelEmison;
+	}
+
+
+	public void setPorcentajeSubida(int porcentajeSubida) {
+		this.porcentajeSubida = porcentajeSubida;
+	}
+
 
 	public int getPorcentajeSubida() {
 		int aux=this.porcentajeSubida;

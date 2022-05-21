@@ -28,6 +28,7 @@ import com.toedter.calendar.JDateChooser;
 
 import accesoADatos.RepositorioCategoria;
 import accesoADatos.RepositorioCliente;
+import accesoADatos.RepositorioCocheElectrico;
 import accesoADatos.RepositorioColor;
 import accesoADatos.RepositorioEmpleado;
 import accesoADatos.RepositorioMoto;
@@ -35,7 +36,7 @@ import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
 import entidades.*;
 
-public class MetodosMoto {
+public class MetodosCocheElectrico {
 	
 	
 	public static ArrayList<String> nombreColumnas() {
@@ -51,8 +52,8 @@ public class MetodosMoto {
 		nombreColumnas.add("Alquilado");
 		nombreColumnas.add("Autonomía");
 		nombreColumnas.add("Tiempo de recarga");
-		nombreColumnas.add("Cilindrada");
-		nombreColumnas.add("TipoCarnet");
+		nombreColumnas.add("N Plazas");
+		nombreColumnas.add("TipoCoche");
 		nombreColumnas.add("PrecioDiario");
 		nombreColumnas.add("obj");
 		
@@ -82,11 +83,11 @@ public class MetodosMoto {
 	}
 	
 	public static DatosTabla creaDatosTabla() {
-		return (new DatosTabla(nombreColumnas(), listaMotosTabla(), anchoColumnas()));
+		return (new DatosTabla(nombreColumnas(), listaCochesElectricosTabla(), anchoColumnas()));
 	}
 	
-	public static Object[][] listaMotosTabla(){
-		ArrayList<Moto> lista = RepositorioMoto.arrayListMotos();
+	public static Object[][] listaCochesElectricosTabla(){
+		ArrayList<CocheElectrico> lista = RepositorioCocheElectrico.arrayListCochesElectricos();
 		int numColumnas = 15;
 		int numFilas = lista.size();
 		Object[][] listaTabla = new Object[numFilas][numColumnas];	
@@ -110,8 +111,8 @@ public class MetodosMoto {
 				listaTabla[i][8]=alqui;
 				listaTabla[i][9]=lista.get(i).getAutonimia();
 				listaTabla[i][10]=lista.get(i).getTiempoRecarga();
-				listaTabla[i][11]=lista.get(i).getCilindrada();
-				listaTabla[i][12]=lista.get(i).getCarnetRequerido().getNombre();
+				listaTabla[i][11]=lista.get(i).getN_plazas();
+				listaTabla[i][12]=lista.get(i).getTipo();
 				listaTabla[i][13]=lista.get(i).getPrecioDiario();
 				listaTabla[i][14]=lista.get(i);
 		}
@@ -123,20 +124,21 @@ public class MetodosMoto {
 	 * Coge el cliente del formulario y lo graba en la base de datos.
 	 * @param panel Panel donde se encuentran los componjentes
 	 */
-	public static void grabaMoto (JDialog jframe) {
-		JPanel panel = (JPanel) jframe.getContentPane();
-		FormuMotos formu = (FormuMotos) jframe;
+	public static void grabaCocheElectrico (JDialog jframe) {
+		
+		FormuCocheElectrico formu = (FormuCocheElectrico) jframe;
+		JPanel panel = formu.getContentPanel();
 		
 		//si todo esta relleno lo graba, si no sale un mensaje
 		if (MetodosGUI.datosRellenos(panel, true)) {
 			
-			Moto m = creaMotoPanel(formu);
+			CocheElectrico coche = creaCocheElectricoPanel(formu);
 
 			//si la cliente ya existe la borro
-			if(RepositorioMoto.buscaMoto(m.getMatricula())!=null) {
-				RepositorioMoto.updateMoto(m);
+			if(RepositorioCocheElectrico.buscaCocheElectrico(coche.getMatricula())!=null) {
+				RepositorioCocheElectrico.updateCocheElectrico(coche);
 			}else {
-				RepositorioMoto.creaMoto(m);
+				RepositorioCocheElectrico.creaCocheElectrico(coche);
 			}
 			MetodosGUI.vaciarPanel(panel);
 			MetodosGUI.desactPanel(panel);
@@ -148,10 +150,10 @@ public class MetodosMoto {
 	}
 	
 	
-	public static Moto creaMotoPanel (JDialog dialog) {
+	public static CocheElectrico creaCocheElectricoPanel (JDialog dialog) {
 		
 		JPanel panel = (JPanel) dialog.getContentPane();
-		FormuMotos formu = (FormuMotos) dialog;
+		FormuCocheElectrico formu = (FormuCocheElectrico) dialog;
 
 		String matricula=formu.getTfMatricula().getText();
 		String marca=formu.getTfMarca().getText();
@@ -162,41 +164,41 @@ public class MetodosMoto {
 		boolean alquilado = formu.getChckbxAlquilado().isSelected();
 		int autonomia=Integer.parseInt(formu.getTfAutonomia().getText());
 		int tiempoRecarga=Integer.parseInt(formu.getTfRecarga().getText());
-		int cilindrada=Integer.parseInt(formu.getTfCilindrada().getText());
-		TipoCarnet carnet = RepositorioTipoCarnet.buscaTipoCarnet( ( (TipoCarnet)formu.getCbTipoCarnet().getSelectedItem()).getNombre());
+		int nPlazas=Integer.parseInt(formu.getTfNPlazas().getText());
+		String tipoCoche=formu.getCbTipoCoche().getSelectedItem()+"";
 		GregorianCalendar fechaAlta = new GregorianCalendar(formu.getDtFechaAlta().getDate().getYear(), formu.getDtFechaAlta().getDate().getMonth(), formu.getDtFechaAlta().getDate().getDay()) ;
 		Oficina ofi = RepositorioOficina.buscaOficina(( (Oficina) formu.getCbOficina().getSelectedItem()).getCod());
 		
-		return new Moto(matricula, marca, modelo, color, fechaAlta, kms, cat, ofi, alquilado, autonomia, tiempoRecarga, cilindrada, carnet);
+		return new CocheElectrico(matricula, marca, modelo, color, fechaAlta, kms, cat, ofi, alquilado, autonomia, tiempoRecarga, nPlazas, tipoCoche);
 	}
 	
 	
-	public static void rellenaPanelMoto (Moto m, JDialog dialog) {
+	public static void rellenaPanelCocheElctrico (CocheElectrico coche, JDialog dialog) {
 		
 		JPanel panel = (JPanel) dialog.getContentPane();
-		FormuMotos formu = (FormuMotos) dialog;
+		FormuCocheElectrico formu = (FormuCocheElectrico) dialog;
 		
 		//si la longitud es correcta  
-		if (m!=null) {
-			int mes = m.getFechaAlta().get(Calendar.MONTH);
-			int dia = m.getFechaAlta().get(Calendar.DAY_OF_MONTH);
-			int año = m.getFechaAlta().get(Calendar.YEAR);
+		if (coche!=null) {
+			int mes = coche.getFechaAlta().get(Calendar.MONTH);
+			int dia = coche.getFechaAlta().get(Calendar.DAY_OF_MONTH);
+			int año = coche.getFechaAlta().get(Calendar.YEAR);
 		
 			//se busca la oficina en la base de datos y se activa el formu
             //si ha encontrado una oficina, rellena el formu con los datos.
-			formu.getTfMatricula().setText(m.getMatricula());
-            formu.getTfMarca().setText(m.getMarca());
-            formu.getTfModelo().setText(m.getModelo());
-            formu.getCbColor().setSelectedItem(m.getColor());
+			formu.getTfMatricula().setText(coche.getMatricula());
+            formu.getTfMarca().setText(coche.getMarca());
+            formu.getTfModelo().setText(coche.getModelo());
+            formu.getCbColor().setSelectedItem(coche.getColor());
             formu.getDtFechaAlta().setDate(new java.util.Date(año, mes, dia));
-            formu.getTfKms().setText(m.getKms()+"");
-            formu.getCbOficina().setSelectedItem(m.getOficina());
-            formu.getCbCateg().setSelectedItem(m.getCategoria());
-            formu.getChckbxAlquilado().setSelected(m.isAlquilado());
-            formu.getTfAutonomia().setText(m.getAutonimia()+"");
-            formu.getTfRecarga().setText(m.getTiempoRecarga()+"");
-            formu.getTfCilindrada().setText(m.getCilindrada()+"");
-            formu.getCbTipoCarnet().setSelectedItem(m.getCarnetRequerido());
+            formu.getTfKms().setText(coche.getKms()+"");
+            formu.getCbOficina().setSelectedItem(coche.getOficina());
+            formu.getCbCateg().setSelectedItem(coche.getCategoria());
+            formu.getChckbxAlquilado().setSelected(coche.isAlquilado());
+            formu.getTfAutonomia().setText(coche.getAutonimia()+"");
+            formu.getTfRecarga().setText(coche.getTiempoRecarga()+"");
+            formu.getCbTipoCoche().setSelectedItem(coche.getTipo());
+            formu.getTfNPlazas().setText(coche.getN_plazas()+"");
 
 		}else {
 			 MetodosGUI.activPanel(panel);

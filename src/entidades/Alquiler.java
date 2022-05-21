@@ -21,22 +21,16 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 	private Oficina oficinaAlquiler;
 	private Oficina oficinaDevolucion;
 	private GregorianCalendar fechaFinPrevista;
+	private Double alquilerPrevisto;
 	
-	/**
-	 * Constructor de alquiler completo 
-	 * @param id int id de alquiler.
-	 * @param vehiculo objeto Vehiculo, que es alquilado.
-	 * @param empleado objeto Empleado, que administra el alquiler.
-	 * @param cliente objeto Cliente, que alguila el vehiculo.
-	 * @param fechaIniAlquiler objeto GregorianCalendar, que es la fecha de inicio del alquiler.
-	 * @param oficina objeto Oficina, en el que se realiza el alquiler.
-	 * @param fechaFinPrevista objeto GregorianCalendar, fecha prevista donde se termine el alquiler.
-	 */
-	public Alquiler(int id,Vehiculo vehiculo, Empleado empleado, Cliente cliente, GregorianCalendar fechaIniAlquiler, Oficina oficinaAlquiler, Oficina oficinaDevolucion,
-			GregorianCalendar fechaFinPrevista) 
-	{
+	
+	
+	
+	public Alquiler(String id, Vehiculo vehiculo, Empleado empleado, Cliente cliente,
+			GregorianCalendar fechaIniAlquiler, Oficina oficinaAlquiler, Oficina oficinaDevolucion,
+			GregorianCalendar fechaFinPrevista, Double alquilerPrevisto) {
 		super();
-		this.id = id+"";
+		this.id = id;
 		this.vehiculo = vehiculo;
 		this.empleado = empleado;
 		this.cliente = cliente;
@@ -44,7 +38,20 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 		this.oficinaAlquiler = oficinaAlquiler;
 		this.oficinaDevolucion = oficinaDevolucion;
 		this.fechaFinPrevista = fechaFinPrevista;
+		this.alquilerPrevisto = alquilerPrevisto;
 	}
+
+
+	public Double getAlquilerPrevisto() {
+		return alquilerPrevisto;
+	}
+
+
+	public void setAlquilerPrevisto(Double alquilerPrevisto) {
+		this.alquilerPrevisto = alquilerPrevisto;
+	}
+
+
 
 	
 	public String getId() {

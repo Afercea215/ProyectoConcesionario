@@ -40,6 +40,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import accesoADatos.*;
+import controladoresDeEventos.SoloAdmiteNumeros;
 
 public class FormuOficinas extends JDialog {
 
@@ -190,6 +191,7 @@ public class FormuOficinas extends JDialog {
 		tfCodigo.setBounds(62, 10, 44, 21);
 		contentPanel.add(tfCodigo);
 		tfCodigo.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
+		tfCodigo.addKeyListener(new controladoresDeEventos.ControlaLongitud(4));
 		tfCodigo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -201,20 +203,7 @@ public class FormuOficinas extends JDialog {
 					excepcionesActiva();
 	             }
 			}
-			//cuando escribe capamos que escriba valores que no sean numeros, intro o borrar. Tammbien cuango la long sea 0
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (tfCodigo.getText().length()==4)
-				{
-					e.consume();
-				}
-			}
-
 		});
-		
-		
-
 		
 		
 		//NOMBRE
@@ -364,9 +353,7 @@ public class FormuOficinas extends JDialog {
 				btGrabar.setEnabled(false);
 				btGrabar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-							MetodosOficina.grabaOficina(fOfi);
-							
-							
+							MetodosOficina.grabaOficina(fOfi);				
 						}
 				});
 				btGrabar.setVerticalAlignment(SwingConstants.BOTTOM);

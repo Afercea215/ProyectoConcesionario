@@ -16,8 +16,12 @@ public abstract class Electrico extends Vehiculo{
 	private int autonomia;
 	private int tiempoRecarga;
 
-	private int porcentajeSubida = 15;
+	public static int porcentajeSubida = 15;
 	
+	public static void setPorcentajeSubida(int porcentajeSubida) {
+		Electrico.porcentajeSubida = porcentajeSubida;
+	}
+
 	/**
 	 * Constructor de un vehículo electrico completo, con todas las propiedades.
 	 * @param matricula String matriculo vehiculo.

@@ -29,16 +29,19 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import accesoADatos.RepositorioCategoria;
+import accesoADatos.RepositorioCocheCombustion;
 import accesoADatos.RepositorioEmpleado;
 import accesoADatos.RepositorioMoto;
+import entidades.CocheCombustion;
 import entidades.Empleado;
 import entidades.Moto;
 import principal.Principal;
 import javax.swing.JCheckBox;
 
-public class FormuMotos extends JDialog {
 
-	private FormuMotos fMoto=this;
+public class FormuCocheCombustion extends JDialog {
+
+	private FormuCocheCombustion fCocheCombustion=this;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tfMarca;
 	private JTextField tfMatricula;
@@ -50,13 +53,15 @@ public class FormuMotos extends JDialog {
 	private JDateChooser dtFechaAlta = new JDateChooser();
 	private JButton btnCancel;
 	private JTextField tfKms;
-	private JTextField tfRecarga;
-	private JTextField tfCilindrada;
+	private JTextField tfPotencia;
+	private JTextField tfNPlazas;
 	private JComboBox cbTipoCarnet;
 	private JCheckBox chckbxAlquilado;
-	private JTextField tfAutonomia;
+	private JTextField tfConsumo;
 	private JComboBox cbCateg;
 	private JComboBox cbColor;
+	private JComboBox cbNivelEmision;
+	private JComboBox cbTipoCoche;
 
 	
 	
@@ -73,7 +78,7 @@ public class FormuMotos extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public FormuMotos() {
+	public FormuCocheCombustion() {
 		
 		setResizable(false);
 		setModal(true);
@@ -90,14 +95,13 @@ public class FormuMotos extends JDialog {
 		JLabel lblMatricula = new JLabel("Matricula");
 		lblMatricula.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblMatricula.setBounds(10, 10, 56, 21);
-		contentPanel.add(lblMatricula);
+
 		
 		
 		tfMatricula = new JTextField();
 		tfMatricula.setName("dni");
 		tfMatricula.setColumns(4);
 		tfMatricula.setBounds(72, 11, 67, 21);
-		contentPanel.add(tfMatricula);
 		tfMatricula.addKeyListener(new controladoresDeEventos.ControlaLongitud(7));
 		tfMatricula.addKeyListener(new KeyAdapter() {
 			@Override
@@ -105,7 +109,7 @@ public class FormuMotos extends JDialog {
 				//si se pulsa intro se verifica si el coodigo es valido
 				 if(e.getKeyCode()==KeyEvent.VK_ENTER){
 					
-					 MetodosMoto.rellenaPanelMoto(RepositorioMoto.buscaMoto(tfMatricula.getText()), fMoto);
+					 MetodosCocheCombustion.rellenaPanelCocheCombustion(RepositorioCocheCombustion.buscaCocheCombustion(tfMatricula.getText()), fCocheCombustion);
 					
 					if (!tfMatricula.getText().equals("")) {
 						MetodosGUI.activPanel(contentPanel);
@@ -130,12 +134,12 @@ public class FormuMotos extends JDialog {
 		JLabel lblMarca = new JLabel("Marca");
 		lblMarca.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblMarca.setBounds(10, 43, 56, 21);
-		contentPanel.add(lblMarca);
+
 		
 		tfMarca = new JTextField();
 		tfMarca.setName("nombre");
 		tfMarca.setBounds(72, 41, 156, 21);
-		contentPanel.add(tfMarca);
+
 		tfMarca.setColumns(30);
 		
 		//LUPA
@@ -143,19 +147,19 @@ public class FormuMotos extends JDialog {
 		btnLupa.setName("lupa");
 		btnLupa.setIcon(new ImageIcon("media/lupa.png"));
 		btnLupa.setBounds(160, 11, 20, 21);
-		contentPanel.add(btnLupa);
+
 		
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosMoto.creaDatosTabla());
-				vList.setLocationRelativeTo(VentanaPrincipal.fMoto);
+				VListado vList = new VListado(MetodosCocheCombustion.creaDatosTabla());
+				vList.setLocationRelativeTo(VentanaPrincipal.fCocheCombustion);
 				vList.setVisible(true);
-				Moto m = (Moto)vList.getElegido();
+				CocheCombustion coche = (CocheCombustion)vList.getElegido();
 				vList.dispose();
 				
-				if (m!=null) {
-					MetodosMoto.rellenaPanelMoto(m, fMoto);
+				if (coche!=null) {
+					MetodosCocheCombustion.rellenaPanelCocheCombustion(coche, fCocheCombustion);
 					MetodosGUI.activPanel(contentPanel);
 					excepcionesActiva();
 				}
@@ -178,23 +182,23 @@ public class FormuMotos extends JDialog {
 
 				btBorrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int n = JOptionPane.showConfirmDialog(fMoto, "¿Está seguro de que quiere borrarlo?","ADVERTENCIA", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+						int n = JOptionPane.showConfirmDialog(fCocheCombustion, "¿Está seguro de que quiere borrarlo?","ADVERTENCIA", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 						//si elige el boton si
 						if (n==0) {
 							//para comprobar que existe la ofi
-							Moto m = RepositorioMoto.buscaMoto(tfMatricula.getText());
-							if (m!=null) {
+							CocheCombustion coche = RepositorioCocheCombustion.buscaCocheCombustion(tfMatricula.getText());
+							if (coche!=null) {
 								try {
-									RepositorioMoto.borraMoto(m.getMatricula());
+									RepositorioCocheCombustion.borraCocheCombustion(tfMatricula.getText());
 								} catch (SQLException e1) {
 									// TODO Auto-generated catch block
-									MetodosGUI.mensajeErrorBorrado(fMoto);
+									MetodosGUI.mensajeErrorBorrado(fCocheCombustion);
 								}
 								MetodosGUI.vaciarPanel(contentPanel);
 								MetodosGUI.desactPanel(contentPanel);
 								excepcionesDesact();
 							}else {
-								JOptionPane.showMessageDialog(fMoto,"La moto que desea borrar no existe.");
+								JOptionPane.showMessageDialog(fCocheCombustion,"El coche combustion que desea borrar no existe.");
 							}
 						}
 					}
@@ -210,7 +214,7 @@ public class FormuMotos extends JDialog {
 				btGrabar.setFocusPainted(false);
 				btGrabar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-							MetodosMoto.grabaMoto(fMoto);
+							MetodosCocheCombustion.grabaCocheCombustion(fCocheCombustion);
 					}
 				});
 				btGrabar.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -241,33 +245,26 @@ public class FormuMotos extends JDialog {
 			tfModelo.setName("modelo");
 			tfModelo.setColumns(30);
 			tfModelo.setBounds(72, 75, 156, 21);
-			contentPanel.add(tfModelo);
+
 			
 			JLabel lblModelo = new JLabel("Modelo");
 			lblModelo.setName("");
 			lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblModelo.setBounds(10, 74, 56, 21);
-			contentPanel.add(lblModelo);
+
 			
 			JLabel lblColor = new JLabel("Color");
 			lblColor.setName("");
 			lblColor.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblColor.setBounds(11, 109, 56, 21);
-			contentPanel.add(lblColor);
+
 			
 			cbOficina = MetodosOficina.comboBoxOficinas();
 			cbOficina.setName("oficina");
 			cbOficina.setBounds(72, 200, 156, 21);
-			contentPanel.add(cbOficina);
+
 		
 			java.util.Date date;
-			try {
-				date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
 			
 			try {
 				date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
@@ -280,19 +277,19 @@ public class FormuMotos extends JDialog {
 			dtFechaAlta.setName("fechaAlta");
 			dtFechaAlta.setDateFormatString("dd/MM/YYYY");
 			dtFechaAlta.setBounds(91, 140, 89, 19);
-			contentPanel.add(dtFechaAlta);
+
 
 			
 			JLabel lblFechaAlta = new JLabel("Fecha de Alta");
 			lblFechaAlta.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblFechaAlta.setBounds(10, 140, 127, 21);
-			contentPanel.add(lblFechaAlta);
+			
 			
 			JLabel lblOficina = new JLabel("Oficina");
 			lblOficina.setName("");
 			lblOficina.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblOficina.setBounds(10, 199, 56, 21);
-			contentPanel.add(lblOficina);
+			
 			
 			cbOficina.setSelectedIndex(0);
 			
@@ -301,97 +298,176 @@ public class FormuMotos extends JDialog {
 			
 			cbColor = MetodosColores.comboBoxColores();
 			cbColor.setBounds(72, 110, 139, 21);
-			contentPanel.add(cbColor);
+			
 			cbColor.setSelectedIndex(0);
 			
 			tfKms = new JTextField();
 			tfKms.setName("modelo");
 			tfKms.setColumns(30);
 			tfKms.setBounds(72, 170, 89, 21);
-			contentPanel.add(tfKms);
+			
 			tfKms.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
 			
 			JLabel lblkms = new JLabel("Kms");
 			lblkms.setName("");
 			lblkms.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblkms.setBounds(10, 169, 56, 21);
-			contentPanel.add(lblkms);
+			
 			
 			
 			cbCateg = MetodosCategoria.comboBoxColores();
 			cbCateg.setSelectedIndex(0);
 			cbCateg.setBounds(315, 9, 139, 21);
-			contentPanel.add(cbCateg);
+			
 			
 			JLabel lblCaet = new JLabel("Categoria");
 			lblCaet.setName("");
 			lblCaet.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblCaet.setBounds(251, 11, 56, 21);
-			contentPanel.add(lblCaet);
+			
 			
 			JLabel lblAlqui = new JLabel("Alquilado");
 			lblAlqui.setName("");
 			lblAlqui.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblAlqui.setBounds(251, 43, 56, 21);
-			contentPanel.add(lblAlqui);
+			
 			
 			chckbxAlquilado = new JCheckBox("");
 			chckbxAlquilado.setBounds(315, 42, 93, 21);
+			
+			
+			tfConsumo = new JTextField();
+			tfConsumo.setName("modelo");
+			tfConsumo.setColumns(30);
+			tfConsumo.setBounds(315, 74, 89, 21);
+			
+			tfConsumo.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
+			
+			JLabel lblConsumo = new JLabel("Consumo");
+			lblConsumo.setName("");
+			lblConsumo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblConsumo.setBounds(251, 76, 89, 21);
+			
+			
+			tfPotencia = new JTextField();
+			tfPotencia.setName("modelo");
+			tfPotencia.setColumns(30);
+			tfPotencia.setBounds(315, 109, 89, 21);
+
+			tfPotencia.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
+			
+			JLabel lblPotencia = new JLabel("Potencia");
+			lblPotencia.setName("");
+			lblPotencia.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblPotencia.setBounds(251, 108, 110, 21);
+
+			
+			tfNPlazas = new JTextField();
+			tfNPlazas.setName("modelo");
+			tfNPlazas.setColumns(30);
+			tfNPlazas.setBounds(315, 169, 89, 21);
+			tfNPlazas.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
+			
+			JLabel lblNPlazas = new JLabel("N Plazas");
+			lblNPlazas.setName("");
+			lblNPlazas.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNPlazas.setBounds(251, 171, 110, 21);
+			
+			MetodosGUI.desactPanel(contentPanel);
+			
+			JLabel lblTipoCoche = new JLabel("Tipo Coche");
+			lblTipoCoche.setName("");
+			lblTipoCoche.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblTipoCoche.setBounds(251, 199, 110, 21);
+
+			JLabel lblTipoEmision = new JLabel("Nivel Emision");
+			lblTipoEmision.setName("");
+			lblTipoEmision.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblTipoEmision.setBounds(251, 140, 110, 21);
+			contentPanel.add(lblTipoEmision);
+			
+			cbNivelEmision = MetodosNivelEmision.comboBoxNivelEmision();
+			cbNivelEmision.setBounds(315, 141, 121, 21);
+
+			cbTipoCoche = MetodosTipoCoche.comboBoxTipoCoches();
+			cbTipoCoche.setBounds(315, 200, 89, 21);
+			
+			contentPanel.add(lblPotencia);
+			contentPanel.add(tfConsumo);
 			contentPanel.add(chckbxAlquilado);
+			contentPanel.add(lblAlqui);
+			contentPanel.add(lblCaet);
+			contentPanel.add(cbCateg);
+			contentPanel.add(lblkms);
+			contentPanel.add(tfKms);
+			contentPanel.add(cbColor);
+			contentPanel.add(lblOficina);
+			contentPanel.add(lblFechaAlta);
+			contentPanel.add(dtFechaAlta);
+			contentPanel.add(cbOficina);
+			contentPanel.add(lblColor);
+			contentPanel.add(lblModelo);
+			contentPanel.add(tfModelo);
+			contentPanel.add(btnLupa);
+			contentPanel.add(tfMarca);
+			contentPanel.add(lblMarca);
+			contentPanel.add(tfMatricula);
+			contentPanel.add(lblMatricula);
+			contentPanel.add(lblTipoCoche);
+			contentPanel.add(lblNPlazas);
+			contentPanel.add(tfPotencia);
+			contentPanel.add(lblConsumo);
+			contentPanel.add(tfNPlazas);
+			contentPanel.add(cbTipoCoche);
+			contentPanel.add(cbNivelEmision);
 			
-			tfAutonomia = new JTextField();
-			tfAutonomia.setName("modelo");
-			tfAutonomia.setColumns(30);
-			tfAutonomia.setBounds(315, 74, 89, 21);
-			contentPanel.add(tfAutonomia);
-			tfAutonomia.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
-			
-			JLabel lblAutonomia = new JLabel("Autonomia");
-			lblAutonomia.setName("");
-			lblAutonomia.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblAutonomia.setBounds(251, 76, 89, 21);
-			contentPanel.add(lblAutonomia);
-			
-			tfRecarga = new JTextField();
-			tfRecarga.setName("modelo");
-			tfRecarga.setColumns(30);
-			tfRecarga.setBounds(348, 110, 89, 21);
-			contentPanel.add(tfRecarga);
-			tfRecarga.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
-			
-			JLabel lblTiempRecarga = new JLabel("Tiempo recarga");
-			lblTiempRecarga.setName("");
-			lblTiempRecarga.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblTiempRecarga.setBounds(251, 108, 110, 21);
-			contentPanel.add(lblTiempRecarga);
-			
-			tfCilindrada = new JTextField();
-			tfCilindrada.setName("modelo");
-			tfCilindrada.setColumns(30);
-			tfCilindrada.setBounds(315, 139, 89, 21);
-			contentPanel.add(tfCilindrada);
-			tfCilindrada.addKeyListener(new controladoresDeEventos.SoloAdmiteNumeros());
-			
-			JLabel lblCilindrada = new JLabel("Cilindrada");
-			lblCilindrada.setName("");
-			lblCilindrada.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblCilindrada.setBounds(251, 142, 110, 21);
-			contentPanel.add(lblCilindrada);
-			
-			JLabel lblCarnet = new JLabel("TipoCarnet");
-			lblCarnet.setName("");
-			lblCarnet.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblCarnet.setBounds(251, 172, 89, 21);
-			contentPanel.add(lblCarnet);
-			
-			cbTipoCarnet = MetodosTipoCarnet.comboBoxTipoCarnet();
-			cbTipoCarnet.setSelectedIndex(0);
-			cbTipoCarnet.setBounds(315, 170, 139, 21);
-			contentPanel.add(cbTipoCarnet);
-			
+
 			MetodosGUI.desactPanel(contentPanel);
 			excepcionesDesact();
 	}
+
+	public JComboBox getCbTipoCoche() {
+		return cbTipoCoche;
+	}
+
+	public void setCbTipoCoche(JComboBox cbTipoCoche) {
+		this.cbTipoCoche = cbTipoCoche;
+	}
+
+	public JTextField getTfPotencia() {
+		return tfPotencia;
+	}
+
+	public JTextField getTfConsumo() {
+		return tfConsumo;
+	}
+
+	public JComboBox getCbNivelEmision() {
+		return cbNivelEmision;
+	}
+
+	public void setTfPotencia(JTextField tfPotencia) {
+		this.tfPotencia = tfPotencia;
+	}
+
+	public void setTfConsumo(JTextField tfConsumo) {
+		this.tfConsumo = tfConsumo;
+	}
+
+	public void setCbNivelEmision(JComboBox cbNivelEmision) {
+		this.cbNivelEmision = cbNivelEmision;
+	}
+
+	public JTextField getTfNPlazas() {
+		return tfNPlazas;
+	}
+
+	public void setTfNPlazas(JTextField tfNPlazas) {
+		this.tfNPlazas = tfNPlazas;
+	}
+
+
+
 
 
 
@@ -412,8 +488,8 @@ public class FormuMotos extends JDialog {
 		btBorrar.setEnabled(false);
 	}
 
-	public FormuMotos getfMoto() {
-		return fMoto;
+	public FormuCocheCombustion getfCocheCombustion() {
+		return fCocheCombustion;
 	}
 
 	public JPanel getContentPanel() {
@@ -461,11 +537,11 @@ public class FormuMotos extends JDialog {
 	}
 
 	public JTextField getTfRecarga() {
-		return tfRecarga;
+		return tfPotencia;
 	}
 
 	public JTextField getTfCilindrada() {
-		return tfCilindrada;
+		return tfNPlazas;
 	}
 
 	public JComboBox getCbTipoCarnet() {
@@ -477,7 +553,7 @@ public class FormuMotos extends JDialog {
 	}
 
 	public JTextField getTfAutonomia() {
-		return tfAutonomia;
+		return tfConsumo;
 	}
 
 	public JComboBox getCbCateg() {
@@ -488,8 +564,8 @@ public class FormuMotos extends JDialog {
 		return cbColor;
 	}
 
-	public void setfMoto(FormuMotos fMoto) {
-		this.fMoto = fMoto;
+	public void setfCocheCombustion(FormuCocheCombustion fCocheCombustion) {
+		this.fCocheCombustion = fCocheCombustion;
 	}
 
 	public void setTfMarca(JTextField tfMarca) {
@@ -533,11 +609,11 @@ public class FormuMotos extends JDialog {
 	}
 
 	public void setTfRecarga(JTextField tfRecarga) {
-		this.tfRecarga = tfRecarga;
+		this.tfPotencia = tfRecarga;
 	}
 
 	public void setTfCilindrada(JTextField tfCilindrada) {
-		this.tfCilindrada = tfCilindrada;
+		this.tfNPlazas = tfCilindrada;
 	}
 
 	public void setCbTipoCarnet(JComboBox cbTipoCarnet) {
@@ -549,7 +625,7 @@ public class FormuMotos extends JDialog {
 	}
 
 	public void setTfAutonomia(JTextField tfAutonomia) {
-		this.tfAutonomia = tfAutonomia;
+		this.tfConsumo = tfAutonomia;
 	}
 
 	public void setCbCateg(JComboBox cbCateg) {
@@ -560,7 +636,4 @@ public class FormuMotos extends JDialog {
 	public void setCbColor(JComboBox cbColor) {
 		this.cbColor = cbColor;
 	}
-
-	
-
 }

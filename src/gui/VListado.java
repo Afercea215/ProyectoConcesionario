@@ -63,7 +63,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class VListado extends JDialog {
 
-	private VListado listVentana;
+	private VListado listVentana = this;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private Object elegido;
@@ -129,9 +129,6 @@ public class VListado extends JDialog {
 	
 	public VListado(DatosTabla datos) {
 		
-		
-		
-		listVentana = this;
 		setTitle("Listado");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("media/lista.png"));
 		setModal(true);
@@ -310,7 +307,6 @@ public class VListado extends JDialog {
 	                    List<SortKey> keys = (List<SortKey>) e.getSource().getSortKeys();
 	                    for (SortKey key : keys) {
 	                    	columOrdenada=key.getColumn();
-	                    	System.out.println(columOrdenada);
 	                    	break;
 	                    }
 	                }
@@ -342,8 +338,13 @@ public class VListado extends JDialog {
 				}
 			});
 			
-			table.setRowSelectionInterval(0, 0);
-			table.setRowSelectionAllowed(true);
+			if (table.getRowCount()>0) {
+				table.setRowSelectionInterval(0, 0);
+				table.setRowSelectionAllowed(true);
+			} else {
+				JOptionPane.showMessageDialog(this,"No hay datos en la tabla con los datos proporcionados.");
+			}
+			
 		}
 		
 	}

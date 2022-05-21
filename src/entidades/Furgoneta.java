@@ -4,6 +4,7 @@
 
 package entidades;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -16,7 +17,7 @@ public class Furgoneta extends Combustion{
 	private int capacidadCarga;
 	private TipoCarnet carnetRequerido;
 	
-	private Double precioDiario = 70.0;
+	public static Double precioDiario = 70.0;
 
 	/**
 	 * Construcor completo de una furgoneta
@@ -36,15 +37,25 @@ public class Furgoneta extends Combustion{
 	 * @param carnetRequerido String Carnet Requerido (B1, A2...ETC)
 	 */
 	public Furgoneta(String matricula, String marca, String modelo, Color color, GregorianCalendar fechaAlta, int kms,
-			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia, String nivel_emison,
+			Categoria categoria, Oficina oficina, boolean alquilado, int consumo, int potencia, NivelEmision nivelEmision,
 			int capacidadCarga, TipoCarnet carnetRequerido) {
 		super(matricula, marca, modelo, color, fechaAlta, kms, categoria, oficina, alquilado, consumo, potencia,
-				nivel_emison);
+				nivelEmision);
 		this.capacidadCarga = capacidadCarga;
 		this.carnetRequerido = carnetRequerido;
 	}
 
 	
+	public static Double getPrecioDiario() {
+		return precioDiario;
+	}
+
+
+	public void setPrecioDiario(Double precioDiario) {
+		this.precioDiario = precioDiario;
+	}
+
+
 	public int getCapacidadCarga() {
 		int aux=this.capacidadCarga;
 		return aux;
@@ -83,6 +94,8 @@ public class Furgoneta extends Combustion{
 		
 		//consigo la diferencia de dias de la fecha de inicia y la de fin prevista
 		int difDias = miLibreria.metodos.Fechas.difDiasEntreFechas(a.getFechaIniAlquiler(), a.getFechaFinPrevista());
+		
+		System.out.println(a.getFechaFinPrevista().get(Calendar.DAY_OF_MONTH));
 		
 		//calculo el precio total
 		Double total = (difDias*precioDiario)+((difDias*precioDiario)*(super.getPorcentajeSubida()/100));

@@ -16,7 +16,7 @@ public class CocheElectrico extends Electrico {
 	private int n_plazas;
 	private String tipo;
 	
-	private Double precioDiario = 50.0;
+	public static Double precioDiario = 50.0;
 	
 
 

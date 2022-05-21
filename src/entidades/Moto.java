@@ -17,9 +17,9 @@ public class Moto extends Electrico{
 	private TipoCarnet carnetRequerido;
 	
 	//precio por dia de alquiler
-	private Double precioDiario = 10.00;
+	public static Double precioDiario = 10.00;
 
-	public Double getPrecioDiario() {
+	public static Double getPrecioDiario() {
 		return precioDiario;
 	}
 

@@ -91,16 +91,16 @@ public class MetodosGUI {
 			if ((c instanceof JComboBox)){
 				((JComboBox) c).setSelectedIndex(0);
 			}
-			if ((c instanceof JDateChooser)){
-				java.util.Date date = null;
-				try {
-					date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				((JDateChooser) c).setDate(date);
-			}
+//			if ((c instanceof JDateChooser)){
+//				java.util.Date date = null;
+//				try {
+//					date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
+//				} catch (ParseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				((JDateChooser) c).setDate(date);
+//			}
 			if ((c instanceof JScrollPane)) {
 				vaciarPanel((JScrollPane)c);
 			}

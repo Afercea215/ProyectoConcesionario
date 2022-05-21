@@ -33,6 +33,8 @@ import javax.swing.border.EmptyBorder;
 import accesoADatos.RepositorioCliente;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
+import controladoresDeEventos.ControlaLongitud;
+import controladoresDeEventos.SoloAdmiteNumeros;
 import entidades.Cliente;
 import entidades.Oficina;
 import entidades.TipoCarnet;
@@ -94,6 +96,7 @@ public class FormuClientes extends JDialog {
 		tfDni.setColumns(4);
 		tfDni.setBounds(72, 11, 67, 21);
 		contentPanel.add(tfDni);
+		tfDni.addKeyListener(new controladoresDeEventos.ControlaLongitud(9));
 		tfDni.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -105,17 +108,6 @@ public class FormuClientes extends JDialog {
 						excepcionesActiva();
 					}
 	             }
-			}
-			
-			//cuando escribe capamos que escriba valores que no sean numeros, intro o borrar. Tammbien cuango la long sea 0
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (tfDni.getText().length()==9)
-				{
-					getToolkit().beep();
-					e.consume();
-				}
 			}
 		});
 		

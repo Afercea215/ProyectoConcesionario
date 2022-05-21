@@ -27,21 +27,21 @@ import com.toedter.calendar.JDateChooser;
 
 import accesoADatos.RepositorioCliente;
 import accesoADatos.RepositorioColor;
+import accesoADatos.RepositorioNivelEmision;
 import accesoADatos.RepositorioOficina;
-import accesoADatos.RepositorioTipoCarnet;
 import entidades.Cliente;
 import entidades.Color;
+import entidades.NivelEmision;
 import entidades.Oficina;
-import entidades.TipoCarnet;
 import principal.Principal;
 
-public class MetodosTipoCarnet {
+public class MetodosNivelEmision {
 	
 	
-	public static JComboBox<TipoCarnet> comboBoxTipoCarnet (){
-		JComboBox<TipoCarnet> c = new JComboBox<TipoCarnet>();
+	public static JComboBox<NivelEmision> comboBoxNivelEmision (){
+		JComboBox<NivelEmision> c = new JComboBox<NivelEmision>();
 		
-		for (TipoCarnet a : RepositorioTipoCarnet.arrayListTipoCarnets() ){
+		for (NivelEmision a : RepositorioNivelEmision.arrayListNivelEmision() ){
 			c.addItem(a);
 		}
 		return c;

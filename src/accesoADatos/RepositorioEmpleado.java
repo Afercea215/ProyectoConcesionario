@@ -36,7 +36,46 @@ public class RepositorioEmpleado {
 		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado e on p.dni=e.dni");
+			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado2 e on p.dni=e.dni");
+			
+			while (rs.next()) {
+				dni = rs.getString("DNI");
+				ap1 = rs.getString("AP1");
+				ap2 = rs.getString("ap2");
+				nombre = rs.getString("NOMBRE");
+				fechaNac = new GregorianCalendar(rs.getDate("F_NAC").getYear(),rs.getDate("F_NAC").getMonth() , rs.getDate("F_NAC").getDay());
+				fechaAlta = new GregorianCalendar(rs.getDate("f_alta").getYear(),rs.getDate("f_alta").getMonth() , rs.getDate("f_alta").getDay());
+				
+				ofi = RepositorioOficina.buscaOficina(rs.getString("codofi"));
+ 
+				empleado=new Empleado(ap1, ap2, nombre, fechaNac, dni, ofi, fechaAlta);
+				
+				lista.add(empleado);
+			}
+			st.executeQuery("commit");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+	
+	
+public static ArrayList<Empleado> arrayListEmpleadosOfi(String codOfi) {
+		
+		ArrayList<Empleado> lista = new ArrayList<Empleado>();
+		String ap1="";
+		String ap2="";
+		String nombre="";
+		GregorianCalendar fechaNac=null;
+		String dni="";
+		GregorianCalendar fechaAlta=null;
+		Oficina ofi = null;
+		Empleado empleado = null;
+		
+		try {
+			st = AccesoADatos.getCn().createStatement();
+			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado2 e on p.dni=e.dni where codofi like '"+codOfi+"'");
 			
 			while (rs.next()) {
 				dni = rs.getString("DNI");
@@ -77,7 +116,7 @@ public class RepositorioEmpleado {
 		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado e on p.dni=e.dni where p.dni like upper('"+dni+"')");
+			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado2 e on p.dni=e.dni where p.dni like upper('"+dni+"')");
 			
 			while (rs.next()) {
 				dni = rs.getString("DNI");
@@ -164,12 +203,12 @@ public class RepositorioEmpleado {
 		try {
 			st = AccesoADatos.getCn().createStatement();
 			
-			if (!formu.getTfAp2().getText().equals("")) {
-				st.executeQuery("insert into persona (dni, nombre, ap1, f_nac) values (upper('"+e.getDni()+"'),upper('"+e.getNombre()+"'),upper('"+e.getAp1()+"'),upper('"+(e.getAp2())+"'),'"+diaString+"/"+mesString+"/"+año+"')");
+			if (formu.getTfAp2().getText().equals("")) {
+				st.executeQuery("insert into persona (dni, nombre, ap1, f_nac) values (upper('"+e.getDni()+"'),upper('"+e.getNombre()+"'),upper('"+e.getAp1()+"'),'"+diaString+"/"+mesString+"/"+año+"')");
 			} else {
 				st.executeQuery("insert into persona values (upper('"+e.getDni()+"'),upper('"+e.getNombre()+"'),upper('"+e.getAp1()+"'),upper('"+(e.getAp2())+"'),'"+diaString+"/"+mesString+"/"+año+"')");
 			}
-			st.executeQuery("insert into empleado values (upper('"+e.getDni()+"'),upper('"+diaString2+"/"+mesString2+"/"+año2+"'),upper('"+e.getOficina().getCod()+"'))");
+			st.executeQuery("insert into empleado2 values (upper('"+e.getDni()+"'),upper('"+diaString2+"/"+mesString2+"/"+año2+"'),upper('"+e.getOficina().getCod()+"'))");
 			st.executeQuery("commit");
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
@@ -219,7 +258,7 @@ public class RepositorioEmpleado {
 		try {
 			st = AccesoADatos.getCn().createStatement();
 			st.executeQuery("update persona set nombre=upper('"+e.getNombre()+"'), ap1=upper('"+e.getAp1()+"'), ap2=upper('"+e.getAp2()+"'), f_nac='"+diaString+"/"+mesString+"/"+año+"' where dni like upper('"+e.getDni()+"')");
-			st.executeQuery("update empleado set f_alta='"+diaString2+"/"+mesString2+"/"+año2+"', CODOFI='"+e.getOficina().getCod()+"' where dni like upper('"+e.getDni()+"')");
+			st.executeQuery("update empleado2 set f_alta='"+diaString2+"/"+mesString2+"/"+año2+"', CODOFI='"+e.getOficina().getCod()+"' where dni like upper('"+e.getDni()+"')");
 			st.executeQuery("commit");
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block

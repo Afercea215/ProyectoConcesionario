@@ -69,7 +69,7 @@ public class MetodosCliente {
 		
 		for (int i=0;i<numClientes;i++) {
 				listaTabla[i][0]=lista.get(i).getNombre()+" "+lista.get(i).getAp1()+" "+lista.get(i).getAp2();
-				listaTabla[i][1]=new Date(lista.get(i).getFechaNac().get(Calendar.YEAR), lista.get(i).getFechaNac().get(Calendar.MONTH), lista.get(i).getFechaNac().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][1]=new Date(lista.get(i).getFechaNac().get(Calendar.YEAR)-1900, lista.get(i).getFechaNac().get(Calendar.MONTH), lista.get(i).getFechaNac().get(Calendar.DAY_OF_MONTH));
 				listaTabla[i][2]=lista.get(i).getCarnetConducir().getNombre();
 				listaTabla[i][3]=lista.get(i).getnTarjetaCliente();
 				listaTabla[i][4]=lista.get(i).getDni();

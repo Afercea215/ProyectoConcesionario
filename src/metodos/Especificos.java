@@ -9,6 +9,41 @@ import entidades.*;
 
 public class Especificos {
 	
+	public static Double calculaAlquiler (GregorianCalendar f1, GregorianCalendar f2, Vehiculo vehiculo) {
+		Double precio=0.00;
+		int difDias = miLibreria.metodos.Fechas.difDiasEntreFechas(f1, f2);
+		
+		if (vehiculo instanceof Moto) {
+			Double precioDiario = Moto.precioDiario;
+			int porcentajeSubida = Electrico.porcentajeSubida;
+			int porcentajeRecargo = (int) vehiculo.getCategoria().getPorcentajeRecargo();
+			precio= (difDias*precioDiario)+((difDias*precioDiario)*(porcentajeSubida/100)) + ((difDias*precioDiario)*(porcentajeRecargo/100));
+		}
+		
+		if (vehiculo instanceof Furgoneta) {
+			Double precioDiario = Furgoneta.getPrecioDiario();
+			int porcentajeSubida = Combustion.porcentajeSubida;
+			int porcentajeRecargo = (int) vehiculo.getCategoria().getPorcentajeRecargo();
+			precio= (difDias*precioDiario)+((difDias*precioDiario)*(porcentajeSubida/100)) + ((difDias*precioDiario)*(porcentajeRecargo/100));
+		}
+		
+		if (vehiculo instanceof CocheCombustion) {
+			Double precioDiario = CocheCombustion.precioDiario;
+			int porcentajeSubida = Combustion.porcentajeSubida;
+			int porcentajeRecargo = (int) vehiculo.getCategoria().getPorcentajeRecargo();
+			precio= (difDias*precioDiario)+((difDias*precioDiario)*(porcentajeSubida/100)) + ((difDias*precioDiario)*(porcentajeRecargo/100));
+		}
+		
+		if (vehiculo instanceof CocheElectrico) {
+			Double precioDiario = CocheElectrico.precioDiario;
+			int porcentajeSubida = Electrico.porcentajeSubida;
+			int porcentajeRecargo = (int) vehiculo.getCategoria().getPorcentajeRecargo();
+			precio= (difDias*precioDiario)+((difDias*precioDiario)*(porcentajeSubida/100)) + ((difDias*precioDiario)*(porcentajeRecargo/100));
+		}
+		
+		return precio;
+		}
+	
 	public static boolean pideyVerificaContraseña () {
 		boolean valido = false;
 		String contraseña = "";

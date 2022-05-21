@@ -30,6 +30,11 @@ public class VentanaPrincipal extends JFrame {
 	public static FormuClientes fCli = null;
 	public static FormuEmpleados fEmple = null;
 	public static FormuMotos fMoto = null;
+	public static FormuCocheElectrico fCocheElectrico = null;
+	public static FormuCocheCombustion fCocheCombustion = null;
+	public static FormuFurgoneta fFurgoneta = null;
+	public static FormuAlquiler fAlqui = null;
+	
 
 	/**
 	 * Launch the application.
@@ -55,6 +60,16 @@ public class VentanaPrincipal extends JFrame {
 		
 		JMenu mnProcesosDiarios = new JMenu("Procesos Diarios");
 		menuBar.add(mnProcesosDiarios);
+		
+		JMenuItem mntmAlquiler = new JMenuItem("Alquiler");
+		mntmAlquiler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fAlqui = new FormuAlquiler();
+				fAlqui.setLocationRelativeTo(Principal.v);
+				fAlqui.setVisible(true);
+			}
+		});
+		mnProcesosDiarios.add(mntmAlquiler);
 		
 		JMenu mnFicherosMaestros = new JMenu("FicherosMaestros");
 		menuBar.add(mnFicherosMaestros);
@@ -98,6 +113,38 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnFicherosMaestros.add(mntmMotos);
+		
+		JMenuItem mntmCochesElectricos = new JMenuItem("Coches Electricos");
+		mntmCochesElectricos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fCocheElectrico = new FormuCocheElectrico();
+				fCocheElectrico.setLocationRelativeTo(Principal.v);
+				fCocheElectrico.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmCochesElectricos);
+		
+		JMenuItem mntmCochesCombustion = new JMenuItem("Coches Combustion");
+		mntmCochesCombustion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fCocheCombustion = new FormuCocheCombustion();
+				fCocheCombustion.setLocationRelativeTo(Principal.v);
+				fCocheCombustion.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmCochesCombustion);
+		
+		JMenuItem mntmFurgonetas = new JMenuItem("Furgonetas");
+		mntmFurgonetas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fFurgoneta = new FormuFurgoneta();
+				fFurgoneta.setLocationRelativeTo(Principal.v);
+				fFurgoneta.setVisible(true);
+			}
+		});
+		mnFicherosMaestros.add(mntmFurgonetas);
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0,88,165));
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));

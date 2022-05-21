@@ -99,6 +99,7 @@ public class FormuEmpleados extends JDialog {
 		tfDni.setColumns(4);
 		tfDni.setBounds(72, 11, 67, 21);
 		contentPanel.add(tfDni);
+		tfDni.addKeyListener(new controladoresDeEventos.ControlaLongitud(9));
 		tfDni.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {

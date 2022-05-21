@@ -28,20 +28,21 @@ import com.toedter.calendar.JDateChooser;
 import accesoADatos.RepositorioCliente;
 import accesoADatos.RepositorioColor;
 import accesoADatos.RepositorioOficina;
-import accesoADatos.RepositorioTipoCarnet;
+import accesoADatos.RepositorioTipoCoche;
+import accesoADatos.RepositorioTipoVehiculo;
 import entidades.Cliente;
 import entidades.Color;
 import entidades.Oficina;
 import entidades.TipoCarnet;
 import principal.Principal;
 
-public class MetodosTipoCarnet {
+public class MetodosTipoVehiculo {
 	
 	
-	public static JComboBox<TipoCarnet> comboBoxTipoCarnet (){
-		JComboBox<TipoCarnet> c = new JComboBox<TipoCarnet>();
+	public static JComboBox<String> comboBoxTipoVehiculo (){
+		JComboBox<String> c = new JComboBox<String>();
 		
-		for (TipoCarnet a : RepositorioTipoCarnet.arrayListTipoCarnets() ){
+		for (String a : RepositorioTipoVehiculo.arrayListTipoVehiculo() ){
 			c.addItem(a);
 		}
 		return c;
