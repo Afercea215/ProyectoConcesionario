@@ -56,7 +56,7 @@ public class RepositorioMoto {
 				kms = rs.getInt("kms");
 				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
 				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
-				if (rs.getString("alquilado").equals("s")) {
+				if (rs.getString("alquilado").equals("T")) {
 					alquilado=true;
 				}else alquilado=false;
 				
@@ -76,6 +76,66 @@ public class RepositorioMoto {
 		}
 		return lista;
 	}
+	
+	
+	/**
+	 * Devuelve todas las clientes de la base de datos.
+	 * @return ArrayList con los clientes
+	 */
+	public static ArrayList<Moto> arrayListMotosOfi(String codOfi) {
+		
+		ArrayList<Moto> lista = new ArrayList<Moto>();
+		String matricula="";
+		String marca="";
+		String modelo="";
+		Color color=null;
+		GregorianCalendar fechaAlta=null;
+		int kms=0;
+		Oficina ofi= null;
+		Categoria cat = null;
+		boolean alquilado;
+		int autonomia=0;
+		int tiempoRecarga=0;
+		int cilindrada=0;
+		TipoCarnet carnet = null;
+		int precioDirario=0;
+		
+		Moto moto;
+		
+		try {
+			st = AccesoADatos.getCn().createStatement();
+			ResultSet rs = st.executeQuery("select * from vehiculo m join electrico e on m.MATRICULA=e.MATRICULA join moto v on e.MATRICULA=v.MATRICULA where ofi like upper('"+codOfi+"') and alquilado like 'F'");
+			
+			while (rs.next()) {
+				matricula = rs.getString("matricula");
+				marca = rs.getString("marca");
+				modelo = rs.getString("modelo");
+				color = new Color(rs.getString("color"));
+				fechaAlta = new GregorianCalendar(rs.getDate("FECHA_ALTA").getYear(),rs.getDate("FECHA_ALTA").getMonth() , rs.getDate("FECHA_ALTA").getDay());
+				kms = rs.getInt("kms");
+				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
+				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
+				if (rs.getString("alquilado").equals("T")) {
+					alquilado=true;
+				}else alquilado=false;
+				
+				autonomia = rs.getInt("autonomia");
+				tiempoRecarga = rs.getInt("tiemporecarga");
+				cilindrada = rs.getInt("cIlindrada");
+				carnet= RepositorioTipoCarnet.buscaTipoCarnet(rs.getString("TIPOCARNET"));
+				
+				moto=new Moto(matricula, marca, modelo, color, fechaAlta, kms, cat, ofi, alquilado, autonomia, tiempoRecarga, cilindrada, carnet);
+				
+				lista.add(moto);
+			}
+			st.executeQuery("commit");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+	
 	
 	/**
 	 * Busca la cliente que tenga ese dni en la base de datos
@@ -113,7 +173,7 @@ public class RepositorioMoto {
 				kms = rs.getInt("kms");
 				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
 				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
-				if (rs.getString("alquilado").equals("s")) {
+				if (rs.getString("alquilado").equals("T")) {
 					alquilado=true;
 				}else alquilado=false;
 				

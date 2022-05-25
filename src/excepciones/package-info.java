@@ -1,0 +1,4 @@
+/*
+ * Excepciones
+ */
+package excepciones;

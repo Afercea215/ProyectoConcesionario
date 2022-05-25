@@ -10,6 +10,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import accesoADatos.RepositorioOficina;
+import accesoADatos.*;
+import controladoresDeEventos.SoloAdmiteNumeros;
 import entidades.Oficina;
 import principal.Principal;
 import java.awt.Toolkit;
@@ -39,8 +42,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
-import accesoADatos.*;
-import controladoresDeEventos.SoloAdmiteNumeros;
 
 public class FormuOficinas extends JDialog {
 
@@ -230,7 +231,7 @@ public class FormuOficinas extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vListOfi = new VListado(MetodosOficina.creaDatosTabla());
+				VListado vListOfi = new VListado(MetodosOficina.creaDatosTabla(),true);
 				vListOfi.setLocationRelativeTo(VentanaPrincipal.fOfi);
 				vListOfi.setVisible(true);
 				Oficina o = (Oficina)vListOfi.getElegido();

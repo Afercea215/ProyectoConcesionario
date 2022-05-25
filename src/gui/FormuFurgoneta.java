@@ -31,11 +31,11 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import accesoADatos.RepositorioCategoria;
-import accesoADatos.RepositorioFurgoneta;
 import accesoADatos.RepositorioEmpleado;
+import accesoADatos.RepositorioFurgoneta;
 import accesoADatos.RepositorioMoto;
-import entidades.Furgoneta;
 import entidades.Empleado;
+import entidades.Furgoneta;
 import entidades.Moto;
 import principal.Principal;
 import javax.swing.JCheckBox;
@@ -83,7 +83,7 @@ public class FormuFurgoneta extends JDialog {
 		
 		setResizable(false);
 		setModal(true);
-		setTitle("Motos");
+		setTitle("Furgoneta");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("media/persona.png"));
 		setBounds(100, 100, 491, 314);
 		getContentPane().setLayout(new BorderLayout());
@@ -153,7 +153,7 @@ public class FormuFurgoneta extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosFurgoneta.creaDatosTabla());
+				VListado vList = new VListado(MetodosFurgoneta.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fFurgoneta);
 				vList.setVisible(true);
 				Furgoneta coche = (Furgoneta)vList.getElegido();

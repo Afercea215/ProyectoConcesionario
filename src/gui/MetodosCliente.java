@@ -28,6 +28,8 @@ import com.toedter.calendar.JDateChooser;
 import accesoADatos.RepositorioCliente;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
+import entidades.Cliente;
+import entidades.TipoCarnet;
 import entidades.*;
 
 public class MetodosCliente {

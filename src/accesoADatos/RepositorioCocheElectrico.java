@@ -57,7 +57,7 @@ public class RepositorioCocheElectrico {
 				kms = rs.getInt("kms");
 				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
 				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
-				if (rs.getString("alquilado").equals("s")) {
+				if (rs.getString("alquilado").equals("T")) {
 					alquilado=true;
 				}else alquilado=false;
 				
@@ -77,6 +77,66 @@ public class RepositorioCocheElectrico {
 		}
 		return lista;
 	}
+	
+	
+	/**
+	 * Devuelve todas las clientes de la base de datos.
+	 * @return ArrayList con los clientes
+	 */
+	public static ArrayList<CocheElectrico> arrayListCochesElectricosOfi(String codOfi) {
+		
+		ArrayList<CocheElectrico> lista = new ArrayList<CocheElectrico>();
+		String matricula="";
+		String marca="";
+		String modelo="";
+		Color color=null;
+		GregorianCalendar fechaAlta=null;
+		int kms=0;
+		Oficina ofi= null;
+		Categoria cat = null;
+		boolean alquilado;
+		int autonomia=0;
+		int tiempoRecarga=0;
+		int nPlazas=0;
+		String tipoCoche="";
+		int precioDirario=0;
+		
+		CocheElectrico coche;
+		
+		try {
+			st = AccesoADatos.getCn().createStatement();
+			ResultSet rs = st.executeQuery("select * from vehiculo m join electrico e on m.MATRICULA=e.MATRICULA join coche_electrico v on e.MATRICULA=v.MATRICULA where ofi like ('"+codOfi+"') and alquilado like 'N'");
+			
+			while (rs.next()) {
+				matricula = rs.getString("matricula");
+				marca = rs.getString("marca");
+				modelo = rs.getString("modelo");
+				color = new Color(rs.getString("color"));
+				fechaAlta = new GregorianCalendar(rs.getDate("FECHA_ALTA").getYear(),rs.getDate("FECHA_ALTA").getMonth() , rs.getDate("FECHA_ALTA").getDay());
+				kms = rs.getInt("kms");
+				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
+				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
+				if (rs.getString("alquilado").equals("T")) {
+					alquilado=true;
+				}else alquilado=false;
+				
+				autonomia = rs.getInt("autonomia");
+				tiempoRecarga = rs.getInt("tiemporecarga");
+				nPlazas = rs.getInt("n_plazas");
+				tipoCoche = rs.getString("tipo_coche");
+				
+				coche=new CocheElectrico(matricula, marca, modelo, color, fechaAlta, kms, cat, ofi, alquilado, autonomia, tiempoRecarga, nPlazas, tipoCoche);
+				
+				lista.add(coche);
+			}
+			st.executeQuery("commit");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+	
 	
 	/**
 	 * Busca la cliente que tenga ese dni en la base de datos
@@ -114,7 +174,7 @@ public class RepositorioCocheElectrico {
 				kms = rs.getInt("kms");
 				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
 				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
-				if (rs.getString("alquilado").equals("s")) {
+				if (rs.getString("alquilado").equals("T")) {
 					alquilado=true;
 				}else alquilado=false;
 				

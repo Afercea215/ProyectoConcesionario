@@ -18,11 +18,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import accesoADatos.RepositorioCliente;
-import accesoADatos.RepositorioOficina;
-import entidades.Cliente;
-import entidades.Oficina;
-
 import java.awt.Toolkit;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -59,6 +54,11 @@ import java.awt.Point;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import accesoADatos.RepositorioCliente;
+import accesoADatos.RepositorioOficina;
+import entidades.Cliente;
+import entidades.Oficina;
 import net.miginfocom.swing.MigLayout;
 
 public class VListado extends JDialog {
@@ -127,7 +127,7 @@ public class VListado extends JDialog {
 	 };
 	
 	
-	public VListado(DatosTabla datos) {
+	public VListado(DatosTabla datos, boolean implementarSelec) {
 		
 		setTitle("Listado");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("media/lista.png"));
@@ -225,7 +225,7 @@ public class VListado extends JDialog {
 				tfContiene.setBounds(104, 40, 156, 19);
 				panelBuscador.add(tfContiene);
 				
-				JButton btnLupa = new JButton("New button");
+				JButton btnLupa = new JButton("Buscar");
 				btnLupa.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int filaModel;
@@ -255,19 +255,24 @@ public class VListado extends JDialog {
 				panelBotones.setLayout(new MigLayout("", "[85px]", "[10][][21px]"));
 				
 				btnSeleccionar = new JButton("Seleccionar");
-				btnSeleccionar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						elegido=null;
-						elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
-						if (elegido!=null) {
-							listVentana.setVisible(false);	
-							tfContiene.setText("");
-							tfEmpiezaPor.setText("");
-						} 
-					}
-				});
 				btnSeleccionar.setName("seleccionar");
 				panelBotones.add(btnSeleccionar, "cell 0 1,grow");
+				
+				if (implementarSelec) {
+					btnSeleccionar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							elegido=null;
+							elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
+							if (elegido!=null) {
+								listVentana.setVisible(false);	
+								tfContiene.setText("");
+								tfEmpiezaPor.setText("");
+							} 
+						}
+					});
+				} else {
+					btnSeleccionar.setVisible(false);
+				}
 				
 				btnCancelar = new JButton("Cancelar");
 				btnCancelar.addActionListener(new ActionListener() {
@@ -284,19 +289,22 @@ public class VListado extends JDialog {
 	   
 		
 		{
+		
+			if (implementarSelec) {
+				table.addMouseListener(new java.awt.event.MouseAdapter() {
+				      public void mouseClicked(java.awt.event.MouseEvent e) {
+				    	  
+				    	  if(e.getClickCount()==2){
+					    		elegido=null;
+								elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
+								if (elegido!=null) {
+									listVentana.setVisible(false);			
+								} 
+					      }
+			     	 }
+				 });
+			}
 			
-			table.addMouseListener(new java.awt.event.MouseAdapter() {
-			      public void mouseClicked(java.awt.event.MouseEvent e) {
-			    	  
-			    	  if(e.getClickCount()==2){
-				    		elegido=null;
-							elegido= MetodosGUI.cogerSeleccionado(table,nColum-1);
-							if (elegido!=null) {
-								listVentana.setVisible(false);			
-							} 
-				      }
-		     	 }
-			 });
 			
 			table.setRowSelectionAllowed(true);
 			

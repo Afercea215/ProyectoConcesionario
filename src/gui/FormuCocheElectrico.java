@@ -81,7 +81,7 @@ public class FormuCocheElectrico extends JDialog {
 		
 		setResizable(false);
 		setModal(true);
-		setTitle("Motos");
+		setTitle("Coche Electrico");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("media/persona.png"));
 		setBounds(100, 100, 491, 314);
 		getContentPane().setLayout(new BorderLayout());
@@ -151,7 +151,7 @@ public class FormuCocheElectrico extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosCocheElectrico.creaDatosTabla());
+				VListado vList = new VListado(MetodosCocheElectrico.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fCocheElectrico);
 				vList.setVisible(true);
 				CocheElectrico coche = (CocheElectrico)vList.getElegido();

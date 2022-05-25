@@ -30,6 +30,8 @@ import accesoADatos.RepositorioCliente;
 import accesoADatos.RepositorioEmpleado;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
+import entidades.Empleado;
+import entidades.Oficina;
 import entidades.*;
 
 public class MetodosEmpleado {

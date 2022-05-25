@@ -148,7 +148,7 @@ public class FormuMotos extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosMoto.creaDatosTabla());
+				VListado vList = new VListado(MetodosMoto.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fMoto);
 				vList.setVisible(true);
 				Moto m = (Moto)vList.getElegido();

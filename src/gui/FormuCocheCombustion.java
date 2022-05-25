@@ -82,7 +82,7 @@ public class FormuCocheCombustion extends JDialog {
 		
 		setResizable(false);
 		setModal(true);
-		setTitle("Motos");
+		setTitle("Coche Combustion");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("media/persona.png"));
 		setBounds(100, 100, 491, 314);
 		getContentPane().setLayout(new BorderLayout());
@@ -152,7 +152,7 @@ public class FormuCocheCombustion extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosCocheCombustion.creaDatosTabla());
+				VListado vList = new VListado(MetodosCocheCombustion.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fCocheCombustion);
 				vList.setVisible(true);
 				CocheCombustion coche = (CocheCombustion)vList.getElegido();

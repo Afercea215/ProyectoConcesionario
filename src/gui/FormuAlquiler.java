@@ -82,18 +82,6 @@ public class FormuAlquiler extends JDialog {
 	private JDatePicker dpIni;
 	private JDatePicker dpFin;
 
-	
-	
-	/**
-	 * Launch the application.
-	 */
-	
-	//////////////////////////////////////////
-	//GETTERS Y SETTERS
-	//////////////////////////////////////////
-	
-
-	
 	/**
 	 * Create the dialog.
 	 */
@@ -144,7 +132,7 @@ public class FormuAlquiler extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosAlquiler.creaDatosTabla());
+				VListado vList = new VListado(MetodosAlquiler.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 				vList.setVisible(true);
 				Alquiler a = (Alquiler)vList.getElegido();
@@ -205,7 +193,7 @@ public class FormuAlquiler extends JDialog {
 				btGrabar.setFocusPainted(false);
 				btGrabar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						System.out.println(dpFin.getModel().getDay());
+						actuPrecio();
 						MetodosAlquiler.grabaAlquiler(fAlqui);
 					}
 				});
@@ -258,10 +246,11 @@ public class FormuAlquiler extends JDialog {
 			tfVehiculo.setEnabled(true);
 			tfVehiculo.setColumns(4);
 			tfVehiculo.setBounds(72, 75, 67, 21);
+			tfVehiculo.addKeyListener(new ControlaLongitud(7));
 			contentPanel.add(tfVehiculo);
 			
 			btnLupaVehiculo = new JButton("");
-			btnLupa.setIcon(new ImageIcon("media/lupa.png"));
+			btnLupaVehiculo.setIcon(new ImageIcon("media/lupa.png"));
 			btnLupaVehiculo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					rellenaMatricula();
@@ -278,18 +267,16 @@ public class FormuAlquiler extends JDialog {
 			contentPanel.add(lblOfiIni);
 			
 			cbOfiIni = MetodosOficina.comboBoxOficinas();
-
-	
-			cbOfiIni.setBounds(125, 106, 81, 21);
+			cbOfiIni.setBounds(125, 106, 110, 21);
 			contentPanel.add(cbOfiIni);
 			
-			JLabel lblOfiFin = new JLabel("Oficina inicio alquiler");
+			JLabel lblOfiFin = new JLabel("Oficina devolucion");
 			lblOfiFin.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblOfiFin.setBounds(10, 141, 129, 21);
 			contentPanel.add(lblOfiFin);
 			
 			cbOfiFin = MetodosOficina.comboBoxOficinas();
-			cbOfiFin.setBounds(125, 141, 81, 21);
+			cbOfiFin.setBounds(125, 141, 110, 21);
 			contentPanel.add(cbOfiFin);
 			
 			JLabel lblEmple = new JLabel("Empleado");
@@ -303,13 +290,30 @@ public class FormuAlquiler extends JDialog {
 			tfEmple.setColumns(4);
 			tfEmple.setBounds(307, 75, 67, 21);
 			tfEmple.addKeyListener(new ControlaLongitud(9));
+			tfEmple.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					//si se pulsa intro se verifica si el coodigo es valido
+					 if(e.getKeyCode()==KeyEvent.VK_ENTER){
+						 if (miLibreria.metodos.Validadores.DNIvalido(tfEmple.getText())) {
+								if (( (Empleado) RepositorioEmpleado.buscaEmpleado(tfEmple.getText())).getAp1()==null) {
+									JOptionPane.showMessageDialog(fAlqui, "El empleado no existe en la base de datos.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
+									tfEmple.setText("");
+								}
+							 }else {
+									JOptionPane.showMessageDialog(fAlqui, "DNI Incorrecto.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
+							 }
+					 }
+				}
+			});
+			
 			contentPanel.add(tfEmple);
 			
 			btnLupaEmple = new JButton("");
 			btnLupaEmple.setIcon(new ImageIcon("media/lupa.png"));
 			btnLupaEmple.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					VListado vList = new VListado(MetodosEmpleado.creaDatosTablaDeOfi( ((Oficina) cbOfiIni.getSelectedItem()).getCod()) );
+					VListado vList = new VListado(MetodosEmpleado.creaDatosTablaDeOfi( ((Oficina) cbOfiFin.getSelectedItem()).getCod()),true );
 					vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 					vList.setVisible(true);
 					Empleado a = (Empleado)vList.getElegido();
@@ -337,6 +341,22 @@ public class FormuAlquiler extends JDialog {
 			tfCliente.setBounds(307, 106, 67, 21);
 			contentPanel.add(tfCliente);
 			tfCliente.addKeyListener(new ControlaLongitud(9));
+			tfCliente.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					//si se pulsa intro se verifica si el coodigo es valido
+					 if(e.getKeyCode()==KeyEvent.VK_ENTER){
+						 if (miLibreria.metodos.Validadores.DNIvalido(tfCliente.getText())) {
+								if (( (Cliente) RepositorioCliente.buscaCliente(tfCliente.getText())).getAp1()==null) {
+									JOptionPane.showMessageDialog(fAlqui, "El cliente no existe en la base de datos.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
+									tfEmple.setText("");
+								}
+							 }else {
+									JOptionPane.showMessageDialog(fAlqui, "DNI Incorrecto.","Error en la busqueda",JOptionPane.ERROR_MESSAGE);
+							 }
+					 }
+				}
+			});
 			
 			btnLupaCliente = new JButton("");
 			btnLupaCliente.setIcon(new ImageIcon("media/lupa.png"));
@@ -346,7 +366,7 @@ public class FormuAlquiler extends JDialog {
 			contentPanel.add(btnLupaCliente);
 			btnLupaCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					VListado vList = new VListado(MetodosCliente.creaDatosTabla());
+					VListado vList = new VListado(MetodosCliente.creaDatosTabla(),true);
 					vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 					vList.setVisible(true);
 					Cliente a = (Cliente)vList.getElegido();
@@ -395,24 +415,13 @@ public class FormuAlquiler extends JDialog {
 			tfPrecioPrevisto.setEnabled(true);
 			tfPrecioPrevisto.setColumns(4);
 			tfPrecioPrevisto.setBounds(337, 141, 67, 21);
+			tfPrecioPrevisto.setText("0.00");
 			tfPrecioPrevisto.addKeyListener(new NoPermiteEscribir());
 			
 			JLabel lblFechaIni = new JLabel("Fecha inicio alquiler");
 			lblFechaIni.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblFechaIni.setBounds(245, 10, 127, 21);
 			contentPanel.add(lblFechaIni);
-			
-			java.util.Date date;
-			try {
-				date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			
-			
-
 			
 			JLabel lblFechaAlta = new JLabel("Fecha fin alquiler");
 			lblFechaAlta.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -425,40 +434,11 @@ public class FormuAlquiler extends JDialog {
 				}
 			});
 			
-			
-			try {
-				date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2000");
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
 			contentPanel.add(tfPrecioPrevisto);
-			
 			JButton btnCalcula = new JButton("Calcula");
 			btnCalcula.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GregorianCalendar fIni = new GregorianCalendar(dpIni.getModel().getYear(), dpIni.getModel().getMonth()+1, dpIni.getModel().getDay());
-					GregorianCalendar fFin = new GregorianCalendar(dpFin.getModel().getYear(), dpFin.getModel().getMonth()+1, dpFin.getModel().getDay());
-					
-					if (!tfVehiculo.getText().equals("") && !tfEmple.getText().equals("") && !tfCliente.getText().equals("")) {
-						if ((cbTipoVehiculo.getSelectedItem()+"").equals("Moto")) {
-							Moto moto = RepositorioMoto.buscaMoto(tfVehiculo.getText());
-							tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, moto)+"");
-						}
-						if ((cbTipoVehiculo.getSelectedItem()+"").equals("Furgoneta")) {
-							Furgoneta furgo = RepositorioFurgoneta.buscaFurgoneta(tfVehiculo.getText());
-							tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, furgo)+"");
-						}
-						if ((cbTipoVehiculo.getSelectedItem()+"").equals("Coche Electrico")) {
-							CocheElectrico coche = RepositorioCocheElectrico.buscaCocheElectrico(tfVehiculo.getText());
-							tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, coche)+"");
-						}
-						if ((cbTipoVehiculo.getSelectedItem()+"").equals("Coche Combustion")) {
-							CocheCombustion coche = RepositorioCocheCombustion.buscaCocheCombustion(tfVehiculo.getText());
-							tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, coche)+"");
-						}
-					} else JOptionPane.showMessageDialog(fAlqui, "Debe de rellenar todos lo campos.","Error.",JOptionPane.ERROR_MESSAGE);
+					actuPrecio();
 				}
 			});
 			
@@ -470,17 +450,12 @@ public class FormuAlquiler extends JDialog {
 			dpIni.getModel().setSelected(true);
 			
 			
-//			dpIni.getModel().setDay(27);
-//			dpIni.getModel().setMonth(5);
-//			dpIni.getModel().setYear(2022);
 			dpIni.setBounds(364, 10, 129, 21);
 			contentPanel.add(dpIni);
 			
 			dpFin = new JDatePicker();
-//			dpFin.getModel().setDay(28);
-//			dpFin.getModel().setMonth(5);
-//			dpFin.getModel().setYear(2022);
 			dpFin.getModel().setSelected(true);
+			dpFin.getModel().setDay(getDpIni().getModel().getDay()+1);
 			dpFin.getFormattedTextField().addPropertyChangeListener(new PropertyChangeListener() {
 				public void propertyChange(PropertyChangeEvent evt) {
 					dpFin.updateUI();
@@ -502,6 +477,19 @@ public class FormuAlquiler extends JDialog {
 			dpFin.setBounds(364, 40, 129, 21);
 			contentPanel.add(dpFin);
 
+			JButton btnCreaEmple = new JButton("");
+			btnCreaEmple.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					FormuClientes fCli = new FormuClientes();
+					fCli.setVisible(true);
+				}
+			});
+			btnCreaEmple.setIcon(new ImageIcon("media/mas.png"));
+			btnCreaEmple.setBounds(425, 107, 20, 21);
+			contentPanel.add(btnCreaEmple);
+			
+			
+			MetodosGUI.desactPanel(contentPanel);
 			excepcionesDesact();
 	}
 
@@ -714,7 +702,7 @@ public class FormuAlquiler extends JDialog {
 	private void rellenaMatricula () {
 		String selec=cbTipoVehiculo.getSelectedItem()+"";
 		if (selec.equalsIgnoreCase("Moto")) {
-			VListado vList = new VListado(MetodosMoto.creaDatosTabla());
+			VListado vList = new VListado(MetodosMoto.creaDatosTablaOfiLibres(((Oficina) cbOfiIni.getSelectedItem()).getCod()),true);
 			vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 			vList.setVisible(true);
 			Moto m = (Moto)vList.getElegido();
@@ -724,7 +712,7 @@ public class FormuAlquiler extends JDialog {
 				tfVehiculo.setText(m.getMatricula());
 			}
 		} else if (selec.equalsIgnoreCase("Furgoneta")) {
-			VListado vList = new VListado(MetodosFurgoneta.creaDatosTabla());
+			VListado vList = new VListado(MetodosFurgoneta.creaDatosTablaOfiLibre(((Oficina) cbOfiIni.getSelectedItem()).getCod()),true);
 			vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 			vList.setVisible(true);
 			Furgoneta f = (Furgoneta)vList.getElegido();
@@ -734,7 +722,7 @@ public class FormuAlquiler extends JDialog {
 				tfVehiculo.setText(f.getMatricula());
 			}
 		}else if (selec.equalsIgnoreCase("Coche Electrico")) {
-			VListado vList = new VListado(MetodosCocheElectrico.creaDatosTabla());
+			VListado vList = new VListado(MetodosCocheElectrico.creaDatosTablaOfiLibre(((Oficina) cbOfiIni.getSelectedItem()).getCod()),true);
 			vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 			vList.setVisible(true);
 			CocheElectrico m = (CocheElectrico)vList.getElegido();
@@ -744,7 +732,7 @@ public class FormuAlquiler extends JDialog {
 				tfVehiculo.setText(m.getMatricula());
 			}
 		}else if (selec.equalsIgnoreCase("Coche Combustion")) {
-			VListado vList = new VListado(MetodosCocheCombustion.creaDatosTabla());
+			VListado vList = new VListado(MetodosCocheCombustion.creaDatosTablaOfiLibres(((Oficina) cbOfiIni.getSelectedItem()).getCod()),true);
 			vList.setLocationRelativeTo(VentanaPrincipal.fAlqui);
 			vList.setVisible(true);
 			CocheCombustion m = (CocheCombustion)vList.getElegido();
@@ -773,5 +761,28 @@ public class FormuAlquiler extends JDialog {
 		
 		return valido;
 	}
-	
+
+	private void actuPrecio() {
+		GregorianCalendar fIni = new GregorianCalendar(dpIni.getModel().getYear(), dpIni.getModel().getMonth()+1, dpIni.getModel().getDay());
+		GregorianCalendar fFin = new GregorianCalendar(dpFin.getModel().getYear(), dpFin.getModel().getMonth()+1, dpFin.getModel().getDay());
+		
+		if (tfVehiculo.getText().length()==7) {
+			if ((cbTipoVehiculo.getSelectedItem()+"").equals("Moto")) {
+				Moto moto = RepositorioMoto.buscaMoto(tfVehiculo.getText());
+				tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, moto)+"");
+			}
+			if ((cbTipoVehiculo.getSelectedItem()+"").equals("Furgoneta")) {
+				Furgoneta furgo = RepositorioFurgoneta.buscaFurgoneta(tfVehiculo.getText());
+				tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, furgo)+"");
+			}
+			if ((cbTipoVehiculo.getSelectedItem()+"").equals("Coche Electrico")) {
+				CocheElectrico coche = RepositorioCocheElectrico.buscaCocheElectrico(tfVehiculo.getText());
+				tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, coche)+"");
+			}
+			if ((cbTipoVehiculo.getSelectedItem()+"").equals("Coche Combustion")) {
+				CocheCombustion coche = RepositorioCocheCombustion.buscaCocheCombustion(tfVehiculo.getText());
+				tfPrecioPrevisto.setText(metodos.Especificos.calculaAlquiler(fIni, fFin, coche)+"");
+			}
+		} else JOptionPane.showMessageDialog(fAlqui, "Debe de rellenar todos lo campos.","Error.",JOptionPane.ERROR_MESSAGE);
+	}
 }

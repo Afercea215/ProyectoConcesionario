@@ -13,21 +13,13 @@ public class Devolucion implements Comparable<Devolucion>, Serializable{
 	private GregorianCalendar FechaDevolucionReal;
 	private Empleado empleado;
 	private Cliente cliente;
+	private Double precio;
 	
-	/**
-	 * Constructor de Devolucion completo
-	 * @param id int id de devolucion.
-	 * @param oficina Oficina donde se realiza la devolucion.
-	 * @param vehiculo Vehiculo el cual se devuelve.
-	 * @param kmsRecorridos Kms que ha recorrido el vehiculo.
-	 * @param fechaDevolucionReal
-	 * @param empleado
-	 * @param cliente
-	 */
-	public Devolucion(int id,Oficina oficina, Alquiler alquiler, Vehiculo vehiculo, int kmsRecorridos, GregorianCalendar fechaDevolucionReal,
-			Empleado empleado, Cliente cliente) {
+
+	public Devolucion(String id, Oficina oficina, Alquiler alquiler, Vehiculo vehiculo, int kmsRecorridos,
+			GregorianCalendar fechaDevolucionReal, Empleado empleado, Cliente cliente, Double precio) {
 		super();
-		this.id = id+"";
+		this.id = id;
 		this.oficina = oficina;
 		this.alquiler = alquiler;
 		this.vehiculo = vehiculo;
@@ -35,6 +27,15 @@ public class Devolucion implements Comparable<Devolucion>, Serializable{
 		FechaDevolucionReal = fechaDevolucionReal;
 		this.empleado = empleado;
 		this.cliente = cliente;
+		this.precio = precio;
+	}
+
+	public Double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Double precio) {
+		this.precio = precio;
 	}
 
 	public String getId() {

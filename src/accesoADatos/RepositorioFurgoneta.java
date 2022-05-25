@@ -9,8 +9,8 @@ import java.util.GregorianCalendar;
 
 import entidades.Categoria;
 import entidades.Cliente;
-import entidades.Furgoneta;
 import entidades.Color;
+import entidades.Furgoneta;
 import entidades.Moto;
 import entidades.NivelEmision;
 import entidades.Oficina;
@@ -62,7 +62,7 @@ public class RepositorioFurgoneta {
 				kms = rs.getInt("kms");
 				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
 				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
-				if (rs.getString("alquilado").equals("s")) {
+				if (rs.getString("alquilado").equals("T")) {
 					alquilado=true;
 				}else alquilado=false;
 				
@@ -84,6 +84,71 @@ public class RepositorioFurgoneta {
 		}
 		return lista;
 	}
+	
+	/**
+	 * Devuelve todas las clientes de la base de datos.
+	 * @return ArrayList con los clientes
+	 */
+	public static ArrayList<Furgoneta> arrayListfurgosCombustionOfi(String codOfi) {
+		
+		ArrayList<Furgoneta> lista = new ArrayList<Furgoneta>();
+		String matricula="";
+		String marca="";
+		String modelo="";
+		Color color=null;
+		GregorianCalendar fechaAlta=null;
+		int kms=0;
+		Oficina ofi= null;
+		Categoria cat = null;
+		boolean alquilado;
+		
+		int consumo=0;
+		int potencia=0;
+		NivelEmision nivelEmision=null;
+		
+		int capacidadCarga=0;
+		TipoCarnet tipoCarnet=null;
+		
+		int precioDirario=0;
+		
+		Furgoneta furgo;
+		
+		try {
+			st = AccesoADatos.getCn().createStatement();
+			ResultSet rs = st.executeQuery("select * from vehiculo m join combustion e on m.MATRICULA=e.MATRICULA join furgoneta v on e.MATRICULA=v.MATRICULA where ofi like upper('"+codOfi+"') and alquilado like 'F'");
+			
+			while (rs.next()) {
+				matricula = rs.getString("matricula");
+				marca = rs.getString("marca");
+				modelo = rs.getString("modelo");
+				color = new Color(rs.getString("color"));
+				fechaAlta = new GregorianCalendar(rs.getDate("FECHA_ALTA").getYear(),rs.getDate("FECHA_ALTA").getMonth() , rs.getDate("FECHA_ALTA").getDay());
+				kms = rs.getInt("kms");
+				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
+				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
+				if (rs.getString("alquilado").equals("T")) {
+					alquilado=true;
+				}else alquilado=false;
+				
+				consumo = rs.getInt("consumo");
+				potencia = rs.getInt("potencia");
+				nivelEmision = RepositorioNivelEmision.buscaNivelEmision(rs.getString("n_emision"));
+				
+				capacidadCarga = rs.getInt("capacidadcarga");
+				tipoCarnet = RepositorioTipoCarnet.buscaTipoCarnet(rs.getString("tipocarnet"));
+				
+				furgo=new Furgoneta(matricula, marca, modelo, color, fechaAlta, kms, cat, ofi, alquilado, consumo, potencia, nivelEmision, capacidadCarga, tipoCarnet);
+				
+				lista.add(furgo);
+			}
+			st.executeQuery("commit");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+	
 	
 	/**
 	 * Busca la cliente que tenga ese dni en la base de datos
@@ -125,7 +190,7 @@ public class RepositorioFurgoneta {
 				kms = rs.getInt("kms");
 				ofi = RepositorioOficina.buscaOficina(rs.getString("ofi"));
 				cat = RepositorioCategoria.buscaCategoria(rs.getString("categO"));
-				if (rs.getString("alquilado").equals("s")) {
+				if (rs.getString("alquilado").equals("T")) {
 					alquilado=true;
 				}else alquilado=false;
 				

@@ -22,13 +22,24 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 	private Oficina oficinaDevolucion;
 	private GregorianCalendar fechaFinPrevista;
 	private Double alquilerPrevisto;
+	private boolean finalizado;
 	
 	
 	
 	
+	public boolean isFinalizado() {
+		return finalizado;
+	}
+
+
+	public void setFinalizado(boolean finalizado) {
+		this.finalizado = finalizado;
+	}
+
+
 	public Alquiler(String id, Vehiculo vehiculo, Empleado empleado, Cliente cliente,
 			GregorianCalendar fechaIniAlquiler, Oficina oficinaAlquiler, Oficina oficinaDevolucion,
-			GregorianCalendar fechaFinPrevista, Double alquilerPrevisto) {
+			GregorianCalendar fechaFinPrevista, Double alquilerPrevisto, boolean finalizado) {
 		super();
 		this.id = id;
 		this.vehiculo = vehiculo;
@@ -39,6 +50,7 @@ public class Alquiler implements Comparable<Alquiler>, Serializable{
 		this.oficinaDevolucion = oficinaDevolucion;
 		this.fechaFinPrevista = fechaFinPrevista;
 		this.alquilerPrevisto = alquilerPrevisto;
+		this.finalizado = finalizado;
 	}
 
 

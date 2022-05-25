@@ -125,7 +125,7 @@ public class RepositorioCliente {
 		
 		int mes = c.getFechaNac().get(Calendar.MONTH)+1;
 		int dia = c.getFechaNac().get(Calendar.DAY_OF_MONTH);
-		int año = c.getFechaNac().get(Calendar.YEAR);
+		int año = c.getFechaNac().get(Calendar.YEAR)+1900;
 		
 		String mesString="";
 		if (mes<10) {

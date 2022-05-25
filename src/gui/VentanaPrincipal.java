@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import entidades.Cliente;
 import principal.Principal;
 
 import javax.swing.JButton;
@@ -34,6 +35,7 @@ public class VentanaPrincipal extends JFrame {
 	public static FormuCocheCombustion fCocheCombustion = null;
 	public static FormuFurgoneta fFurgoneta = null;
 	public static FormuAlquiler fAlqui = null;
+	public static FormuDevolucion fDevo = null;
 	
 
 	/**
@@ -58,6 +60,106 @@ public class VentanaPrincipal extends JFrame {
 		JMenu mnListEInform = new JMenu("Listados e informes");
 		menuBar.add(mnListEInform);
 		
+		JMenuItem mntmListCliente = new JMenuItem("Clientes");
+		mntmListCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosCliente.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListCliente);
+		
+		JMenuItem mntmListEmple = new JMenuItem("Empleados");
+		mntmListEmple.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosEmpleado.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListEmple);
+		
+		JMenuItem mntmListOfi = new JMenuItem("Oficinas");
+		mntmListOfi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosOficina.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListOfi);
+		
+		JMenuItem mntmListMotos = new JMenuItem("Motos");
+		mntmListMotos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosMoto.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListMotos);
+		
+		JMenuItem mntmListFurgo = new JMenuItem("Furgonetas");
+		mntmListFurgo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosFurgoneta.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListFurgo);
+		
+		JMenuItem mntmListCocheElec = new JMenuItem("Coches Electricos");
+		mntmListCocheElec.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosCocheElectrico.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListCocheElec);
+		
+		JMenuItem mntmListCochesCombus = new JMenuItem("Coches Combustion");
+		mntmListCochesCombus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosCocheCombustion.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListCochesCombus);
+		
+		JMenuItem mntmListAlqui = new JMenuItem("Alquileres");
+		mntmListAlqui.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosAlquiler.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListAlqui);
+		
+		JMenuItem mntmListDevo = new JMenuItem("Devoluciones");
+		mntmListDevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VListado vList = new VListado(MetodosDevolucion.creaDatosTabla(),false);
+				vList.setLocationRelativeTo(VentanaPrincipal.this);
+				vList.setVisible(true);
+				vList.dispose();
+			}
+		});
+		mnListEInform.add(mntmListDevo);
+		
+		
 		JMenu mnProcesosDiarios = new JMenu("Procesos Diarios");
 		menuBar.add(mnProcesosDiarios);
 		
@@ -70,6 +172,16 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		mnProcesosDiarios.add(mntmAlquiler);
+		
+		JMenuItem mntmDevolucion = new JMenuItem("Devolucion");
+		mntmDevolucion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fDevo = new FormuDevolucion();
+				fDevo.setLocationRelativeTo(Principal.v);
+				fDevo.setVisible(true);
+			}
+		});
+		mnProcesosDiarios.add(mntmDevolucion);
 		
 		JMenu mnFicherosMaestros = new JMenu("FicherosMaestros");
 		menuBar.add(mnFicherosMaestros);

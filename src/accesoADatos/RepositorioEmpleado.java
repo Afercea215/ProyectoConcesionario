@@ -36,15 +36,15 @@ public class RepositorioEmpleado {
 		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado2 e on p.dni=e.dni");
+			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, to_char(f_nac,'dd-mm-yyyy'), to_char(f_alta,'dd-mm-yyyy'), codofi from persona p join empleado2 e on p.dni=e.dni");
 			
 			while (rs.next()) {
 				dni = rs.getString("DNI");
 				ap1 = rs.getString("AP1");
 				ap2 = rs.getString("ap2");
 				nombre = rs.getString("NOMBRE");
-				fechaNac = new GregorianCalendar(rs.getDate("F_NAC").getYear(),rs.getDate("F_NAC").getMonth() , rs.getDate("F_NAC").getDay());
-				fechaAlta = new GregorianCalendar(rs.getDate("f_alta").getYear(),rs.getDate("f_alta").getMonth() , rs.getDate("f_alta").getDay());
+				fechaNac = AccesoADatos.convierteStringFecha(rs.getString("TO_CHAR(f_nac,'DD-MM-YYYY')"));
+				fechaAlta = AccesoADatos.convierteStringFecha(rs.getString("TO_CHAR(f_alta,'DD-MM-YYYY')"));
 				
 				ofi = RepositorioOficina.buscaOficina(rs.getString("codofi"));
  
@@ -75,16 +75,16 @@ public static ArrayList<Empleado> arrayListEmpleadosOfi(String codOfi) {
 		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado2 e on p.dni=e.dni where codofi like '"+codOfi+"'");
+			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, to_char(f_nac,'dd-mm-yyyy'), to_char(f_alta,'dd-mm-yyyy'), codofi from persona p join empleado2 e on p.dni=e.dni where codofi like '"+codOfi+"'");
 			
 			while (rs.next()) {
 				dni = rs.getString("DNI");
 				ap1 = rs.getString("AP1");
 				ap2 = rs.getString("ap2");
 				nombre = rs.getString("NOMBRE");
-				fechaNac = new GregorianCalendar(rs.getDate("F_NAC").getYear(),rs.getDate("F_NAC").getMonth() , rs.getDate("F_NAC").getDay());
-				fechaAlta = new GregorianCalendar(rs.getDate("f_alta").getYear(),rs.getDate("f_alta").getMonth() , rs.getDate("f_alta").getDay());
-				
+				fechaNac = AccesoADatos.convierteStringFecha(rs.getString("TO_CHAR(f_nac,'DD-MM-YYYY')"));
+				fechaAlta = AccesoADatos.convierteStringFecha(rs.getString("TO_CHAR(f_alta,'DD-MM-YYYY')"));
+					
 				ofi = RepositorioOficina.buscaOficina(rs.getString("codofi"));
  
 				empleado=new Empleado(ap1, ap2, nombre, fechaNac, dni, ofi, fechaAlta);
@@ -116,15 +116,15 @@ public static ArrayList<Empleado> arrayListEmpleadosOfi(String codOfi) {
 		
 		try {
 			st = AccesoADatos.getCn().createStatement();
-			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, f_nac, f_alta, codofi from persona p join empleado2 e on p.dni=e.dni where p.dni like upper('"+dni+"')");
+			ResultSet rs = st.executeQuery("select p.dni, nombre, ap1, ap2, to_char(f_nac,'dd-mm-yyyy'), to_char(f_alta,'dd-mm-yyyy'), codofi from persona p join empleado2 e on p.dni=e.dni where p.dni like upper('"+dni+"')");
 			
 			while (rs.next()) {
 				dni = rs.getString("DNI");
 				ap1 = rs.getString("AP1");
 				ap2 = rs.getString("ap2");
 				nombre = rs.getString("NOMBRE");
-				fechaNac = new GregorianCalendar(rs.getDate("F_NAC").getYear(),rs.getDate("F_NAC").getMonth() , rs.getDate("F_NAC").getDay());
-				fechaAlta = new GregorianCalendar(rs.getDate("f_alta").getYear(),rs.getDate("f_alta").getMonth() , rs.getDate("f_alta").getDay());
+				fechaNac = AccesoADatos.convierteStringFecha(rs.getString("TO_CHAR(f_nac,'DD-MM-YYYY')"));
+				fechaAlta = AccesoADatos.convierteStringFecha(rs.getString("TO_CHAR(f_alta,'DD-MM-YYYY')"));
 				
 				ofi = RepositorioOficina.buscaOficina(rs.getString("codofi"));
  

@@ -33,6 +33,11 @@ import accesoADatos.RepositorioEmpleado;
 import accesoADatos.RepositorioMoto;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
+import entidades.Categoria;
+import entidades.Color;
+import entidades.Moto;
+import entidades.Oficina;
+import entidades.TipoCarnet;
 import entidades.*;
 
 public class MetodosMoto {
@@ -83,6 +88,44 @@ public class MetodosMoto {
 	
 	public static DatosTabla creaDatosTabla() {
 		return (new DatosTabla(nombreColumnas(), listaMotosTabla(), anchoColumnas()));
+	}
+	
+	public static DatosTabla creaDatosTablaOfiLibres(String cod) {
+		return (new DatosTabla(nombreColumnas(), listaMotosTablaOfiLibres(cod), anchoColumnas()));
+	}
+	
+	public static Object[][] listaMotosTablaOfiLibres(String cod){
+		ArrayList<Moto> lista = RepositorioMoto.arrayListMotosOfi(cod);
+		int numColumnas = 15;
+		int numFilas = lista.size();
+		Object[][] listaTabla = new Object[numFilas][numColumnas];	
+		
+		String alqui="";
+		
+		for (int i=0;i<numFilas;i++) {
+				listaTabla[i][0]=lista.get(i).getMatricula();
+				listaTabla[i][1]=lista.get(i).getMarca();
+				listaTabla[i][2]=lista.get(i).getModelo();
+				listaTabla[i][3]=lista.get(i).getColor();
+				listaTabla[i][4]=new Date(lista.get(i).getFechaAlta().get(Calendar.YEAR)-1900, lista.get(i).getFechaAlta().get(Calendar.MONTH), lista.get(i).getFechaAlta().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][5]=lista.get(i).getKms();
+				listaTabla[i][6]=lista.get(i).getOficina().getDescripcion();
+				listaTabla[i][7]=lista.get(i).getCategoria();
+				if (lista.get(i).isAlquilado()) {
+					alqui="Si";
+				}else {
+					alqui="No";
+				}
+				listaTabla[i][8]=alqui;
+				listaTabla[i][9]=lista.get(i).getAutonimia();
+				listaTabla[i][10]=lista.get(i).getTiempoRecarga();
+				listaTabla[i][11]=lista.get(i).getCilindrada();
+				listaTabla[i][12]=lista.get(i).getCarnetRequerido().getNombre();
+				listaTabla[i][13]=lista.get(i).getPrecioDiario();
+				listaTabla[i][14]=lista.get(i);
+		}
+		
+		return listaTabla;
 	}
 	
 	public static Object[][] listaMotosTabla(){

@@ -30,6 +30,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import principal.Principal;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import accesoADatos.RepositorioCliente;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
@@ -38,9 +42,6 @@ import controladoresDeEventos.SoloAdmiteNumeros;
 import entidades.Cliente;
 import entidades.Oficina;
 import entidades.TipoCarnet;
-import principal.Principal;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
 
 public class FormuClientes extends JDialog {
 
@@ -153,7 +154,7 @@ public class FormuClientes extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosCliente.creaDatosTabla());
+				VListado vList = new VListado(MetodosCliente.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fCli);
 				vList.setVisible(true);
 				Cliente c = (Cliente)vList.getElegido();

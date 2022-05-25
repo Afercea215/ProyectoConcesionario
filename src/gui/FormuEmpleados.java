@@ -149,7 +149,7 @@ public class FormuEmpleados extends JDialog {
 		btnLupa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//CUANDO CLIICK, SE ABRE UNA NUEVA VENTANA DE LISTADO OFIS
-				VListado vList = new VListado(MetodosEmpleado.creaDatosTabla());
+				VListado vList = new VListado(MetodosEmpleado.creaDatosTabla(),true);
 				vList.setLocationRelativeTo(VentanaPrincipal.fEmple);
 				vList.setVisible(true);
 				Empleado em = (Empleado)vList.getElegido();

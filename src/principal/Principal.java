@@ -5,9 +5,9 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 import accesoADatos.AccesoADatos;
+import entidades.Empresa;
 import entidades.*;
 import gui.VentanaPrincipal;
-import metodos.GestionEmpresa;
 
 public class Principal {
 	

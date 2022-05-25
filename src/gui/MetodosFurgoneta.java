@@ -28,13 +28,19 @@ import com.toedter.calendar.JDateChooser;
 
 import accesoADatos.RepositorioCategoria;
 import accesoADatos.RepositorioCliente;
-import accesoADatos.RepositorioFurgoneta;
 import accesoADatos.RepositorioColor;
 import accesoADatos.RepositorioEmpleado;
+import accesoADatos.RepositorioFurgoneta;
 import accesoADatos.RepositorioMoto;
 import accesoADatos.RepositorioNivelEmision;
 import accesoADatos.RepositorioOficina;
 import accesoADatos.RepositorioTipoCarnet;
+import entidades.Categoria;
+import entidades.Color;
+import entidades.Furgoneta;
+import entidades.NivelEmision;
+import entidades.Oficina;
+import entidades.TipoCarnet;
 import entidades.*;
 
 public class MetodosFurgoneta {
@@ -87,6 +93,50 @@ public class MetodosFurgoneta {
 	
 	public static DatosTabla creaDatosTabla() {
 		return (new DatosTabla(nombreColumnas(), listaFurgonetasTabla(), anchoColumnas()));
+	}
+	
+	public static DatosTabla creaDatosTablaOfiLibre(String cod) {
+		return (new DatosTabla(nombreColumnas(), listaFurgonetasTablaOfiLibre(cod), anchoColumnas()));
+	}
+	
+	public static Object[][] listaFurgonetasTablaOfiLibre(String cod){
+		ArrayList<Furgoneta> lista = RepositorioFurgoneta.arrayListfurgosCombustionOfi(cod);
+		int numColumnas = 16;
+		int numFilas = lista.size();
+		Object[][] listaTabla = new Object[numFilas][numColumnas];	
+		
+		
+		
+		String alqui="";
+		
+		for (int i=0;i<numFilas;i++) {
+				listaTabla[i][0]=lista.get(i).getMatricula();
+				listaTabla[i][1]=lista.get(i).getMarca();
+				listaTabla[i][2]=lista.get(i).getModelo();
+				listaTabla[i][3]=lista.get(i).getColor();
+				
+				listaTabla[i][4]=new Date(lista.get(i).getFechaAlta().get(Calendar.YEAR), lista.get(i).getFechaAlta().get(Calendar.MONTH), lista.get(i).getFechaAlta().get(Calendar.DAY_OF_MONTH));
+				listaTabla[i][5]=lista.get(i).getKms();
+				listaTabla[i][6]=lista.get(i).getOficina().getDescripcion();
+				listaTabla[i][7]=lista.get(i).getCategoria();
+				if (lista.get(i).isAlquilado()) {
+					alqui="Si";
+				}else {
+					alqui="No";
+				}
+				listaTabla[i][8]=alqui;
+				
+				listaTabla[i][9]=lista.get(i).getConsumo();
+				listaTabla[i][10]=lista.get(i).getPotencia();
+				listaTabla[i][11]=lista.get(i).getNivelEmison();
+				 
+				listaTabla[i][12]=lista.get(i).getCapacidadCarga();
+				listaTabla[i][13]=lista.get(i).getCarnetRequerido().getNombre();
+				listaTabla[i][14]=lista.get(i).getPrecioDiario();
+				listaTabla[i][15]=lista.get(i);
+		}
+		
+		return listaTabla;
 	}
 	
 	public static Object[][] listaFurgonetasTabla(){
